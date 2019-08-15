@@ -1,0 +1,80 @@
+{
+  "index_patterns": ["dynamic-audit-*"],
+  "order": 10,
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "date_detection": true,
+    "dynamic_date_formats": ["date_time"],
+    "numeric_detection": true,
+    "dynamic_templates": [
+      {
+        "request_id": {
+          "path_match": "Request.id",
+          "mapping": {
+            "norms": false,
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      {
+        "strings_as_keyword": {
+          "match_mapping_type": "string",
+          "mapping": {
+            "norms": false,
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      {
+        "dates": {
+          "match_mapping_type": "date",
+          "mapping": {
+            "norms": false,
+            "type": "date"
+          }
+        }
+      },
+      {
+        "integers": {
+          "match_mapping_type": "long",
+          "unmatch": "Response",
+          "mapping": {
+            "type": "integer"
+          }
+        }
+      },
+      {
+        "boolean": {
+          "match_mapping_type": "boolean",
+          "unmatch": "Response",
+          "mapping": {
+            "norms": false,
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "beats": {
+          "path_match": "beats.*",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      }
+    ],
+    "properties": {
+      "Response": {
+        "type": "text",
+        "norms": false
+      },
+      "tags": {
+        "type": "text"
+      }
+    }
+  }
+}

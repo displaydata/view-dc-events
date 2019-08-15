@@ -1,0 +1,4 @@
+- pipeline.id: user
+  path.config: "/usr/share/logstash/pipeline/dynamic-user.conf"
+# - pipeline.id: audit
+#   path.config: "/usr/share/logstash/pipeline/dynamic-audit.conf"

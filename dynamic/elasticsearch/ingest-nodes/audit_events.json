@@ -1,0 +1,122 @@
+{
+  "description": "Ingest Dynamic Central Audit events into a common usable format",
+  "processors": [
+    {
+      "json": {
+        "field": "message",
+        "add_to_root": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "date" : {
+        "field": "@t",
+        "formats" : ["ISO8601"],
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "rename": {
+        "field": "RequestData",
+        "target_field": "Request",
+        "ignore_missing": true
+      }
+    },
+    {
+      "convert": {
+        "field": "Request.id",
+        "type": "string",
+        "ignore_missing": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "rename": {
+        "field": "Request.item",
+        "target_field": "Request.{{Request.item.$type}}",
+        "tag": "{{Request.item.$type}}",
+        "ignore_missing": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "convert": {
+        "field": "ResponseData",
+        "target_field": "Response",
+        "type": "string",
+        "ignore_missing": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "date_index_name" : {
+        "field" : "@timestamp",
+        "index_name_prefix" : "dynamic-audit-",
+        "date_rounding" : "d"
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "@mt",
+          "ResponseData",
+          "log",
+          "prospector",
+          "host",
+          "fields",
+          "input"
+        ],
+        "ignore_missing": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "remove": {
+        "field": ["message"],
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    }
+  ]
+}

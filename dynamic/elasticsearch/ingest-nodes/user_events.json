@@ -1,0 +1,66 @@
+{
+  "description": "Ingest Dynamic Central User events into a common usable format",
+  "processors": [
+    {
+      "json": {
+        "field": "message",
+        "add_to_root": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "date" : {
+        "field": "Timestamp",
+        "formats" : ["ISO8601"],
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    },
+    {
+      "set": {
+        "field": "@received",
+        "value": "{{_ingest.timestamp}}"
+      }
+    },
+    {
+      "date_index_name" : {
+        "field" : "@timestamp",
+        "index_name_prefix" : "dynamic-user-",
+        "date_rounding" : "d"
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "@mt",
+          "Timestamp",
+          "log",
+          "prospector",
+          "host",
+          "fields",
+          "input",
+          "message"
+        ],
+        "ignore_missing": true,
+        "on_failure": [{
+          "set": {
+            "tag": "error",
+            "field": "IngestError",
+            "value": "{{ _ingest.on_failure_message }}"
+          }
+        }]
+      }
+    }
+  ]
+}

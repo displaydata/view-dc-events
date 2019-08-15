@@ -1,0 +1,7 @@
+{
+  "attributes":
+  {
+    "title": "dynamic-user-*",
+    "timeFieldName": "Timestamp"
+  }
+}
