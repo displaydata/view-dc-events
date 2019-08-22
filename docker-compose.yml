@@ -53,11 +53,14 @@ services:
       - elastic-net
     volumes:
       - type: bind
-        source: ./dynamic/logstash/pipelines.yml
+        source: ./dynamic/logstash/config/pipelines.yml
         target: /usr/share/logstash/config/pipelines.yml
       - type: bind
-        source: ./dynamic/logstash/dynamic-user.conf
-        target: /usr/share/logstash/pipeline/dynamic-user.conf
+        source: ./dynamic/logstash/config/log4j2.properties
+        target: /usr/share/logstash/config/log4j2.properties
+      - type: bind
+        source: ./dynamic/logstash/pipeline
+        target: /usr/share/logstash/pipeline
       - type: bind
         source: "${DYNAMIC_BASEDIR}"
         target: /logs
