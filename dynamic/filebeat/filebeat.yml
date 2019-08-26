@@ -10,6 +10,8 @@
 filebeat.autodiscover:
   providers:
   - type: docker
+    hints.enabled: false
+    hints.default_config.enabled: false
     templates:
       - condition:
           contains:
@@ -18,8 +20,6 @@ filebeat.autodiscover:
           - type: container
             paths:
               - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
-    # hints.enabled: false
-    # hints.default_config.enabled: false
 
 processors:
 # - add_cloud_metadata: ~
