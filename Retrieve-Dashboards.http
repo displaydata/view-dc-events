@@ -1,0 +1,111 @@
+ELK Test calls
+
+# Set the port to the port of the docker contianer youi want to export from
+@base_url = http://localhost:5601/api
+@user = elastic
+@password = elastic
+
+# ------------------ Dashboards -------------------
+# Click on the GET below to fill out the @dash variable
+###
+# Return a list of dashboards
+# @name dashboards
+GET {{base_url}}/saved_objects/_find?type=dashboard&search_fields=description&search=*
+Authorization: Basic {{user}} {{password}}
+
+# Get the first dashboard in the list
+
+@dash = {{dashboards.response.body.$.saved_objects[4].id}}
+###
+# Retrieve the dashboard
+GET {{base_url}}/kibana/dashboards/export?dashboard={{dash}}
+content-type: application/json
+Authorization: Basic {{user}} {{password}}
+
+# Now you need to use the "Save Response Body" icon at the top of the
+# pane to your right and save the response as a JSON file in the 
+# dcomm/import directory with a user friendly name
+#
+# You should remove the "index-pattern" object from the file if you are not
+# using the load-saved-objects.sh script
+
+# --------------- Visualisations --------------
+# Click on the GET below to fill out the @visualizations variable
+###
+# Return a list of visualizations
+# @name visualizations
+GET {{base_url}}/saved_objects/_find?type=visualization&fields=id
+Authorization: Basic {{user}} {{password}}
+
+
+# Retrieve the visualizations
+# NOTE: You will need to iterate through all the visualizations you need
+#       by changing the index the request body below
+###
+POST {{base_url}}/saved_objects/_bulk_get
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+[
+  {
+    "type": "{{visualizations.response.body.$.saved_objects[3].type}}",
+    "id": "{{visualizations.response.body.$.saved_objects[3].id}}"
+  }
+]
+
+# Now you need to use the "Save Response Body" icon at the top of the
+# pane to your right and save the response as a JSON file in the 
+# dcomm/visualizations directory with a user friendly name
+#
+# Then edit the file and make the "attributes" object the main object
+# deleting all the "saved_objects" elements
+
+
+
+
+# ------------------
+# Below are just other examples of using the REST Client
+
+@dashboard = ab6cf870-1452-11e9-8344-613cb17005b0
+
+###
+GET {{base_url}}/kibana/dashboards/export?dashboard={{dashboard}}
+content-type: application/json
+Authorization: Basic {{user}} {{password}}
+
+
+###
+POST {{base_url}}/kibana/dashboards/import?exclude=index-pattern&force=true
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+< /Users/ddix/Source/docker-compose-elk/setup/dcomm/kibana/import/[DCOMM]_Battery_Information.json
+
+
+###
+POST {{base_url}}/kibana/dashboards/import?exclude=index-pattern&force=true
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+< /Users/ddix/Source/docker-compose-elk/setup/dcomm/kibana/import/[DCOMMM]_Display_Voltage_Graph.json
+
+
+###
+POST {{base_url}}/saved_objects/_bulk_get
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+[
+  {
+    "type": "index-pattern",
+    "id": "*"
+  },
+  {
+    "type": "dashboard",
+    "id": "*"
+  }
+]

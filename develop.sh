@@ -78,7 +78,7 @@ if [[ $# -gt 0 ]];then
     # Load logstash pipeline into elasticsearch
     $COMPOSE run --rm filebeat filebeat setup --pipelines --modules logstash
     # Start logstash
-    $COMPOSE up --detach logstash filebeat
+    $COMPOSE up --detac filebeat logstash
 
   # update: update the visualisations etc...
   elif [[ "$1" == "update" ]]; then

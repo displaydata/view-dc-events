@@ -1,16 +1,11 @@
-# filebeat.config:
-#   modules:
-#     path: ${path.config}/modules.d/*.yml
-#     reload.enabled: false
-# filebeat.modules:
-# - module: logstash
-
-# filebeat.inputs:
-# - type: container
-#   enabled: true
-#   stream: all # can be all, stdout or stderr
-#   paths:
-#     - '/var/lib/docker/containers/*/*.log'
+#
+# Filebeat is configured to look for the other container log files and send
+# them to elasticsearch
+#
+# Currently, only logstash is being sent for analysis
+#
+# Ingest pipelines need to be loaded before logstash starts:
+#  This done in the start-up script: filebeat setup --pipelines --modules logstash
 
 filebeat.autodiscover:
   providers:
@@ -23,34 +18,8 @@ filebeat.autodiscover:
           - type: container
             paths:
               - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
-        # config:
-      #   - module: logstash
-      #     access:
-      #       input:
-      #         type: container
-      #         paths:
-      #           - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
-          # error:
-          #   input:
-          #     type: container
-          #     paths:
-          #       - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
     # hints.enabled: false
     # hints.default_config.enabled: false
-
-# filebeat.autodiscover:
-#   providers:
-#   - type: docker
-#     templates:
-#     - condition:
-#         contains:
-#           docker.container.image: logstash
-#       config:
-#       - type: docker
-#         containers.ids:
-#         - "${data.docker.container.id}"
-#         containers.path: "/var/lib/docker/containers"
-        # containers.path: "/var/lib/docker/containers/${data.docker.container.id}/*.log"
 
 processors:
 # - add_cloud_metadata: ~
@@ -61,14 +30,3 @@ output.elasticsearch:
   username: '${ELASTICSEARCH_USERNAME:elastic}'
   password: '${ELASTICSEARCH_PASSWORD:elastic}'
 
-setup.kibana:
-  host: '${KIBANA_HOST:kibana:5601}'
-  username: '${KIBANA_USERNAME:kibana}'
-  password: '${KIBANA_PASSWORD:kibana}'
-
-setup.dashboards:
-  enabled: false
-
-setup.template:
-  enabled: true
-  overwrite: true
