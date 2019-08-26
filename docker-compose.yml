@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION:-7.3.0}
     container_name: elasticsearch
     environment:
       node.name: elasticsearch
@@ -19,6 +19,8 @@ services:
     ports:
       - target: 9200
         published: 9200
+    # labels:
+    #   co.elastic.logs/enabled: false
     networks:
       - elastic-net
     volumes:
@@ -27,7 +29,7 @@ services:
         target: /usr/share/elasticsearch/data
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION:-7.3.0}
     container_name: kibana
     environment:
       node.name: kibana
@@ -38,26 +40,33 @@ services:
     ports:
       - target: 5601
         published: 5601
+    # labels:
+    #   co.elastic.logs/enabled: false
     networks:
       - elastic-net
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+    image: docker.elastic.co/logstash/logstash:${ELK_VERSION:-7.3.0}
     container_name: logstash
     environment:
       node.name: logstash
+      # PATH.LOGS: /usr/share/logstash/data/logs
     restart: always
     depends_on:
       - elastic
+    # labels:
+    #   co.elastic.logs/enabled: true
+    #   co.elastic.logs/module: logstash
+    #   co.elastic.logs/fileset: access
     networks:
       - elastic-net
     volumes:
       - type: bind
         source: ./dynamic/logstash/config/pipelines.yml
         target: /usr/share/logstash/config/pipelines.yml
-      - type: bind
-        source: ./dynamic/logstash/config/log4j2.properties
-        target: /usr/share/logstash/config/log4j2.properties
+      # - type: bind
+      #   source: ./dynamic/logstash/config/log4j2.properties
+      #   target: /usr/share/logstash/config/log4j2.properties
       - type: bind
         source: ./dynamic/logstash/pipeline
         target: /usr/share/logstash/pipeline
@@ -67,6 +76,34 @@ services:
       - type: volume
         source: logstash-data
         target: /usr/share/logstash/data
+
+  filebeat:
+    user: ":${GID}"
+    image: docker.elastic.co/beats/filebeat:${ELK_VERSION:-7.3.0}
+    container_name: filebeat
+    # command: filebeat setup --pipelines --modules logstash
+    environment:
+      - node.name=filebeat
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
+      - KIBANA_HOST=${KIBANA_HOST:-kibana}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic}
+    restart: always
+    depends_on:
+      - elastic
+      - kibana
+      - logstash
+    networks:
+      - elastic-net
+    volumes:
+      - ./dynamic/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      # - ./dynamic/filebeat/modules.d-logstash.yml:/usr/share/filebeat/modules.d/logstash.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # This is needed for filebeat to load container log path as specified in filebeat.yml
+      - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
+      # - type: volume
+      #   source: logstash-data
+      #   target: /usr/share/logstash/data
 
 networks:
   elastic-net:

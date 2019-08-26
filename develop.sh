@@ -75,8 +75,10 @@ if [[ $# -gt 0 ]];then
     $COMPOSE up --detach elastic kibana
     # Load the index patterns, templates etc...
     ./load-saved-objects.sh dynamic "$@"
+    # Load logstash pipeline into elasticsearch
+    $COMPOSE run --rm filebeat filebeat setup --pipelines --modules logstash
     # Start logstash
-    $COMPOSE up --detach logstash
+    $COMPOSE up --detach logstash filebeat
 
   # update: update the visualisations etc...
   elif [[ "$1" == "update" ]]; then

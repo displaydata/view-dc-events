@@ -1,0 +1,74 @@
+# filebeat.config:
+#   modules:
+#     path: ${path.config}/modules.d/*.yml
+#     reload.enabled: false
+# filebeat.modules:
+# - module: logstash
+
+# filebeat.inputs:
+# - type: container
+#   enabled: true
+#   stream: all # can be all, stdout or stderr
+#   paths:
+#     - '/var/lib/docker/containers/*/*.log'
+
+filebeat.autodiscover:
+  providers:
+  - type: docker
+    templates:
+      - condition:
+          contains:
+            docker.container.image: logstash
+        config:
+          - type: container
+            paths:
+              - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
+        # config:
+      #   - module: logstash
+      #     access:
+      #       input:
+      #         type: container
+      #         paths:
+      #           - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
+          # error:
+          #   input:
+          #     type: container
+          #     paths:
+          #       - "/var/lib/docker/containers/${data.docker.container.id}/*.log"
+    # hints.enabled: false
+    # hints.default_config.enabled: false
+
+# filebeat.autodiscover:
+#   providers:
+#   - type: docker
+#     templates:
+#     - condition:
+#         contains:
+#           docker.container.image: logstash
+#       config:
+#       - type: docker
+#         containers.ids:
+#         - "${data.docker.container.id}"
+#         containers.path: "/var/lib/docker/containers"
+        # containers.path: "/var/lib/docker/containers/${data.docker.container.id}/*.log"
+
+processors:
+# - add_cloud_metadata: ~
+- add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+  username: '${ELASTICSEARCH_USERNAME:elastic}'
+  password: '${ELASTICSEARCH_PASSWORD:elastic}'
+
+setup.kibana:
+  host: '${KIBANA_HOST:kibana:5601}'
+  username: '${KIBANA_USERNAME:kibana}'
+  password: '${KIBANA_PASSWORD:kibana}'
+
+setup.dashboards:
+  enabled: false
+
+setup.template:
+  enabled: true
+  overwrite: true
