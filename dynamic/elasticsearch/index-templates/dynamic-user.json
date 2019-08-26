@@ -6,94 +6,15 @@
     "number_of_replicas": 0
   },
   "mappings": {
-    "date_detection": true,
-    "dynamic_date_formats": ["date_time"],
-    "numeric_detection": true,
     "dynamic_templates": [
       {
-        "strings_as_keyword": {
+        "strings_as_keywords": {
           "match_mapping_type": "string",
-          "unmatch": "*ObjectId*",
-          "mapping": {
-            "norms": false,
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
-      },
-      {
-        "dates": {
-          "match_mapping_type": "date",
-          "unmatch": "RequestReference*",
-          "mapping": {
-            "norms": false,
-            "type": "date"
-          }
-        }
-      },
-      {
-        "objectids": {
-          "match_mapping_type": "long",
-          "match": "*ObjectId*",
-          "mapping": {
-            "norms": false,
-            "type": "text"
-          }
-        }
-      },
-      {
-        "integers": {
-          "match_mapping_type": "long",
-          "unmatch": "*ObjectId*",
-          "mapping": {
-            "type": "integer"
-          }
-        }
-      },
-      {
-        "boolean": {
-          "match_mapping_type": "boolean",
-          "mapping": {
-            "norms": false,
-            "type": "boolean"
-          }
-        }
-      },
-      {
-        "beats": {
-          "path_match": "beats.*",
           "mapping": {
             "type": "keyword"
           }
         }
       }
-    ],
-    "properties": {
-      "RequestReference": {
-        "type": "keyword",
-        "norms": false
-      },
-      "ObjectIds": {
-        "type": "keyword",
-        "norms": false
-      },
-      "tags": {
-        "type": "text"
-      },
-      "GeoLocation": {
-        "type": "geo_point"
-      },
-      "Details": {
-        "type": "text",
-        "norms": false
-      },
-      "Duration": {
-        "type": "float"
-      },
-      "Warnings": {
-        "type": "text",
-        "norms": false
-      }
-    }
+    ]
   }
 }
