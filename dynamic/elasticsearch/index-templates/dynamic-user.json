@@ -40,11 +40,9 @@
       "Temperature": { "type": "float" },
       "TemplateName": { "type": "text" },
       "Warnings": { "type": "text" },
-      "host": { "type": "keyword" },
       "message": { "type": "text" },
       "path": { "type": "text" },
-      "store": { "type": "keyword" },
-      "type": { "type": "keyword" }
+      "store": { "type": "keyword" }
     }
   }
 }

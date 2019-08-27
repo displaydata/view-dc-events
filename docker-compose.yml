@@ -74,9 +74,10 @@ services:
         target: /usr/share/logstash/data
 
   filebeat:
-    user: ":${GID}"
+    user: "root:${GID:-1000}"
     image: docker.elastic.co/beats/filebeat:${ELK_VERSION:-7.3.0}
     container_name: filebeat
+    command: "filebeat -e -strict.perms=false"
     environment:
       - node.name=filebeat
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
