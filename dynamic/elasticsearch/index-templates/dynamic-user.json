@@ -6,15 +6,45 @@
     "number_of_replicas": 0
   },
   "mappings": {
-    "dynamic_templates": [
-      {
-        "strings_as_keywords": {
-          "match_mapping_type": "string",
-          "mapping": {
-            "type": "keyword"
-          }
-        }
-      }
-    ]
+    "properties": {
+      "@version": { "type": "keyword" },
+      "CommunicatorFirmwareVersion": { "type": "keyword" },
+      "CommunicatorHostName": { "type": "keyword" },
+      "CommunicatorSerialNumber": { "type": "keyword" },
+      "CommunicatorType": { "type": "keyword" },
+      "Component": { "type": "keyword" },
+      "DeliveryProcessFromState": { "type": "keyword" },
+      "DeliveryProcessStateChangeReason": { "type": "keyword" },
+      "DeliveryProcessSystemProcessId": { "type": "keyword" },
+      "DeliveryProcessToState": { "type": "keyword" },
+      "Details": { "type": "text" },
+      "DisplaySerialNumber": { "type": "keyword" },
+      "Filename": { "type": "text" },
+      "GeoLocation": { "type": "geo_point" },
+      "LocationName": { "type": "keyword" },
+      "MessageType": { "type": "keyword" },
+      "NodeName": { "type": "keyword" },
+      "ObjectDescription": { "type": "text" },
+      "ObjectIds": { "type": "text" },
+      "ObjectName": { "type": "keyword" },
+      "ObjectsRendered": { "type": "text" },
+      "OriginalObjectDescription": { "type": "text" },
+      "OriginalObjectName": { "type": "keyword" },
+      "OriginalSearchValues": { "type": "text" },
+      "RFTransportLayerMode": { "type": "keyword" },
+      "RequestReference": { "type": "keyword" },
+      "Result": { "type": "keyword" },
+      "RuleName": { "type": "keyword" },
+      "Rules": { "type": "text" },
+      "SearchValues": { "type": "text" },
+      "Temperature": { "type": "float" },
+      "TemplateName": { "type": "text" },
+      "Warnings": { "type": "text" },
+      "host": { "type": "keyword" },
+      "message": { "type": "text" },
+      "path": { "type": "text" },
+      "store": { "type": "keyword" },
+      "type": { "type": "keyword" }
+    }
   }
 }
