@@ -53,10 +53,14 @@ services:
     restart: always
     depends_on:
       - elastic
+      - filebeat
     # labels:
     #   co.elastic.logs/enabled: true
     #   co.elastic.logs/module: logstash
     #   co.elastic.logs/fileset: access
+    ports:
+      - target: 5044
+        published: 5044
     networks:
       - elastic-net
     volumes:

@@ -57,7 +57,7 @@ if [[ $# -gt 0 ]];then
   #     Can be used for ingest from other sources
   elif [[ "$1" == "up" ]]; then
     shift 1
-    $COMPOSE up --detach --no-deps elastic kibana "$@"
+    $COMPOSE up --detach --no-deps elastic kibana filebeat logstash "$@"
 
   # clean: Bring machines down and remove the volume(s)
   elif [[ "$1" == "clean" ]]; then
