@@ -76,9 +76,9 @@ if [[ $# -gt 0 ]];then
     # Load the index patterns, templates etc...
     ./load-saved-objects.sh dynamic "$@"
     # Load logstash pipeline into elasticsearch
-    $COMPOSE run --rm filebeat filebeat setup --pipelines --modules logstash
+    $COMPOSE run --rm filebeat filebeat setup --strict.perms=false --pipelines --modules logstash
     # Start logstash
-    $COMPOSE up --detac filebeat logstash
+    $COMPOSE up --detach filebeat logstash
 
   # update: update the visualisations etc...
   elif [[ "$1" == "update" ]]; then
