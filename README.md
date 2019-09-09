@@ -138,3 +138,23 @@ $ ./develop ingest
 
 The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
+
+
+## Linux VM troubleshooting
+Some notes on trouble shooting Linux VM issues:
+
+Make sure that the docker user GID is 1000
+```bash
+$ sudo systemctl stop docker
+$ sudo groupmod -g 1000 docker
+$ sudo systemctl start docker
+$ exit
+```
+
+Make sure that the use running the containers has a primary group of “docker"
+* Check using this command:
+```$ id -g```
+* Change using this command:
+```$ sudo usermod -g docker <user>```
+
+**NOTE:** Don’t forget to logout / login if you change group or user id’s :-)
