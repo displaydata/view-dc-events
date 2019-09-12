@@ -36,18 +36,7 @@ Vagrant.configure("2") do |config|
     echo "192.168.56.17:5601 - to access Kibana UI via a browser"
     SCRIPT
   
-    # TODO: networking is probably not working in all scenarios yet!
+    # TODO: networking may not be working in all scenarios yet!
     # TODO: check networking/box works without access to Displaydata domain
-    # TODO: check vagrant up works entirely offline, once initial provisioning has taken place - this is for demo purposes by Sales/Pre-Sales etc.
-    # TODO: check vmware_provider works 
-
-    ["vmware_workstation", "vmware_fusion"].each do |vmware_provider|
-        config.vm.provider(vmware_provider) do |vmware|
-            vmware.gui = false
-            vmware.vmx["memsize"] = 6144
-            vmware.vmx["numvcpus"] = 4
-            vmware.vmx["vhv.enable"] = "TRUE"
-            vmware.vmx["ethernet1.virtualdev"] = "vmxnet3"
-        end
-    end
+    # TODO: once initial provisioning has taken place, check vagrant up works entirely offline - this is for demo purposes by Sales/Pre-Sales etc.
 end
