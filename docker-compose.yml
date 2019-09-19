@@ -29,7 +29,12 @@ services:
         target: /usr/share/elasticsearch/data
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:${ELK_VERSION:-7.3.0}
+    build:
+      context: ./docker/kibana
+      args:
+        ELK_VERSION: ${ELK_VERSION:-7.3.0}
+        EDTPLUGIN_VERSION: ${EDTPLUGIN_VERSION:-1.5.0}
+    image: kibana:${ELK_VERSION:-7.3.0}
     container_name: kibana
     environment:
       node.name: kibana
