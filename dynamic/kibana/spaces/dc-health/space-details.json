@@ -1,0 +1,18 @@
+{
+  "id": "dc-health",
+  "name": "Health",
+  "description": "Dynamic Central health monitoring space",
+  "initials": "DH",
+  "color": "#aabbcc",
+  "disabledFeatures": [
+    "indexPatterns",
+    "timelion",
+    "graph",
+    "monitoring",
+    "ml",
+    "apm",
+    "canvas",
+    "infrastructure",
+    "siem"
+  ]
+}

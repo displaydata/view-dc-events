@@ -17,7 +17,11 @@ containers from https://www.docker.elastic.co
 The docker host runs a seperate container for each of; elasticsearch, kibana &
 logstash and mounts the configuration files and any data from the repo directory.
 
-A seperate docker volume is created for the eleastic and logstash services.
+A seperate docker volume is created for the elastic and logstash services. The
+elastic volume is mapped to the elasticsearch node data and contains the elastic
+indexes etc. The logstash volume is mapped to the logstatsh data directory and
+contains the information on what files have been processed and ingested into
+elastic.
 
 The directory structure of the repo is as follows:
 
@@ -38,9 +42,9 @@ The directory structure of the repo is as follows:
 The top level root directory contains the `docker-compose` configuration file
 and the scripts for loading and setting up the containers.
 
-The`dynamic` directory contains the dashboards, visualisations, indexes & configuration
-files required to setup the docker host, ingest and visualise the events being
-sent from Dynamic Central.
+The`dynamic` directory contains the spaces, dashboards, visualisations, indexes
+& configuration files required to setup the docker host, ingest and visualise
+the events being sent from Dynamic Central.
 
 The `logs` directory is the directory to place the logs provided by the customer
 for viewing. The format of this directory can be either of the following:
@@ -75,6 +79,21 @@ with a `[store]` field that contains the name of `<store name>` directory.
 This field can then be used in visualisation filters to view a specific store etc.
 
 
+### Kibana Spaces
+Spaces are a kibana component that enable you to organize your dashboards and
+other saved objects into meaningful categories.
+Each space has its own set of objects and dashboards.
+The default space is always available. Other named spaces are added to present
+a clean set of dashboards for a specific category of information e.g. Health,
+Alerts, Performance.
+
+The default space must always be present and if no other spaces are created
+you will enter the default space when connecting to the kibana UI.
+
+The `load-saved-objects` script will use the kibana API to load any predefined
+spaces that appear under the `.../kibana/spaces` directory. Objects that the script
+will load are; imports, dashboards, visualisations, searches & index patterns.
+
 ## Ingesting directly from Dynamic Central
 This repo is being used for ingesting and analysing the SoakTest machine's user events.
 In this instance there are no saved log files to ingest from the `logs` directory
@@ -91,7 +110,7 @@ $ # Start the containers
 $ cd view-dc-events
 $ ./develop ingest
 ```
-Now point your filebeat instances at at your VM instance e.g.
+Now point your filebeat instances on your Dynamic Central Services at your VM instance e.g.
 
 filebeat.yml:
 ```yaml
@@ -113,8 +132,8 @@ user.yml
 ```yaml
 - type: log
   paths:
-    - c:\Dynamic Central\Working\Logs\User\*.json
-    - c:\Dynamic Central\Working\Logs\User\*\*.json
+    - C:\Dynamic Central\Working\Logs\User\*.json
+    - C:\Dynamic Central\Working\Logs\User\*\*.json
   fields:
     type: user
   processors:

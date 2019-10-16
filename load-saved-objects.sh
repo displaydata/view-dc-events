@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # User can specify a particular object to load or leave blank for all objects
-# e.g. ./load-elk.sh dashboard
+# e.g. ./load-saved-objects.sh dashboard
 # This will only load the dashboard objects
 
 # TODO: Send curl output to log file and summarise result
@@ -60,8 +60,8 @@ load_list=${load_list:=all}
 #
 function mycurl()
 {
-  # output_file="./output.txt"
   output_file="/dev/null"
+  # output_file="./output.txt"
   # set -x
   __resultcode=$( curl -s -o "$output_file" -w '%{http_code}' \
     -u $1 \
@@ -157,73 +157,99 @@ done
 dir="${basedir}/kibana"
 echo -e "\nConfiguring kibana from: $dir"
 
-if [[ -d "$dir/index-pattern" && "$load_list" =~ (all)|(index-pattern) ]]
+# Create any Spaces and then import objects to those spaces
+# Spaces are for seperating out a group of dashboards etc.
+# This script only supports setting the index patterns and importing dashboards
+if [[ -d "$dir/spaces" && "$load_list" =~ (all)|(import) ]]
 then
-  for file in "$dir"/index-pattern/*.json
+  for space in "$dir"/spaces/*
   do
-    if [[ ! -e $file ]]; then continue; fi
-    name=$(basename -s .json "$file")
-    echo -e "Adding kibana index pattern ${Blue}${name}${Default} from $file:" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/saved_objects/index-pattern/$name-*?overwrite=true" @"$file" )"
-  done
+    sname=$(basename "$space")
 
-  # If there is a file called default index, read in the first line and
-  # set the default index to this value
-  if [[ -f "$dir/default-index.txt" ]]
-  then
-    IFS=: read -r line < "$dir/default-index.txt"
-    echo -e "Set default index to user in Kibana to: $line:" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/kibana/settings/defaultIndex" "{\"value\":\"$line\"}" )"
-  fi
-fi
+    # Only create the space if not the default
+    if [[ "$sname" = "default" ]]; then
+      echo -e "\nThe Default space"
+      k_url=$kibana_url/api
+    else
+      k_url=$kibana_url/s/${sname}/api
 
-if [[ -d "$dir/search" && "$load_list" =~ (all)|(search) ]]
-then
-  for file in "${dir}"/search/*.json
-  do
-    if [[ ! -e $file ]]; then continue; fi
-    name=$(basename -s .json "$file")
-    echo -e "Adding Kibana search ${Blue}${name}${Default} from $file:" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/saved_objects/search/$name?overwrite=true" @"$file" )"
-    # curl -u "kibana:$kibana_p" -X POST -i -H "Content-Type: application/json" -H "kbn-xsrf: true" "$kibana_url/api/saved_objects/search/$name?overwrite=true"  -d @"$file"
-  done
-fi
+      if [[ -e $space/space-details.json ]]; then
+        req_body=@"$space/space-details.json"
+      else
+        req_body='{"id": "'$sname'", "name": "'$sname'", "color": "#aabbcc", "disabledFeatures": [ "indexPatterns", "timelion", "graph", "monitoring", "ml", "apm", "canvas", "infrastructure", "siem" ]}'
+      fi
+      echo -e "\nCreating Space ${Blue}${sname}${Default}:" \
+        "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/spaces/space" "${req_body}" )"
+    fi
 
-if [[ -d "$dir/visualization" && "$load_list" =~ (all)|(visuali[zs]ations?) ]]
-then
-  for file in "$dir"/visualization/*.json
-  do
-    if [[ ! -e $file ]]; then continue; fi
-    name=$(basename -s .json "$file")
-    # Skip the visualisation if it is not part of the DC_MODE e.g. api when in data driven mode
-    echo -e "Adding Kibana visualization ${Blue}${name}${Default}:" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/saved_objects/visualization/$name?overwrite=true" @"$file" )"
-    # curl -u "kibana:$kibana_p" -X POST -i -H "Content-Type: application/json" -H "kbn-xsrf: true" "$kibana_url/api/saved_objects/visualization/$name?overwrite=true"  -d @"$file"
-  done
-fi
+    # Index Patterns
+    if [[ -d "$space/index-pattern" ]]
+    then
+      for file in "$space"/index-pattern/*.json
+      do
+        if [[ ! -e $file ]]; then continue; fi
+        name=$(basename -s .json "$file")
+        echo -e "Adding kibana index pattern ${Blue}${name}${Default} from ${Blue}${file}${Default}:" \
+          "$( mycurl "kibana:$kibana_p" POST "$k_url/saved_objects/index-pattern/$name-*?overwrite=true" @"$file" )"
+      done
 
-if [[ -d "$dir/dashboard" && "$load_list" =~ (all)|(dashboards?) ]]
-then
-  for file in "$dir"/dashboard/*.json
-  do
-    if [[ ! -e $file ]]; then continue; fi
-    name=$(basename -s .json "$file")
-    # Skip the visualisation if it is not part of the DC_MODE e.g. api when in data driven mode
-    echo -e "Adding Kibana dashboard ${Blue}${name}${Default}:" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/saved_objects/dashboard/$name?overwrite=true" @"$file" )"
-    # curl -u "kibana:$kibana_p" -X POST -i -H "Content-Type: application/json" -H "kbn-xsrf: true" "$kibana_url/api/saved_objects/dashboard/$name?overwrite=true"  -d @"$file"
-  done
-fi
+      # If there is a file called default index, read in the first line and
+      # set the default index to this value
+      if [[ -f "$space/index-pattern/default-index.txt" ]]
+      then
+        IFS=: read -r line < "$space/index-pattern/default-index.txt"
+        echo -e "Set default index for space ${Blue}${sname}${Default} to: ${Blue}${line}${Default}:" \
+          "$( mycurl "kibana:$kibana_p" POST "$k_url/kibana/settings/defaultIndex" "{\"value\":\"$line\"}" )"
+      fi
+    fi
 
-if [[ -d "$dir/import" && "$load_list" =~ (all)|(import) ]]
-then
-  for file in "$dir"/import/*.json
-  do
-    if [[ ! -e $file ]]; then continue; fi
-    name=$(basename -s .json "$file")
-    # Skip the visualisation if it is not part of the DC_MODE e.g. api when in data driven mode
-    echo -e "Importing Kibana dashboard ${Blue}${name}${Default};" \
-      "$( mycurl "kibana:$kibana_p" POST "$kibana_url/api/kibana/dashboards/import?exclude=index-pattern&force=true" @"$file" )"
-    # curl -u "kibana:$kibana_p" -X POST -i -H "Content-Type: application/json" -H "kbn-xsrf: true" "$kibana_url/api/kibana/dashboards/import?exclude=index-pattern&force=true"  -d @"$file"
+    # Import entire dashboards
+    for file in "$space"/import/*.json
+    do
+      if [[ ! -e $file ]]; then continue; fi
+      fname=$(basename -s .json "$file")
+      echo -e "Importing Kibana dashboard ${Blue}${fname}${Default} to space ${Blue}${sname}${Default}:" \
+        "$( mycurl "kibana:$kibana_p" POST \
+          "$k_url/kibana/dashboards/import?exclude=index-pattern&force=true" @"$file" )"
+    done
+
+    # Dashboards
+    if [[ -d "$space/dashboard" && "$load_list" =~ (all)|(dashboards?) ]]
+    then
+      for file in "$space"/dashboard/*.json
+      do
+        if [[ ! -e $file ]]; then continue; fi
+        fname=$(basename -s .json "$file")
+        echo -e "Adding Kibana dashboard ${Blue}${fname}${Default} to space ${Blue}${sname}${Default}:" \
+          "$( mycurl "kibana:$kibana_p" POST \
+            "$k_url/saved_objects/dashboard/$fname?overwrite=true" @"$file" )"
+      done
+    fi
+
+    # Visualisations
+    if [[ -d "$space/visualization" && "$load_list" =~ (all)|(visuali[zs]ations?) ]]
+    then
+      for file in "$space"/visualization/*.json
+      do
+        if [[ ! -e $file ]]; then continue; fi
+        fname=$(basename -s .json "$file")
+        echo -e "Adding Kibana visualization ${Blue}${fname}${Default} to space ${Blue}${sname}${Default}:" \
+          "$( mycurl "kibana:$kibana_p" POST \
+            "$k_url/saved_objects/visualization/$fname?overwrite=true" @"$file" )"
+      done
+    fi
+
+    # Searches
+    if [[ -d "$space/search" && "$load_list" =~ (all)|(search) ]]
+    then
+      for file in "${space}"/search/*.json
+      do
+        if [[ ! -e $file ]]; then continue; fi
+        fname=$(basename -s .json "$file")
+        echo -e "Adding Kibana search ${Blue}${fname}${Default} to space ${Blue}${sname}${Default}:" \
+          "$( mycurl "kibana:$kibana_p" POST \
+            "$kibana_url/api/saved_objects/search/$fname?overwrite=true" @"$file" )"
+      done
+    fi
   done
 fi
