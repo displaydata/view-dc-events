@@ -141,8 +141,7 @@ user.yml
       add_locale: ~
 ```
 
-
-## Ingesting user events from save log files
+## Ingesting user events from saved log files
 Save your user event log files to the `logs` directory as detailed above.
 
 Login to a Linux VM instance with docker pre-installed. and do the following:
