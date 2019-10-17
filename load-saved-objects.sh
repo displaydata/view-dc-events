@@ -2,7 +2,7 @@
 #
 # User can specify a particular object to load or leave blank for all objects
 # e.g. ./load-saved-objects.sh dashboard
-# This will only load the dashboard objects
+# This will only load the dashboard objects from the default directory: "dynamic"
 
 # TODO: Send curl output to log file and summarise result
 
@@ -40,12 +40,12 @@ apm_p="${APM_PASS:=apmsystem}"
 monitor_p="${MONITOR_PASS:=monitor}"
 
 # First argument is directory where objects can be found
+# If none specified then defaults to "dynamic"
 if [[ $# -gt 0 ]]; then
   basedir="$1"
   shift 1
 else
-  echo "Object directory must be specified."
-  exit 1
+  basedir="dynamic"
 fi
 
 # Capture the remaining argument as a list of elements to load
