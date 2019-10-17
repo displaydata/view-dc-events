@@ -19,11 +19,10 @@ services:
     ports:
       - target: 9200
         published: 9200
-    # labels:
-    #   co.elastic.logs/enabled: false
     networks:
       - elastic-net
     volumes:
+      # Mount point for elasticsearch persistemt data
       - type: volume
         source: elastic-data
         target: /usr/share/elasticsearch/data
@@ -45,8 +44,6 @@ services:
     ports:
       - target: 5601
         published: 5601
-    # labels:
-    #   co.elastic.logs/enabled: false
     networks:
       - elastic-net
 
@@ -58,10 +55,6 @@ services:
     restart: always
     depends_on:
       - elastic
-    # labels:
-    #   co.elastic.logs/enabled: true
-    #   co.elastic.logs/module: logstash
-    #   co.elastic.logs/fileset: access
     ports:
       - target: 5044
         published: 5044
@@ -74,9 +67,11 @@ services:
       - type: bind
         source: ./dynamic/logstash/pipeline
         target: /usr/share/logstash/pipeline
+      # Mount point for log files to ingest
       - type: bind
         source: "${DYNAMIC_BASEDIR}"
         target: /logs
+      # Mount point for logstash persistent data
       - type: volume
         source: logstash-data
         target: /usr/share/logstash/data
