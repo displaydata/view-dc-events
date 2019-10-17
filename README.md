@@ -1,18 +1,21 @@
 # view-dc-logs
 
-A docker compose setup that allows to the user to ingest Dynamic Central
-User and Audit logs to view and review with a default set of visualisations.
-Logs can be ingested directly from a running instance of Dynamic Solution or
-by reading a set of log files obtained from a running instance of Dynamic Solution.
+A docker compose setup that allows Displaydata customers to ingest Dynamic Central
+User Events to view and review with a default set of visualisations.
+
+Events can be ingested directly from a running instance of Dynamic Solution (using Filebeat) or by reading a set of log files exported from a running instance of Dynamic Solution.
 
 Logs are ingested using logstash and written to an elasticsearch volume that can
 be backuped and restored.
 
+## Pre-requisites
+Linux host machine with:
+* docker installed
+* docker compose installed
 
 ## Components
 
-The repo consists of a docker-compose configuration file that uses OTS elasticsearch
-containers from https://www.docker.elastic.co
+The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co
 
 The docker host runs a seperate container for each of; elasticsearch, kibana &
 logstash and mounts the configuration files and any data from the repo directory.
@@ -78,11 +81,9 @@ retrieved and are being reviewed. In this case the event data will be augmented
 with a `[store]` field that contains the name of `<store name>` directory.
 This field can then be used in visualisation filters to view a specific store etc.
 
-
 ### Kibana Spaces
-Spaces are a kibana component that enable you to organize your dashboards and
-other saved objects into meaningful categories.
-Each space has its own set of objects and dashboards.
+Spaces are a kibana component that enable you to organize your dashboards and other saved objects into meaningful categories. Each space has its own set of objects and dashboards.
+
 The default space is always available. Other named spaces are added to present
 a clean set of dashboards for a specific category of information e.g. Health,
 Alerts, Performance.
@@ -90,18 +91,16 @@ Alerts, Performance.
 The default space must always be present and if no other spaces are created
 you will enter the default space when connecting to the kibana UI.
 
-The `load-saved-objects` script will use the kibana API to load any predefined
-spaces that appear under the `.../kibana/spaces` directory. Objects that the script
-will load are; imports, dashboards, visualisations, searches & index patterns.
+The `load-saved-objects` script uses the kibana API to load any predefined
+spaces that appear under the `.../kibana/spaces` directory. Execute this by running `./load-saved-objects.sh dynamic`
+
+Objects that the script will load are; imports, dashboards, visualisations, searches & index patterns.
 
 ## Ingesting directly from Dynamic Central
-This repo is being used for ingesting and analysing the SoakTest machine's user events.
-In this instance there are no saved log files to ingest from the `logs` directory
-but logstash listens on port `5044` waiting for the various filebeat instances
-runing on the SoakTest setup to forward the user events generated on each server.
+This docker-compose setup can be used for ingesting and analysing Dynamic Solution's live user events. In this instance there are no saved log files to ingest from the `logs` directory but logstash listens on port `5044` waiting for the various filebeat instances to forward the user events generated on each server.
 
 In order to set up `view-dc-events` to ingest Dynanic Central user events do the
-following on a Linux VM instance that already has docker installed:
+following on a Linux VM instance that already has docker and docker-compose installed:
 
 ```bash
 $ # Clone the repo
@@ -110,6 +109,7 @@ $ # Start the containers
 $ cd view-dc-events
 $ ./develop ingest
 ```
+
 Now point your filebeat instances on your Dynamic Central Services at your VM instance e.g.
 
 filebeat.yml:
@@ -156,7 +156,6 @@ $ ./develop ingest
 
 The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
-
 
 ## Linux VM troubleshooting
 Some notes on trouble shooting Linux VM issues:
