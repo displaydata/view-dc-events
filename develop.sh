@@ -26,13 +26,6 @@ if [[ -f .env ]]; then
    . .env
 fi
 
-# Set environment variables for dev
-# export ELASTIC_PASS="${ELASTIC_PASS:=elastic}"
-# export KIBANA_PASS="${KIBANA_PASS:=kibana}"
-# export LOGSTASH_PASS="${LOGSTASH_PASS:=logstash}"
-# export MONITOR_PASS="${MONITOR_PASS:=monitor}"
-# export BEATS_PASS="${BEATS_PASS:=beatsystem}"
-# export APM_PASS="${APM_PASS:=apmsystem}"
 
 # Colours:
 Default="\033[39m"

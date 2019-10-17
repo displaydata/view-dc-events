@@ -34,10 +34,7 @@ echo "es_url: $es_url, kibana_url: $kibana_url"
 # Set default passwords for all the builtin users
 elastic_p="${ELASTIC_PASS:=elastic}"
 kibana_p="${KIBANA_PASS:=kibana}"
-logstash_p="${LOGSTASH_PASS:=logstash}"
-beats_p="${BEATS_PASS:=beatsystem}"
-apm_p="${APM_PASS:=apmsystem}"
-monitor_p="${MONITOR_PASS:=monitor}"
+
 
 # First argument is directory where objects can be found
 # If none specified then defaults to "dynamic"
