@@ -9,11 +9,19 @@ Logs are ingested using logstash and written to an elasticsearch volume that can
 be backuped and restored.
 
 ## Pre-requisites
-Linux host machine with:
-* docker installed
-* docker compose installed
+Linux host machine with the following installed:
+* docker
+* docker compose
 
-## Components
+Also follow the 'post installation steps for Linux' section here: 
+https://docs.docker.com/install/linux/linux-postinstall/
+
+### Cloud provider image options
+Azure: https://azuremarketplace.microsoft.com/en-us/marketplace/apps/debian.debian-10?tab=Overview
+
+AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&ref_=srh_res_product_title
+
+## Overview
 
 The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co
 
@@ -25,6 +33,8 @@ elastic volume is mapped to the elasticsearch node data and contains the elastic
 indexes etc. The logstash volume is mapped to the logstatsh data directory and
 contains the information on what files have been processed and ingested into
 elastic.
+
+Container volumes have been mounted externally so that the data (documents indexed into Elasticsearch) and settings will survive container upgrades or the container instances being removed. Running `docker-compose clear` will purge EVERYTHING, including the Elasticsearch database so should only be run to achieve this specific outcome.
 
 The directory structure of the repo is as follows:
 
@@ -80,7 +90,7 @@ Or
 retrieved and are being reviewed. In this case the event data will be augmented
 with a `[store]` field that contains the name of `<store name>` directory.
 This field can then be used in visualisation filters to view a specific store etc.
-
+ 
 ### Kibana Spaces
 Spaces are a kibana component that enable you to organize your dashboards and other saved objects into meaningful categories. Each space has its own set of objects and dashboards.
 
@@ -141,6 +151,10 @@ user.yml
       add_locale: ~
 ```
 
+### Commands
+`docker-compose up`: Start the containers  
+`docker-compose down`: Remove all running containers (leaves volumes intact)
+
 ## Ingesting user events from saved log files
 Save your user event log files to the `logs` directory as detailed above.
 
@@ -156,6 +170,9 @@ $ ./develop ingest
 
 The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
+
+### Commands
+`docker-compose ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
 
 ## Linux VM troubleshooting
 Some notes on trouble shooting Linux VM issues:
