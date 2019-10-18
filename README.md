@@ -132,7 +132,6 @@ filebeat.config.inputs:
 
 tags: ["dynamiccentral", "core"]
 
-#----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
   hosts: ["192.168.200.111:5044"]
