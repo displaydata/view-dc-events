@@ -158,8 +158,9 @@ user.yml
 ```
 
 ### Commands
-`./develop.sh up`: Start the containers  
-`./develop.sh clean`: Remove all running containers AND delete volumes
+`develop up`: Start the containers
+`develop down`: Stop the containers
+`develop clean`: Remove all running containers AND *delete volumes*
 
 ## Ingesting user events from saved log files
 Save your user event log files to the `logs` directory as detailed above.
@@ -178,7 +179,7 @@ The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
 
 ### Commands
-`./develop.sh ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
+`develop ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
 
 ## Linux VM troubleshooting
 Some notes on trouble shooting Linux VM issues:
@@ -198,3 +199,7 @@ Make sure that the use running the containers has a primary group of “docker"
 ```$ sudo usermod -g docker <user>```
 
 **NOTE:** Don’t forget to logout / login if you change group or user id’s
+
+**NOTE:** This set of containers only supports Elasticsearch's 7.4 release. 
+
+Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.  
