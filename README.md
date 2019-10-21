@@ -1,4 +1,4 @@
-# view-dc-logs
+# view-dc-events
 
 A docker compose setup that allows Displaydata customers to ingest Dynamic Central User Events to view and review with a default set of visualisations.
 
@@ -158,8 +158,8 @@ user.yml
 ```
 
 ### Commands
-`docker-compose up`: Start the containers  
-`docker-compose down`: Remove all running containers (leaves volumes intact)
+`./develop.sh up`: Start the containers  
+`./develop.sh clean`: Remove all running containers AND delete volumes
 
 ## Ingesting user events from saved log files
 Save your user event log files to the `logs` directory as detailed above.
@@ -178,7 +178,7 @@ The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
 
 ### Commands
-`docker-compose ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
+`./develop.sh ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
 
 ## Linux VM troubleshooting
 Some notes on trouble shooting Linux VM issues:
