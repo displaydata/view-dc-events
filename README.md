@@ -1,12 +1,14 @@
 # view-dc-logs
 
-A docker compose setup that allows Displaydata customers to ingest Dynamic Central
-User Events to view and review with a default set of visualisations.
+A docker compose setup that allows Displaydata customers to ingest Dynamic Central User Events to view and review with a default set of visualisations.
 
 Events can be ingested directly from a running instance of Dynamic Solution (using Filebeat) or by reading a set of log files exported from a running instance of Dynamic Solution.
 
-Logs are ingested using logstash and written to an elasticsearch volume that can
-be backuped and restored.
+Logs are ingested using logstash and written to an elasticsearch volume that can be backuped and restored.
+
+This setup is aimed primarily at customers trialing Dynamic Solution. 
+
+It can also be used by Displaydata customers (who are in the rollout stage) as a starting point from which to develop their own customised dashboards and monitoring.  
 
 ## Pre-requisites
 Linux host machine with the following installed:
@@ -16,7 +18,10 @@ Linux host machine with the following installed:
 Also follow the 'post installation steps for Linux' section here: 
 https://docs.docker.com/install/linux/linux-postinstall/
 
+Displaydata strongly suggest avoiding running this setup on Windows machines due to existing challenges with Docker desktop for Windows.
+
 ### Cloud provider image options
+
 Azure: https://azuremarketplace.microsoft.com/en-us/marketplace/apps/debian.debian-10?tab=Overview
 
 AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&ref_=srh_res_product_title
@@ -58,6 +63,8 @@ and the scripts for loading and setting up the containers.
 The`dynamic` directory contains the spaces, dashboards, visualisations, indexes
 & configuration files required to setup the docker host, ingest and visualise
 the events being sent from Dynamic Central.
+
+Displaydata's "Monitoring" document explains these dashboards, visualisations and the format of specific events emitted from Dynamic Central. This document is available on request from Displaydata Support: <support@displaydata.com>
 
 The `logs` directory is the directory to place the logs provided by the customer
 for viewing. The format of this directory can be either of the following:
@@ -190,4 +197,4 @@ Make sure that the use running the containers has a primary group of “docker"
 * Change using this command:
 ```$ sudo usermod -g docker <user>```
 
-**NOTE:** Don’t forget to logout / login if you change group or user id’s :-)
+**NOTE:** Don’t forget to logout / login if you change group or user id’s
