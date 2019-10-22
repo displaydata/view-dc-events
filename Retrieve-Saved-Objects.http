@@ -3,9 +3,10 @@
 #  https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
 # Set the port to the port of the docker contianer youi want to export from
-@base_url = http://localhost:5601/api
+# @base_url = http://localhost:5601/api
+@base_url = http://localhost:5601/s/dc-health/api
 # @base_url = http://192.168.200.153:5601/api
-# @base_url = http://192.168.200.153:5601/s/dc-monitoring/api
+# @base_url = http://192.168.200.153:5601/s/dc-health/api
 @user = elastic
 @password = elastic
 
@@ -25,7 +26,7 @@ Authorization: Basic {{user}} {{password}}
 
 # Get the first dashboard in the list
 
-@dash = {{dashboards.response.body.$.saved_objects[4].id}}
+@dash = {{dashboards.response.body.$.saved_objects[3].id}}
 ###
 # Retrieve the dashboard
 GET {{base_url}}/kibana/dashboards/export?dashboard={{dash}}
@@ -119,3 +120,22 @@ Authorization: Basic {{user}} {{password}}
     "id": "*"
   }
 ]
+
+###
+GET {{base_url}}/saved_objects/index-pattern/dynamic-user-*
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+
+###
+PUT {{base_url}}/saved_objects/index-pattern/dynamic-user-*
+content-type: application/json
+kbn-xsrf: true
+Authorization: Basic {{user}} {{password}}
+
+{
+  "attributes": {
+    "fieldFormatMap": "{\"RequestReference\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"http://192.168.200.153:5601/app/kibana#/dashboard/7d442ef0-e45e-11e9-b666-23c0bc229fd2?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,to:now%2Fd))&_a=(description:'Filter+by+LocationName+and+RequestReference+to+see+how+many+Display+Updates+succeeded+or+failed',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:7,i:'1',w:9,x:39,y:0),id:b8080300-d63e-11e9-8524-a53adb816424,panelIndex:'1',type:visualization,version:'7.3.2'),(embeddableConfig:(),gridData:(h:7,i:'2',w:9,x:39,y:7),id:'4c91fb70-d63f-11e9-8524-a53adb816424',panelIndex:'2',type:visualization,version:'7.3.2'),(embeddableConfig:(),gridData:(h:14,i:'3',w:30,x:9,y:0),id:'0adf3190-e047-11e9-b666-23c0bc229fd2',panelIndex:'3',type:visualization,version:'7.3.2'),(embeddableConfig:(),gridData:(h:14,i:'5',w:9,x:0,y:0),id:'64540df0-e52d-11e9-b666-23c0bc229fd2',panelIndex:'5',type:visualization,version:'7.3.2')),query:(language:kuery,query:'RequestReference+:+%22{{value}}%22+'),timeRestore:!f,title:'Request+Reference+Tracker',viewMode:view)\",\"labelTemplate\":\"{{value}}\"}},\"@version\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"http://www.displaydata.com\"}}}"
+  }
+}
