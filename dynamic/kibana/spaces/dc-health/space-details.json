@@ -5,7 +5,6 @@
   "initials": "DH",
   "color": "#aabbcc",
   "disabledFeatures": [
-    "indexPatterns",
     "timelion",
     "graph",
     "monitoring",
