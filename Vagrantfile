@@ -5,7 +5,7 @@ elasticsearch_port = 9200
 kibana_port = 5601
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "generic/debian10"
+    config.vm.box = "debian/buster64"
 
     config.vm.network "private_network", ip: "#{network_ip}"
 
@@ -46,15 +46,12 @@ Vagrant.configure("2") do |config|
 
     # Same as above, but for VMware Workstation & VMware Fusion
     ["vmware_workstation", "vmware_fusion"].each do |vmware_provider|
-        config.vm.provider(vmware_provider) do |vmware|
+        config.vm.provider(vmware_provider) do |vmware, override|
+            override.vm.box = "generic/debian10"
             vmware.gui = false
             vmware.vmx["memsize"] = "#{elk_mem.to_s}"
             vmware.vmx["numvcpus"] = "#{elk_cpus.to_i}"
             vmware.vmx["vhv.enable"] = "TRUE"
         end
     end
-
-    # TODO: networking may not be working in all scenarios yet!
-    # TODO: check networking/box works without access to Displaydata domain
-    # TODO: once initial provisioning has taken place, check vagrant up works entirely offline - this is for demo purposes by Sales/Pre-Sales etc.
 end
