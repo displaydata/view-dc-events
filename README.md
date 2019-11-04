@@ -8,17 +8,29 @@ Logs are ingested using logstash and written to an elasticsearch volume that can
 
 This setup is aimed primarily at customers trialing Dynamic Solution. 
 
-It can also be used by Displaydata customers (who are in the rollout stage) as a starting point from which to develop their own customised dashboards and monitoring.  
+It can also be used by Displaydata customers (who are in the rollout stage) as a starting point from which to develop their own customised dashboards and monitoring.
+
+**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so is not suitable for production environments.
 
 ## Pre-requisites
-Linux host machine with the following installed:
+Ubuntu or Debian host machine (Minimum 4Gb RAM, >12Gb disk space) with the following installed:
 * docker
 * docker compose
 
 Also follow the 'post installation steps for Linux' section here: 
 https://docs.docker.com/install/linux/linux-postinstall/
 
-Displaydata strongly suggest avoiding running this setup on Windows machines due to existing challenges with Docker desktop for Windows.
+This setup makes use of apt-get and bash scripts so cannot be run on Windows or non Ubuntu/Debian hosts.
+
+If you're copying the files from a Windows machine rather than cloning direct from the repository on Github you need to make sure that the following files are executable in the linux environment: -
+
+develop.sh
+
+load-saved-objects.sh
+
+```
+sudo chmod +x <filename>
+```
 
 ### Cloud provider image options
 
@@ -40,6 +52,8 @@ contains the information on what files have been processed and ingested into
 elastic.
 
 Container volumes have been mounted externally so that the data (documents indexed into Elasticsearch) and settings will survive container upgrades or the container instances being removed. Running `docker-compose clear` will purge EVERYTHING, including the Elasticsearch database so should only be run to achieve this specific outcome.
+
+Once the environment is "up" the Kibana UI should be availabe via a browser on _host IP address_:5601
 
 The directory structure of the repo is as follows:
 
@@ -124,7 +138,7 @@ $ # Clone the repo
 $ git clone https://gitlab.dev.zbddisplays.local/elastic-stack/view-dc-events.git
 $ # Start the containers
 $ cd view-dc-events
-$ ./develop ingest
+$ ./develop.sh ingest
 ```
 
 Now point your filebeat instances on your Dynamic Central Services at your VM instance e.g.
@@ -158,9 +172,11 @@ user.yml
 ```
 
 ### Commands
-`develop up`: Start the containers
-`develop down`: Stop the containers
-`develop clean`: Remove all running containers AND *delete volumes*
+`./develop.sh up` - Start the containers
+
+`./develop.sh down` - Stop the containers
+
+`./develop.sh clean` - Remove all running containers AND *delete volumes*
 
 ## Ingesting user events from saved log files
 Save your user event log files to the `logs` directory as detailed above.
@@ -172,14 +188,14 @@ $ # Clone the repo
 $ git clone https://gitlab.dev.zbddisplays.local/elastic-stack/view-dc-events.git
 $ # Start the containers
 $ cd view-dc-events
-$ ./develop ingest
+$ ./develop.sh ingest
 ```
 
 The containers will start and immediately begin to ingest the logs saved to the
 `logs` directory.
 
 ### Commands
-`develop ingest`: Start the containers including the facility to pull customer supplied logs from the 'logs' directory
+`./develop.sh ingest` - Start the containers including the facility to pull customer supplied logs from the 'logs' directory
 
 ## Linux VM troubleshooting
 Some notes on trouble shooting Linux VM issues:
