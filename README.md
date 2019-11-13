@@ -12,6 +12,10 @@ It can also be used by Displaydata customers (who are in the rollout stage) as a
 
 **WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so is not suitable for production environments.
 
+**NOTE:** This set of containers only supports Elasticsearch's 7.4 release. 
+
+Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.  
+
 ## Pre-requisites
 Ubuntu or Debian host machine (Minimum 4Gb RAM, >12Gb disk space) with the following installed:
 * docker
@@ -74,7 +78,7 @@ The directory structure of the repo is as follows:
 The top level root directory contains the `docker-compose` configuration file
 and the scripts for loading and setting up the containers.
 
-The`dynamic` directory contains the spaces, dashboards, visualisations, indexes
+The `dynamic` directory contains the spaces, dashboards, visualisations, indexes
 & configuration files required to setup the docker host, ingest and visualise
 the events being sent from Dynamic Central.
 
@@ -197,25 +201,8 @@ The containers will start and immediately begin to ingest the logs saved to the
 ### Commands
 `./develop.sh ingest` - Start the containers including the facility to pull customer supplied logs from the 'logs' directory
 
-## Linux VM troubleshooting
-Some notes on trouble shooting Linux VM issues:
+## Vagrant file
 
-Make sure that the docker user GID is 1000
-```bash
-$ sudo systemctl stop docker
-$ sudo groupmod -g 1000 docker
-$ sudo systemctl start docker
-$ exit
-```
+If you're familiar with Hashicorp's Vagrant there is a Vagrantfile in this repo with providers for Virtualbox, VMWare Workstation or VMWare Fusion. 
 
-Make sure that the use running the containers has a primary group of “docker"
-* Check using this command:
-```$ id -g```
-* Change using this command:
-```$ sudo usermod -g docker <user>```
-
-**NOTE:** Don’t forget to logout / login if you change group or user id’s
-
-**NOTE:** This set of containers only supports Elasticsearch's 7.4 release. 
-
-Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.  
+This will will bring up a Debian machine with the necessary pre-requisites installed by running `vagrant up --provider <providername>`
