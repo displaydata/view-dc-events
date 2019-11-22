@@ -5,7 +5,7 @@ elasticsearch_port = 9200
 kibana_port = 5601
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "debian/buster64"
+    config.vm.box = "roboxes/debian9"
 
     config.vm.network "private_network", ip: "#{network_ip}"
 
