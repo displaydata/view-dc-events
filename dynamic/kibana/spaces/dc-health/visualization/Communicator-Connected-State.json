@@ -1,0 +1,31 @@
+{
+  "type": "visualization",
+  "id": "223f5e20-d640-11e9-8524-a53adb816424",
+  "attributes": {
+    "title": "Communicator Connected State",
+    "visState": "{\"title\":\"Communicator Connected State\",\"type\":\"table\",\"params\":{\"dimensions\":{\"buckets\":[{\"accessor\":0,\"aggType\":\"terms\",\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"missingBucketLabel\":\"Missing\",\"otherBucketLabel\":\"Other\"}},\"params\":{}},{\"accessor\":1,\"aggType\":\"terms\",\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"missingBucketLabel\":\"Missing\",\"otherBucketLabel\":\"Other\"}},\"params\":{}}],\"metrics\":[{\"accessor\":2,\"aggType\":\"max\",\"format\":{\"id\":\"date\"},\"params\":{}}]},\"perPage\":10,\"showMetricsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":1,\"direction\":\"desc\"},\"totalFunc\":\"max\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"Timestamp\",\"customLabel\":\"Status Updated\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"Result\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":1,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Status\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"CommunicatorSerialNumber\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":10,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Communicator\"}}]}",
+    "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":1,\"direction\":\"desc\"}}}}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"MessageType\",\"negate\":false,\"params\":{\"query\":\"CommunicatorStateChange\"},\"type\":\"phrase\",\"value\":\"CommunicatorStateChange\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match\":{\"MessageType\":{\"query\":\"CommunicatorStateChange\",\"type\":\"phrase\"}}}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:49.119Z",
+  "version": "WzIyLDFd"
+}

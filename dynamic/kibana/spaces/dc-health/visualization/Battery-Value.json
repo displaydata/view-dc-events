@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "6c3c57f0-e12e-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Battery Value",
+    "visState": "{\"title\":\"Battery Value\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"rgba(254,146,0,1)\",\"split_mode\":\"terms\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\",\"field\":\"BatteryPercentage\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"0%\",\"chart_type\":\"bar\",\"line_width\":\"2\",\"point_size\":1,\"fill\":0.5,\"stacked\":\"percent\",\"terms_field\":\"BatteryPercentage\",\"terms_order_by\":\"_key\",\"label\":\"Battery Percentage\",\"split_color_mode\":\"rainbow\",\"value_template\":\"{{value}}\",\"filter\":{\"query\":\"\",\"language\":\"kuery\"},\"hide_in_legend\":0}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"axis_min\":\"0\",\"axis_max\":\"100\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" and Success : true \",\"language\":\"kuery\"}},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:47.061Z",
+  "version": "WzEwLDFd"
+}

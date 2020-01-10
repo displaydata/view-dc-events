@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "3c1e9a00-d635-11e9-8524-a53adb816424",
+  "attributes": {
+    "title": "Display Updates",
+    "visState": "{\"title\":\"Display Updates\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"2497b8f0-d633-11e9-860d-bfe3070dff55\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Successes\",\"terms_field\":\"Result\",\"terms_include\":\"NoError\",\"filter\":{\"query\":\"Result: NoError\",\"language\":\"kuery\"}},{\"id\":\"d4aa8820-d634-11e9-860d-bfe3070dff55\",\"color\":\"rgba(211,49,21,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"d4aa8821-d634-11e9-860d-bfe3070dff55\",\"type\":\"count\"},{\"script\":\"params.errors*-1\",\"id\":\"f18305d0-d634-11e9-860d-bfe3070dff55\",\"type\":\"math\",\"variables\":[{\"id\":\"f8f39ff0-d634-11e9-860d-bfe3070dff55\",\"field\":\"d4aa8821-d634-11e9-860d-bfe3070dff55\",\"name\":\"errors\"}]}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Failures\",\"terms_field\":\"Result\",\"terms_include\":\"NoError\",\"filter\":{\"query\":\"Result: \\\"ImageUpdateFailure\\\" \",\"language\":\"kuery\"}}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"1h\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" \",\"language\":\"kuery\"},\"legend_position\":\"right\"},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:49.119Z",
+  "version": "WzE4LDFd"
+}

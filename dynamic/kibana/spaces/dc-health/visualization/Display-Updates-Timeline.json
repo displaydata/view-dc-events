@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "40aa1610-e12c-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Display Updates Timeline",
+    "visState": "{\"title\":\"Display Updates Timeline\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"terms\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"stacked\",\"terms_field\":\"MessageType\",\"filter\":{\"query\":\"\\\"Success\\\" : true\",\"language\":\"kuery\"}},{\"id\":\"2f0e7230-e12b-11e9-83aa-a58d18c60cf0\",\"color\":\"rgba(244,78,59,1)\",\"split_mode\":\"terms\",\"metrics\":[{\"id\":\"2f0e7231-e12b-11e9-83aa-a58d18c60cf0\",\"type\":\"count\"},{\"script\":\"params.error*-1\",\"id\":\"5d5fc980-e12c-11e9-83aa-a58d18c60cf0\",\"type\":\"math\",\"variables\":[{\"id\":\"65daa7b0-e12c-11e9-83aa-a58d18c60cf0\",\"name\":\"error\",\"field\":\"2f0e7231-e12b-11e9-83aa-a58d18c60cf0\"}]}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"stacked\",\"terms_field\":\"MessageType\",\"filter\":{\"query\":\"\\\"Success\\\" : false\",\"language\":\"kuery\"},\"label\":\"\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":1,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"TemplateSelection\\\" or MessageType : \\\"ImageGeneration\\\" or MessageType : \\\"ImageQueuedForDelivery\\\" or MessageType : \\\"DisplayUpdateComplete\\\"\",\"language\":\"kuery\"},\"annotations\":[{\"fields\":\"ObjectIds, RequestReference\",\"template\":\"ObjectIds: {{ObjectIds}} RequestRef: {{RequestReference}}\",\"index_pattern\":\"dynamic-user-*\",\"query_string\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\"\",\"language\":\"kuery\"},\"id\":\"a4a47410-e138-11e9-9422-6f950d1515e8\",\"color\":\"rgba(0,255,213,1)\",\"time_field\":\"Timestamp\",\"icon\":\"fa-star\",\"ignore_global_filters\":0,\"ignore_panel_filters\":1}]},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:47.061Z",
+  "version": "WzksMV0="
+}

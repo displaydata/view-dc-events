@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "7aa50dd0-dbbd-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Battery Health",
+    "visState": "{\"title\":\"Battery Health\",\"type\":\"pie\",\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false,\"labels\":{\"show\":false,\"values\":true,\"last_level\":true,\"truncate\":100},\"dimensions\":{\"metric\":{\"accessor\":1,\"format\":{\"id\":\"number\"},\"params\":{},\"aggType\":\"cardinality\"},\"buckets\":[{\"accessor\":0,\"format\":{},\"params\":{},\"aggType\":\"filters\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"DisplaySerialNumber\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"filters\",\"schema\":\"segment\",\"params\":{\"filters\":[{\"input\":{\"query\":\"BatteryPercentage >= 6\",\"language\":\"kuery\"},\"label\":\"Good\"},{\"input\":{\"query\":\"BatteryPercentage <= 5\",\"language\":\"kuery\"},\"label\":\"Change\"}]}}]}",
+    "uiStateJSON": "{\"vis\":{\"colors\":{\"0\":\"#890F02\",\"5\":\"#E5AC0E\",\"25\":\"#629E51\",\"50\":\"#629E51\",\"75\":\"#629E51\",\"100\":\"#629E51\",\"Change\":\"#E0752D\",\"Good\":\"#629E51\"}}}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:49.119Z",
+  "version": "WzI0LDFd"
+}
