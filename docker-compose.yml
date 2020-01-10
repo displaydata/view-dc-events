@@ -100,6 +100,15 @@ services:
       # This mount is needed to view other container's log info
       - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
 
+  powershell:
+    image: mcr.microsoft.com/powershell
+    container_name: powershell
+    networks:
+      - elastic-net
+    volumes:
+      - ./powershell:/home/powershell
+      - ./dynamic/kibana:/home/kibana
+
 networks:
   elastic-net:
 
