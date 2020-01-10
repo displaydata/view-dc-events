@@ -15,9 +15,9 @@
   Elastic password (optional)
 
 .EXAMPLE
-   import-export-objects.ps1 -Import
-   import-export-objects.ps1 -Export -Url "http://192.168.56.4:5601"
-   import-export-objects.ps1 -Import -Path "./temp"
+   manage-kibana.ps1 -Import
+   manage-kibana.ps1 -Export -Url "http://192.168.56.4:5601"
+   manage-kibana.ps1 -Import -Path "./temp"
 
 .NOTES
   Scan kibana/spaces folder structure
@@ -38,12 +38,12 @@ param(
   [switch]$Import,
   [switch]$Export,
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:5601",
-  [Parameter(Mandatory=$false)][string]$Path = "./dcomm/kibana/spaces",
+  [Parameter(Mandatory=$false)][string]$Path = "./dynamic/kibana/spaces",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
-$global:ElasticUrl = $Url
+$global:KibanaUrl = $Url
 $secpasswd = ConvertTo-SecureString $Username -AsPlainText -Force
 $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Password, $secpasswd)
 
@@ -254,7 +254,7 @@ function ElasticGetRequest {
     [parameter(Mandatory=$false)][string]$Body = "{}"
   )
 
-  $url = $global:ElasticUrl + '/' + $Controller
+  $url = $global:KibanaUrl + '/' + $Controller
   $Headers.Add("kbn-xsrf", "true")
   # Write-Host "Uri: $url"
 
@@ -281,7 +281,7 @@ function ElasticPostRequest {
     [parameter(Mandatory=$true)]$Body
   )
 
-  $url = $global:ElasticUrl + "/" + $Controller
+  $url = $global:KibanaUrl + "/" + $Controller
   $Headers.Add("kbn-xsrf", "true")
 
 

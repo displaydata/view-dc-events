@@ -107,7 +107,7 @@ services:
       - elastic-net
     volumes:
       - ./powershell:/home/powershell
-      - ./dynamic/kibana:/home/kibana
+      - ./dynamic:/home
 
 networks:
   elastic-net:
