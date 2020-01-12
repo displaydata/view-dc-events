@@ -62,7 +62,7 @@ function Export-Saved-Objects {
   )
 
   # Check we can communicate to kibana
-  WaitForElasticServer -Timeout 30
+  WaitForElasticServer -Timeout 40
 
   Write-Host "Backup existing spaces folder: $ExportObjectFolder"
   $null = BackupSpacesFolder -Path $ExportObjectFolder
@@ -307,7 +307,7 @@ function ElasticImportObjectsFromFolder {
 #>
 function GetElasticServerStatus {
   Try {
-    $null = ElasticGetRequest -Controller "_cluster/health?wait_for_status=yellow&timeout=10s"
+    $null = ElasticGetRequest -Controller "_cluster/health?wait_for_status=green&timeout=5s"
     $response = @{ "status" = 0; "description" = "ready"}
   } Catch {
     $response = @{ "status" = -1; "description" = $($_.Exception.Message)}
@@ -333,7 +333,7 @@ function WaitForElasticServer {
   $loopcount = 0
   while ((GetElasticServerStatus).status -ne 0 -and $stopwatch.elapsed -lt $waittime) {
     if ($loopcount -eq 0) {
-      Write-Host -NoNewline "Waiting for kibana server"
+      Write-Host -NoNewline "Waiting for elasticsearch server"
     } else {
       Write-Host -NoNewline "."
     }
@@ -342,7 +342,7 @@ function WaitForElasticServer {
   }
 
   If ($stopwatch.elapsed -ge $waittime) {
-    Write-Host "`nUnable to contact kibana server. Exiting..."
+    Write-Host "`nUnable to contact elasticsearch server. Exiting..."
     Exit -1
   } elseif ($loopcount -gt 0) {
     Write-Host "  Done"

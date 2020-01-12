@@ -545,12 +545,16 @@ function ElasticImportObjectsFromFolder {
 #>
 function GetKibanaServerStatus {
   Try {
-    $null = ElasticGetRequest -Controller "api/status"
-    $response = @{ "status" = 0; "description" = "ready"}
+    $status = ElasticGetRequest -Controller "api/status"
+    If ($($status.status.overall.state) -eq "green") {
+      $response = @{ "status" = 0; "description" = "ready"}
+    } Else {
+      $response = @{ "status" = -1; "description" = $($status.status.overall.state)}
+    }
   } Catch {
     $response = @{ "status" = -1; "description" = $($_.Exception.Message)}
   }
-
+  # Write-Host $status.status.statuses
   return $response
 }
 
@@ -559,7 +563,7 @@ function GetKibanaServerStatus {
   Check kibana server status and wait until it is ready to accept API
   commnds or times out
 .PARAMETER Timeout
-  waittime in sconds to wait for server ready (default: 25)
+  waittime in seconds to wait for server ready (default: 25)
 .EXAMPLE
   WaitForKibanaServer -Timeout 25
 #>
@@ -586,6 +590,7 @@ function WaitForKibanaServer {
   } elseif ($loopcount -gt 0) {
     Write-Host "  Done"
   }
+  Start-Sleep 10
 }
 
 # ---------------- Main Code -----------------
