@@ -1,0 +1,14 @@
+{
+  "type": "index-pattern",
+  "id": "dynamic-status-*",
+  "attributes": {
+    "title": "dynamic-status-*",
+    "timeFieldName": "@t"
+  },
+  "references": [],
+  "migrationVersion": {
+    "index-pattern": "6.5.0"
+  },
+  "updated_at": "2020-01-13T10:12:14.868Z",
+  "version": "WzM1LDFd"
+}
