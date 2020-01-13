@@ -590,7 +590,9 @@ function WaitForKibanaServer {
   } elseif ($loopcount -gt 0) {
     Write-Host "  Done"
   }
-  Start-Sleep 10
+  If ($loopcount -ge 1) {
+    Start-Sleep 10
+  }
 }
 
 # ---------------- Main Code -----------------
