@@ -41,6 +41,12 @@ $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Pa
   "ingest-nodes"
 )
 
+# Create a list of index-templates we manage
+[string[]]$global:ElasticIndexTemplates = @(
+  "dynamic-user-*",
+  "filebeat-*"
+)
+
 
 # ---------------- Operations ----------------
 
@@ -64,9 +70,35 @@ function Export-Saved-Objects {
   # Check we can communicate to kibana
   WaitForElasticServer -Timeout 40
 
+  # Create top level folder if it does not exist
+  If ( -Not (Test-Path -Path $ExportObjectFolder -PathType "Container")) {
+    $null = New-Item -ItemType Directory -Path $ExportObjectFolder
+  }
   Write-Host "Backup existing spaces folder: $ExportObjectFolder"
-  $null = BackupSpacesFolder -Path $ExportObjectFolder
+  $null = BackupFolder -Path $ExportObjectFolder
 
+  # TODO: Loop thru $ElasticObjectTypes, get the objects and save them
+  # use GET /_template/dynamic-* to get all dynamic index-templates
+  # use GET /_ingest/pipeline/dynamic-* to get all dynamic ingest pipelines
+
+  # Save the index-templates
+  Write-Host "Saving index-templates"
+  If ( -Not (Test-Path -Path "$ExportObjectFolder/index-templates" -PathType "Container")) {
+    $null = New-Item -ItemType Directory -Path "$ExportObjectFolder/index-templates"
+  }
+
+  # Get a list of index-templates
+  # $templates = (ElasticGetRequest "_template/dynamic-*").psobject.Members | where-object membertype -like 'noteproperty'
+  $response = ElasticGetRequest "_template/dynamic-*"
+  $templates = @{}
+  ForEach ( $property in $response.psobject.Properties.Name ) {
+    $templates[$property] = $response.$property
+  }
+  ForEach ( $template in $templates.Keys) {
+    Write-Host $template.Name
+  }
+
+  Exit -1
   # Iterate thru the spaces and save the objects
   $ElasticSpaces | ForEach-Object {
     $ElasticSpace = $($_.id)
@@ -106,6 +138,11 @@ function Export-Saved-Objects {
       $ElasticDefaultIndex | Out-File "$ExportObjectFolder/$ElasticSpace/default-index.txt"
     }
   }
+}
+
+function ElasticGetIndexTemplates {
+  $Controller = "template/dynamic-*"
+
 }
 
 <#
@@ -160,13 +197,13 @@ function SaveObjects {
 
 <#
 .SYNOPSIS
-  Function to backup an existing spaces folder
+  Function to backup an existing elastcisearch folder
 .PARAMETER Path
   Path of folder to backup
 .EXAMPLE
-  BackupSpacesFolder -Path "./dcomm/kibana/spaces"
+  BackupFolder -Path "./dynamic/elasticsearch"
 #>
-function BackupSpacesFolder {
+function BackupFolder {
   Param(
     [parameter(Mandatory=$true)][string]$Path
   )
@@ -307,8 +344,13 @@ function ElasticImportObjectsFromFolder {
 #>
 function GetElasticServerStatus {
   Try {
-    $null = ElasticGetRequest -Controller "_cluster/health?wait_for_status=green&timeout=5s"
+    $health = ElasticGetRequest -Controller "_cluster/health?wait_for_status=green&timeout=5s"
     $response = @{ "status" = 0; "description" = "ready"}
+    If ($($health.status) -eq "green") {
+      $response = @{ "status" = 0; "description" = "ready"}
+    } Else {
+      $response = @{ "status" = -1; "description" = $($health.status)}
+    }
   } Catch {
     $response = @{ "status" = -1; "description" = $($_.Exception.Message)}
   }
