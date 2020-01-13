@@ -1,0 +1,16 @@
+{
+  "index_patterns": ["filebeat-*"],
+  "order": 15,
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "@version": { "type": "keyword" },
+      "Warnings": { "type": "text" },
+      "message": { "type": "text" },
+      "path": { "type": "text" }
+    }
+  }
+}
