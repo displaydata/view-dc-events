@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Elastic",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/powershell/manage-elastic.ps1",
+      "cwd": "${workspaceFolder}"
+    },
+    {
       "name": "Import: Current File",
       "type": "PowerShell",
       "request": "launch",

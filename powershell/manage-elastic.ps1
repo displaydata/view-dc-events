@@ -1,10 +1,6 @@
 <#
 .SYNOPSIS
   Script enables import and export of elastic objects
-.PARAMETER Import
-  Declare to import a set of previously saved objects. Mutually exclusive with -Export
-.PARAMETER Export
-  Declare to export a set of elastic objects. Mutually exclusive with -Import
 .PARAMETER Url
   URI of the elasicsearch api endpoint e.g. "http://localhost:9200" (optional)
 .PARAMETER Path
@@ -14,17 +10,14 @@
 .PARAMETER Password
   Elastic password (optional)
 .EXAMPLE
-   manage-elastic.ps1 -Import
-   manage-elastic.ps1 -Export -Url "http://192.168.56.4:9200"
-   manage-elastic.ps1 -Import -Path "./temp"
+   manage-elastic.ps1
+   manage-elastic.ps1 -Url "http://192.168.56.4:9200"
+   manage-elastic.ps1 -Path "./temp"
 #>
 
-# TODO: Add exporting of index-templates
 # TODO: Refactor import code to be more generic
 
 param(
-  [switch]$Import,
-  [switch]$Export,
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:9200",
   [Parameter(Mandatory=$false)][string]$Path = "./dynamic/elasticsearch",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
@@ -41,109 +34,7 @@ $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Pa
   "ingest-nodes"
 )
 
-# Create a list of index-templates we manage
-[string[]]$global:ElasticIndexTemplates = @(
-  "dynamic-user-*",
-  "filebeat-*"
-)
-
-
 # ---------------- Operations ----------------
-
-<#
-.SYNOPSIS
-  Export the saved objects from kibana we are interested in saving
-.PARAMETER ExportObjectFolder
-  A folder where you want to export the spaces/saved_objects to
-.NOTES
-  Get spaces from kibana
-    For each space create a folder
-    Get saved_objects from the kibana sapce
-    For each saved_object type create a folder
-      Export the saved_objects to the folder
-#>
-function Export-Saved-Objects {
-  Param(
-    [parameter(Mandatory=$true)][string]$ExportObjectFolder
-  )
-
-  # Check we can communicate to kibana
-  WaitForElasticServer -Timeout 40
-
-  # Create top level folder if it does not exist
-  If ( -Not (Test-Path -Path $ExportObjectFolder -PathType "Container")) {
-    $null = New-Item -ItemType Directory -Path $ExportObjectFolder
-  }
-  Write-Host "Backup existing spaces folder: $ExportObjectFolder"
-  $null = BackupFolder -Path $ExportObjectFolder
-
-  # TODO: Loop thru $ElasticObjectTypes, get the objects and save them
-  # use GET /_template/dynamic-* to get all dynamic index-templates
-  # use GET /_ingest/pipeline/dynamic-* to get all dynamic ingest pipelines
-
-  # Save the index-templates
-  Write-Host "Saving index-templates"
-  If ( -Not (Test-Path -Path "$ExportObjectFolder/index-templates" -PathType "Container")) {
-    $null = New-Item -ItemType Directory -Path "$ExportObjectFolder/index-templates"
-  }
-
-  # Get a list of index-templates
-  # $templates = (ElasticGetRequest "_template/dynamic-*").psobject.Members | where-object membertype -like 'noteproperty'
-  $response = ElasticGetRequest "_template/dynamic-*"
-  $templates = @{}
-  ForEach ( $property in $response.psobject.Properties.Name ) {
-    $templates[$property] = $response.$property
-  }
-  ForEach ( $template in $templates.Keys) {
-    Write-Host $template.Name
-  }
-
-  Exit -1
-  # Iterate thru the spaces and save the objects
-  $ElasticSpaces | ForEach-Object {
-    $ElasticSpace = $($_.id)
-    Write-Host "Saving Elastic Space: $ElasticSpace"
-
-    # Create a space directory if it doesn't already exist
-    if ( -Not (Test-Path -Path "$ExportObjectFolder/$ElasticSpace" -PathType "Container") ) {
-      $null = New-Item -ItemType Directory -Path "$ExportObjectFolder/$ElasticSpace"
-    }
-
-    # Save space details
-    Write-Host "Saving spaces details: $ExportObjectFolder/$ElasticSpace/space-details.json"
-    $_ | ConvertTo-Json -depth 100 | Out-File "$ExportObjectFolder/$ElasticSpace/space-details.json"
-
-    # Get the objects we are interested in and save them
-    $ElasticObjectTypes | ForEach-Object {
-      $ElasticObjects = ElasticFindObjects $ElasticSpace $_
-
-      # Don't do anything if there are no objects
-      if ($($ElasticObjects.saved_objects).Length -eq 0) {
-        Write-Host "No $_ objects in space: $ElasticSpace. Moving on..."
-        Return
-      }
-
-      # Create a object type directory if it doesn't already exist
-      if ( -Not (Test-Path -Path "$ExportObjectFolder/$ElasticSpace/$_" -PathType "Container") ) {
-        $null = New-Item -ItemType Directory -Path "$ExportObjectFolder/$ElasticSpace/$_"
-      }
-
-      SaveObjects "$ExportObjectFolder/$ElasticSpace/$_" $ElasticObjects
-    }
-
-    # Get the default index for the space and save it
-    $ElasticDefaultIndex = ElasticGetDefaultIndex -Space $ElasticSpace
-    If ($null -ne $ElasticDefaultIndex) {
-      Write-Host "Default index for Space: $ElasticSpace is $ElasticDefaultIndex"
-      $ElasticDefaultIndex | Out-File "$ExportObjectFolder/$ElasticSpace/default-index.txt"
-    }
-  }
-}
-
-function ElasticGetIndexTemplates {
-  $Controller = "template/dynamic-*"
-
-}
 
 <#
 .SYNOPSIS
@@ -193,31 +84,6 @@ function SaveObjects {
     Write-Host "Saving file: $Filename"
     $_ | ConvertTo-Json -depth 100 | Out-File -FilePath $Filename
   }
-}
-
-<#
-.SYNOPSIS
-  Function to backup an existing elastcisearch folder
-.PARAMETER Path
-  Path of folder to backup
-.EXAMPLE
-  BackupFolder -Path "./dynamic/elasticsearch"
-#>
-function BackupFolder {
-  Param(
-    [parameter(Mandatory=$true)][string]$Path
-  )
-
-  $FolderPath = Split-Path -Path $Path
-  $BackupFolderName = (Split-Path -Path $Path -Leaf) + '~'
-  # Remove any previously backuped up folder
-  If (Test-Path -Path "$FolderPath/$BackupFolderName") {
-    Remove-Item -Path "$FolderPath/$BackupFolderName" -Force -Recurse
-  }
-
-  Rename-Item -Path $Path -NewName "$BackupFolderName"
-  $null = New-Item -ItemType Directory -Force -Path $Path
-
 }
 
 <#
@@ -289,13 +155,7 @@ function ElasticImportObject {
     [parameter(Mandatory=$true)]$Body
   )
 
-  If ($ObjectType -eq "index-templates") {
-    $Controller = "_template/" + $($ObjectName) -replace '\.json', '-*'
-  } ElseIf ($ObjectType -eq "ingest-node") {
-    $Controller = "_ingest/pipeline/" + $($ObjectName) -replace '\.json'
-  } Else {
-    return $null
-  }
+  $Controller = "_template/" + $($ObjectName) -replace '\.json', '-*'
   $headers=@{}
 
   Try{
@@ -393,10 +253,5 @@ function WaitForElasticServer {
 
 # ---------------- Main Code -----------------
 
-If ($Export) {
-  Write-Host "Exporting..."
-  Export-Saved-Objects -ExportObjectFolder $Path
-} Else {
-  Write-Host "Importing"
-  Import-Saved-Objects -ImportObjectFolder $Path
-}
+Write-Host "Importing"
+Import-Saved-Objects -ImportObjectFolder $Path
