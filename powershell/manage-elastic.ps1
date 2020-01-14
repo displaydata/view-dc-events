@@ -204,9 +204,9 @@ function ElasticImportObjectsFromFolder {
 #>
 function GetElasticServerStatus {
   Try {
-    $health = ElasticGetRequest -Controller "_cluster/health?wait_for_status=green&timeout=5s"
+    $health = ElasticGetRequest -Controller "_cluster/health?wait_for_status=yellow&timeout=5s"
     $response = @{ "status" = 0; "description" = "ready"}
-    If ($($health.status) -eq "green") {
+    If ($($health.status) -eq "yellow" -or $($health.status) -eq "green") {
       $response = @{ "status" = 0; "description" = "ready"}
     } Else {
       $response = @{ "status" = -1; "description" = $($health.status)}
