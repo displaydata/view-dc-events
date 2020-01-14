@@ -8,6 +8,7 @@
   "mappings": {
     "properties": {
       "@version": { "type": "keyword" },
+      "Action": { "type": "keyword" },
       "CommunicatorFirmwareVersion": { "type": "keyword" },
       "CommunicatorHostName": { "type": "keyword" },
       "CommunicatorSerialNumber": { "type": "keyword" },
@@ -28,6 +29,7 @@
       "ObjectIds": { "type": "text" },
       "ObjectName": { "type": "keyword" },
       "ObjectsRendered": { "type": "text" },
+      "ObjectsNotRendered": { "type": "text" },
       "OriginalObjectDescription": { "type": "text" },
       "OriginalObjectName": { "type": "keyword" },
       "OriginalSearchValues": { "type": "text" },
@@ -42,7 +44,11 @@
       "Warnings": { "type": "text" },
       "message": { "type": "text" },
       "path": { "type": "text" },
-      "store": { "type": "keyword" }
+      "store": { "type": "keyword" },
+      "tags": { "type": "text" },
+      "log.file.path": { "type": "text" },
+      "input.type": { "type": "keyword" },
+      "fields.type": { "type": "keyword" }
     }
   }
 }
