@@ -1,0 +1,60 @@
+{
+  "id": "82900ee0-e50f-11e9-b666-23c0bc229fd2",
+  "type": "map",
+  "updated_at": "2019-10-23T15:34:09.562Z",
+  "version": "WzE1MSwxXQ==",
+  "attributes": {
+    "title": "Update Success or Failure",
+    "description": "",
+    "mapStateJSON": "{\"zoom\":11.81,\"center\":{\"lon\":-0.70992,\"lat\":51.4113},\"timeFilters\":{\"from\":\"now-2h\",\"to\":\"now\"},\"refreshConfig\":{\"isPaused\":false,\"interval\":0},\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filters\":[]}",
+    "layerListJSON": "[{\"sourceDescriptor\":{\"type\":\"EMS_TMS\",\"id\":\"road_map\"},\"id\":\"fdbd96db-b0c2-4ec6-8342-ca2792c99577\",\"label\":null,\"minZoom\":0,\"maxZoom\":24,\"alpha\":1,\"visible\":true,\"applyGlobalQuery\":true,\"style\":{\"type\":\"TILE\",\"properties\":{}},\"type\":\"VECTOR_TILE\"},{\"sourceDescriptor\":{\"type\":\"ES_GEO_GRID\",\"id\":\"e5e408c1-95db-4d4a-8a02-ad0510ddb9aa\",\"geoField\":\"GeoLocation\",\"requestType\":\"point\",\"resolution\":\"FINE\",\"indexPatternRefName\":\"layer_1_source_index_pattern\"},\"id\":\"fadb2bf2-73f3-42e9-ad8d-b41ed8bd8d9a\",\"label\":\"Success\",\"minZoom\":0,\"maxZoom\":24,\"alpha\":0.75,\"visible\":true,\"applyGlobalQuery\":true,\"style\":{\"type\":\"VECTOR\",\"properties\":{\"fillColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#0dc131\"}},\"lineColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#000\"}},\"lineWidth\":{\"type\":\"STATIC\",\"options\":{\"size\":1}},\"iconSize\":{\"type\":\"DYNAMIC\",\"options\":{\"field\":{\"label\":\"count\",\"name\":\"doc_count\",\"origin\":\"source\"},\"minSize\":4,\"maxSize\":32}},\"iconOrientation\":{\"type\":\"STATIC\",\"options\":{\"orientation\":0}},\"symbol\":{\"options\":{\"symbolizeAs\":\"circle\",\"symbolId\":\"airfield\"}}}},\"type\":\"VECTOR\",\"query\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" and Success : true \",\"language\":\"kuery\"}},{\"sourceDescriptor\":{\"type\":\"ES_GEO_GRID\",\"id\":\"52f7d9f4-4314-49a9-8189-da9fc8c47952\",\"geoField\":\"GeoLocation\",\"requestType\":\"point\",\"resolution\":\"FINE\",\"metrics\":[{\"type\":\"count\",\"label\":\"\"}],\"indexPatternRefName\":\"layer_2_source_index_pattern\"},\"style\":{\"type\":\"VECTOR\",\"properties\":{\"fillColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#dc1d1a\"}},\"lineColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#0b0402\"}},\"lineWidth\":{\"type\":\"STATIC\",\"options\":{\"size\":1}},\"iconSize\":{\"type\":\"DYNAMIC\",\"options\":{\"field\":{\"label\":\"count\",\"name\":\"doc_count\",\"origin\":\"source\"},\"minSize\":4,\"maxSize\":32}},\"iconOrientation\":{\"type\":\"STATIC\",\"options\":{\"orientation\":0}},\"symbol\":{\"options\":{\"symbolizeAs\":\"circle\",\"symbolId\":\"airfield\"}}}},\"id\":\"0792af92-be85-4ac9-a55f-4fc55784bc86\",\"label\":\"Failures\",\"minZoom\":0,\"maxZoom\":24,\"alpha\":0.75,\"visible\":true,\"applyGlobalQuery\":true,\"type\":\"VECTOR\",\"query\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\"  and Success : false \",\"language\":\"kuery\"}},{\"sourceDescriptor\":{\"id\":\"7ae4e9e5-8d23-47ee-9f4c-50ca2a59dafe\",\"type\":\"ES_SEARCH\",\"geoField\":\"GeoLocation\",\"filterByMapBounds\":true,\"tooltipProperties\":[\"LocationName\"],\"useTopHits\":false,\"topHitsTimeField\":\"Timestamp\",\"topHitsSize\":1,\"indexPatternRefName\":\"layer_3_source_index_pattern\"},\"style\":{\"type\":\"VECTOR\",\"properties\":{\"fillColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#737575\"}},\"lineColor\":{\"type\":\"STATIC\",\"options\":{\"color\":\"#000\"}},\"lineWidth\":{\"type\":\"STATIC\",\"options\":{\"size\":1}},\"iconSize\":{\"type\":\"STATIC\",\"options\":{\"size\":8}},\"iconOrientation\":{\"type\":\"STATIC\",\"options\":{\"orientation\":0}},\"symbol\":{\"options\":{\"symbolizeAs\":\"icon\",\"symbolId\":\"marker\"}}}},\"id\":\"cf512941-bb51-40e0-ab34-4e2c4da94bf6\",\"label\":\"Location\",\"minZoom\":1,\"maxZoom\":24,\"alpha\":0.75,\"visible\":true,\"applyGlobalQuery\":true,\"type\":\"VECTOR\"}]",
+    "uiStateJSON": "{\"isLayerTOCOpen\":true,\"openTOCDetails\":[\"30eb3749-e1a6-4732-9251-565ee92bde78\"]}",
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -0.86971,
+            51.45464
+          ],
+          [
+            -0.86971,
+            51.36792
+          ],
+          [
+            -0.55013,
+            51.36792
+          ],
+          [
+            -0.55013,
+            51.45464
+          ],
+          [
+            -0.86971,
+            51.45464
+          ]
+        ]
+      ]
+    }
+  },
+  "references": [
+    {
+      "name": "layer_1_source_index_pattern",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    },
+    {
+      "name": "layer_2_source_index_pattern",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    },
+    {
+      "name": "layer_3_source_index_pattern",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    }
+  ],
+  "migrationVersion": {
+    "map": "7.4.0"
+  }
+}
