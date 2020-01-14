@@ -1,8 +1,0 @@
-{
-  "attributes":
-  {
-    "title": "dynamic-user-*",
-    "timeFieldName": "Timestamp",
-    "fieldFormatMap": "{\"RequestReference\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/dc-health/app/kibana#/dashboard/dc-request-reference?_a=(query:(language:kuery,query:'RequestReference+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":true}},\"DisplaySerialNumber\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/dc-health/app/kibana#/dashboard/dc-display-health?_g=(time:(from:now-30d,to:now))&_a=(query:(language:kuery,query:'DisplaySerialNumber+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":false}},\"LocationName\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/dc-health/app/kibana#/dashboard/dc-image-delivery?_a=(query:(language:kuery,query:'LocationName+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":true}}}"
-  }
-}

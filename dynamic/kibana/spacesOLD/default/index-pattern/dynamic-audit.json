@@ -1,7 +1,0 @@
-{
-  "attributes": 
-  {
-    "title": "dynamic-audit-*",
-    "timeFieldName": "@timestamp"
-  }
-}
