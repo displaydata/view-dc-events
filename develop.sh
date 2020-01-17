@@ -68,7 +68,7 @@ if [[ $# -gt 0 ]];then
     shift 1
     $COMPOSE up --detach elastic kibana
     # Load the index patterns, templates etc...
-    $COMPOSE run powershell pwsh -c '/home/powershell/manage-elastic.ps1 -Url "http://elasticsearch:9200" -Path /home/elasticsearch ; /home/powershell/manage-kibana.ps1 -Import -Url "http://kibana:5601" -Path /home/kibana/spaces'
+    $COMPOSE run --rm powershell pwsh -c '/home/powershell/manage-elastic.ps1 -Url "http://elasticsearch:9200" -Path /home/elasticsearch ; /home/powershell/manage-kibana.ps1 -Import -Url "http://kibana:5601" -Path /home/kibana/spaces'
     # Load logstash pipeline into elasticsearch
     $COMPOSE run --rm filebeat filebeat setup --strict.perms=false --pipelines --modules logstash
     # Start logstash
@@ -79,13 +79,13 @@ if [[ $# -gt 0 ]];then
     shift 1
     $COMPOSE up --detach elastic kibana
     # Load the index patterns, templates etc...
-    $COMPOSE run powershell pwsh -c '/home/powershell/manage-elastic.ps1 -Url "http://elasticsearch:9200" -Path /home/elasticsearch ; /home/powershell/manage-kibana.ps1 -Import -Url "http://kibana:5601" -Path /home/kibana/spaces'
+    $COMPOSE run --rm powershell pwsh -c '/home/powershell/manage-elastic.ps1 -Url "http://elasticsearch:9200" -Path /home/elasticsearch ; /home/powershell/manage-kibana.ps1 -Import -Url "http://kibana:5601" -Path /home/kibana/spaces'
 
   # export: export the visualisations etc...
   elif [[ "$1" == "export" ]]; then
     shift 1
     # Export the index patterns, templates etc...
-    $COMPOSE run powershell pwsh -c '/home/powershell/manage-kibana.ps1 -Export -Url "http://kibana:5601" -Path /home/kibana/spaces'
+    $COMPOSE run --rm powershell pwsh -c '/home/powershell/manage-kibana.ps1 -Export -Url "http://kibana:5601" -Path /home/kibana/spaces'
 
   # decode: Uncompress log files in DYNAMIC_BASEDIR
   # elif [[ "$1" == "decode" ]]; then
