@@ -1,6 +1,30 @@
+# define input from beats events
+- pipeline.id: input-beats
+  path.config: "pipeline/input-beats.conf"
+# define outputs for user, status and audit events
 - pipeline.id: user
-  path.config: "/usr/share/logstash/pipeline/dynamic-user.conf"
-# - pipeline.id: audit
-#   path.config: "/usr/share/logstash/pipeline/dynamic-audit.conf"
+  path.config: "pipeline/dynamic-user.conf"
 - pipeline.id: status
-  path.config: "/usr/share/logstash/pipeline/dynamic-status.conf"
+  path.config: "pipeline/dynamic-status.conf"
+# - pipeline.id: audit
+#   path.config: "pipeline/dynamic-audit.conf"
+- pipeline.id: fallback
+  path.config: "pipeline/fallback.conf"
+# define input for user events files
+- pipeline.id: input-file-user
+  path.config: "pipeline/input-file-user.conf"
+- pipeline.id: file-user
+  path.config: "pipeline/dynamic-file-user.conf"
+- pipeline.id: input-file-status
+  path.config: "pipeline/input-file-status.conf"
+- pipeline.id: file-status
+  path.config: "pipeline/dynamic-file-status.conf"
+# - pipeline.id: input-file-audit
+#   path.config: "pipeline/input-file-audit.conf"
+# - pipeline.id: file-audit
+#   path.config: "pipeline/dynamic-file-audit.conf"
+
+
+
+
+
