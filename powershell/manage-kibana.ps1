@@ -94,7 +94,7 @@ function Export-Saved-Objects {
   )
 
   # Check we can communicate to kibana
-  WaitForKibanaServer -Timeout 30
+  WaitForKibanaServer -Timeout 120
 
   Write-Host "Backup existing spaces folder: $ExportObjectFolder"
   $null = BackupSpacesFolder -Path $ExportObjectFolder

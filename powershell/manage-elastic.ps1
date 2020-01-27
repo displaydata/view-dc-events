@@ -50,7 +50,7 @@ function Import-Saved-Objects {
   Param(
     [parameter(Mandatory=$true)][string]$ImportObjectFolder
   )
-  WaitForElasticServer -Timeout 30
+  WaitForElasticServer -Timeout 120
 
   # Import default space first
   # Iterate thru all the object types e.g. index-template etc.
