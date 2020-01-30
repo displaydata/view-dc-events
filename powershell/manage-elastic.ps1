@@ -185,7 +185,7 @@ function ElasticImportObjectsFromFolder {
   Get-ChildItem -Path $Path -File -Filter "*.json" | Foreach-Object {
     $ObjectName = $($_.Name)
 
-    $Body = (Get-Content -Raw -Path "$_").Replace("`r`n","").Replace("`n","")
+    $Body = (Get-Content -Raw -Path "$_").Replace("`r`n","").Replace("`n","").Replace("`r","")
     Write-Host -NoNewline "$ObjectType : $ObjectName, Response: "
     $response = ElasticImportObject -ObjectType $ObjectType -ObjectName $ObjectName -Body $Body
     If ($response.acknowledged -eq "True") {

@@ -434,7 +434,7 @@ function ElasticSetSavedObjectBody {
   )
 
   # Kibana is very picky and needs any line feeds or carriage returns removed
-  $filecontent = (Get-Content -Raw -Path "$Path").Replace("`r`n","").Replace("`n","")
+  $filecontent = (Get-Content -Raw -Path "$Path").Replace("`r`n","").Replace("`n","").Replace("`r","")
   # Kibana also requires the filename in the request to end in .ndjson
   $filename = $($Path.Name).Replace(".json",".ndjson")
   $ObjectBody = @"
@@ -492,7 +492,7 @@ function ElasticSetDefaultIndex {
   # Set the default index if file is present
   $DefaultIndex = Get-ChildItem -Path $FolderPath -File -Filter "default-index.txt"
   if ($null -ne $DefaultIndex) {
-    $ElasticIndex = (Get-Content -Raw -Path $DefaultIndex).Replace("`r`n","").Replace("`n","")
+    $ElasticIndex = (Get-Content -Raw -Path $DefaultIndex).Replace("`r`n","").Replace("`n","").Replace("`r","")
     $Space = Split-Path -Path $FolderPath -Leaf
     Write-Host "Setting default index for space: $Space to: $ElasticIndex"
 
