@@ -6,8 +6,8 @@
   path.config: "pipeline/dynamic-user.conf"
 - pipeline.id: status
   path.config: "pipeline/dynamic-status.conf"
-# - pipeline.id: audit
-#   path.config: "pipeline/dynamic-audit.conf"
+- pipeline.id: audit
+  path.config: "pipeline/dynamic-audit.conf"
 - pipeline.id: fallback
   path.config: "pipeline/fallback.conf"
 # define input for user events files
