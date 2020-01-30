@@ -102,15 +102,16 @@ function ElasticGetRequest {
   $url = $global:ElasticUrl + '/' + $Controller
   $Headers.Add("kbn-xsrf", "true")
   $Headers.Add("Content-Type", "application/json")
-  # Write-Host "Uri: $url"
 
+  Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-      -Uri $url `
-      -Credential $global:ElasticCreds `
-      -Method GET `
-      -Headers $Headers `
-      -Body $Body
+    -Uri $url `
+    -Credential $global:ElasticCreds `
+    -Method GET `
+    -Headers $Headers `
+    -Body $Body
 
+  Write-Debug "ElasticGetRequest: $response"
   Return $response
 }
 
@@ -131,13 +132,15 @@ function ElasticPutRequest {
   $Headers.Add("kbn-xsrf", "true")
   $Headers.Add("Content-Type", "application/json")
 
+  Write-Debug "PUT Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-      -Uri $url `
-      -Credential $global:ElasticCreds `
-      -Method PUT `
-      -Headers $Headers `
-      -Body $Body
+    -Uri $url `
+    -Credential $global:ElasticCreds `
+    -Method PUT `
+    -Headers $Headers `
+    -Body $Body
 
+  Write-Debug "ElasticPutRequest: $response"
   Return $response
 }
 

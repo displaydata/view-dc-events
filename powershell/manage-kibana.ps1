@@ -256,15 +256,16 @@ function ElasticGetRequest {
 
   $url = $global:KibanaUrl + '/' + $Controller
   $Headers.Add("kbn-xsrf", "true")
-  # Write-Host "Uri: $url"
 
+  Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-      -Uri $url `
-      -Credential $global:ElasticCreds `
-      -Method GET `
-      -Headers $Headers `
-      -Body $Body
+    -Uri $url `
+    -Credential $global:ElasticCreds `
+    -Method GET `
+    -Headers $Headers `
+    -Body $Body
 
+  Write-Debug "ElasticGetRequest: $response"
   Return $response
 }
 
@@ -285,14 +286,16 @@ function ElasticPostRequest {
   $Headers.Add("kbn-xsrf", "true")
 
 
+  Write-Debug "POST Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-      -Uri $url `
-      -Credential $global:ElasticCreds `
-      -Method POST `
-      -Headers $Headers `
-      -Body $Body
+    -Uri $url `
+    -Credential $global:ElasticCreds `
+    -Method POST `
+    -Headers $Headers `
+    -Body $Body
 
-  Return $response
+    Write-Debug "ElasticPostRequest: $response"
+    Return $response
 }
 
 <#
@@ -418,6 +421,7 @@ function ElasticImportObject {
     $response = $null
   }
 
+  Write-Debug "ElasticImportObject: $response"
   Return $response
 }
 
@@ -433,6 +437,7 @@ function ElasticSetSavedObjectBody {
     [parameter(Mandatory=$true)]$Path
   )
 
+  Write-Debug "ElasticSetSavedObjectBody: $Path"
   # Kibana is very picky and needs any line feeds or carriage returns removed
   $filecontent = (Get-Content -Raw -Path "$Path").Replace("`r`n","").Replace("`n","").Replace("`r","")
   # Kibana also requires the filename in the request to end in .ndjson
@@ -446,6 +451,7 @@ $filecontent`r
 --WebBoundary1234--
 "@
 
+  Write-Debug "ElasticSetSavedObjectBody: `r`n$ObjectBody"
   Return $ObjectBody
 }
 
