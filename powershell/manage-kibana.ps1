@@ -33,7 +33,7 @@
 #     Put the module into the following directory "/usr/local/share/powershell/Modules"
 # TODO: Clean up pass / fail messages in imports
 
-
+[CmdletBinding()]
 param(
   [switch]$Import,
   [switch]$Export,
@@ -94,7 +94,7 @@ function Export-Saved-Objects {
   )
 
   # Check we can communicate to kibana
-  WaitForKibanaServer -Timeout 120
+  WaitForKibanaServer -Timeout 300
 
   Write-Host "Backup existing spaces folder: $ExportObjectFolder"
   $null = BackupSpacesFolder -Path $ExportObjectFolder
@@ -158,7 +158,7 @@ function Import-Saved-Objects {
   Param(
     [parameter(Mandatory=$true)][string]$ImportObjectFolder
   )
-  WaitForKibanaServer -Timeout 30
+  WaitForKibanaServer -Timeout 300
 
   # Import default space first
   # Iterate thru all the object types e.g. dashboard, index-pattern, visualisation etc.
@@ -311,6 +311,7 @@ function ElasticGetSpaces {
 
   $response = ElasticGetRequest -Controller $Controller -Headers $headers
 
+  Write-Debug "ElasticGetSpaces: $response"
   return $response
 }
 
@@ -357,7 +358,7 @@ function ElasticCreateSpace {
       $response = $null
     }
   }
-
+  Write-Debug "ElasticCreateSpace: $response"
   Return $response
 }
 
@@ -390,6 +391,7 @@ function ElasticFindObjects {
     }
     $response = $null
   }
+  Write-Debug "ElasticFindObjects: $response"
   return $response
 }
 
@@ -442,14 +444,9 @@ function ElasticSetSavedObjectBody {
   $filecontent = (Get-Content -Raw -Path "$Path").Replace("`r`n","").Replace("`n","").Replace("`r","")
   # Kibana also requires the filename in the request to end in .ndjson
   $filename = $($Path.Name).Replace(".json",".ndjson")
-  $ObjectBody = @"
---WebBoundary1234`r
-Content-Disposition: form-data; name=`"file`"; filename=`"$filename`"`r
-Content-Type: application/octet-stream`r
-`r
-$filecontent`r
---WebBoundary1234--
-"@
+  # NOTE: Do not convert this body into a multiline string as it will fail on Windows hosts
+  #       due to an extra <CR> being added in the .ps1 file by Windows!
+  $ObjectBody = "--WebBoundary1234`r`nContent-Disposition: form-data; name=`"file`"; filename=`"$filename`"`r`nContent-Type: application/octet-stream`r`n`r`n$filecontent`r`n--WebBoundary1234--"
 
   Write-Debug "ElasticSetSavedObjectBody: `r`n$ObjectBody"
   Return $ObjectBody
@@ -512,6 +509,7 @@ function ElasticSetDefaultIndex {
     $body = "{`"value`":`"$ElasticIndex`"}"
 
     $response = ElasticPostRequest -Controller $Controller -Headers $headers -Body $body
+    Write-Debug "ElasticSetDefaultIndex: $response"
   }
 }
 
@@ -558,9 +556,9 @@ function GetKibanaServerStatus {
       $response = @{ "status" = -1; "description" = $($status.status.overall.state)}
     }
   } Catch {
-    $response = @{ "status" = -1; "description" = $($_.Exception.Message)}
+    $response = @{ "status" = -2; "description" = $($_.Exception.Message)}
   }
-  # Write-Host $status.status.statuses
+  Write-Debug "GetKibanaServerStatus: $response"
   return $response
 }
 
@@ -575,12 +573,12 @@ function GetKibanaServerStatus {
 #>
 function WaitForKibanaServer {
   Param(
-    [parameter(Mandatory=$false)][int]$Timeout
+    [parameter(Mandatory=$true)][int]$Timeout
   )
   $waittime = New-TimeSpan -Seconds $Timeout
   $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
   $loopcount = 0
-  while ((GetKibanaServerStatus).status -ne 0 -and $stopwatch.elapsed -lt $waittime) {
+  while ((GetKibanaServerStatus).status -ne 0 -and $stopwatch.Elapsed -lt $waittime) {
     if ($loopcount -eq 0) {
       Write-Host -NoNewline "Waiting for kibana server"
     } else {

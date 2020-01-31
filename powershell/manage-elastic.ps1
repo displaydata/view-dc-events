@@ -215,8 +215,9 @@ function GetElasticServerStatus {
       $response = @{ "status" = -1; "description" = $($health.status)}
     }
   } Catch {
-    $response = @{ "status" = -1; "description" = $($_.Exception.Message)}
+    $response = @{ "status" = -2; "description" = $($_.Exception.Message)}
   }
+  Write-Debug "GetElasticServerStatus: $response"
   return $response
 }
 
