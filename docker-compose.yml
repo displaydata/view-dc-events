@@ -53,8 +53,6 @@ services:
     environment:
       node.name: logstash
     restart: always
-    depends_on:
-      - elastic
     ports:
       - target: 5044
         published: 5044
@@ -88,9 +86,6 @@ services:
       - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
       - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic}
     restart: always
-    depends_on:
-      - elastic
-      - kibana
     networks:
       - elastic-net
     volumes:
