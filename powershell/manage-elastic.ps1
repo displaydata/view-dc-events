@@ -24,7 +24,7 @@ param(
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
-$global:ElasticUrl = $Url
+$global:ElasticUrl = $Url.trim('\')
 $secpasswd = ConvertTo-SecureString $Username -AsPlainText -Force
 $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Password, $secpasswd)
 

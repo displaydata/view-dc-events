@@ -43,7 +43,7 @@ param(
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
-$global:KibanaUrl = $Url
+$global:KibanaUrl = $Url.trim('\')
 $secpasswd = ConvertTo-SecureString $Username -AsPlainText -Force
 $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Password, $secpasswd)
 
