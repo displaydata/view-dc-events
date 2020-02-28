@@ -4,6 +4,8 @@
 # define outputs for user, status and audit events
 - pipeline.id: user
   path.config: "pipeline/dynamic-user.conf"
+- pipeline.id: display-state
+  path.config: "pipeline/dynamic-display-state.conf"  
 - pipeline.id: service-status
   path.config: "pipeline/dynamic-service-status.conf"
 - pipeline.id: audit
@@ -15,6 +17,8 @@
   path.config: "pipeline/input-file-user.conf"
 - pipeline.id: file-user
   path.config: "pipeline/dynamic-file-user.conf"
+- pipeline.id: file-display-state
+  path.config: "pipeline/dynamic-file-display-state.conf"  
 - pipeline.id: input-file-service-status
   path.config: "pipeline/input-file-service-status.conf"
 - pipeline.id: file-service-status
