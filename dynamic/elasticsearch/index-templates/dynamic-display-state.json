@@ -1,0 +1,32 @@
+{
+    "index_patterns": ["dynamic-display-state"],
+    "order": 10,
+    "settings": {
+        "number_of_shards": 2,
+        "number_of_replicas": 0
+    },
+    "mappings": {
+        "properties": {
+            "@version": { "type": "keyword" },
+            "Action": { "type": "keyword" },
+            "BatteryPercentage": { "type": "short"},
+            "CommunicatorRssi": { "type": "short"},
+            "DeliveryProcessRetries": { "type": "integer"},
+            "DisplaySerialNumber": { "type": "keyword" },
+            "GeoLocation": { "type": "geo_point" },
+            "LocationName": { "type": "keyword" },
+            "MessageType": { "type": "keyword" },
+            "NodeName": { "type": "keyword" },
+            "ObjectIds": { "type": "text" },
+            "PageNumber": { "type": "short"},
+            "RequestReference": { "type": "keyword" },
+            "Result": { "type": "keyword" },
+            "Success": { "type": "boolean"},
+            "Temperature": { "type": "float" },
+            "tags": { "type": "text" },
+            "log.file.path": { "type": "text" },
+            "input.type": { "type": "keyword" },
+            "fields.type": { "type": "keyword" }
+        }
+    }
+}
