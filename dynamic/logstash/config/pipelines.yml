@@ -23,10 +23,10 @@
   path.config: "pipeline/input-file-service-status.conf"
 - pipeline.id: file-service-status
   path.config: "pipeline/dynamic-file-service-status.conf"
-# - pipeline.id: input-file-audit
-#   path.config: "pipeline/input-file-audit.conf"
-# - pipeline.id: file-audit
-#   path.config: "pipeline/dynamic-file-audit.conf"
+- pipeline.id: input-file-audit
+  path.config: "pipeline/input-file-audit.conf"
+- pipeline.id: file-audit
+  path.config: "pipeline/dynamic-file-audit.conf"
 
 
 

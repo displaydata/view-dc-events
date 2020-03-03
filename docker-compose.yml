@@ -48,7 +48,11 @@ services:
       - elastic-net
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+    build:
+      context: ./docker/logstash
+      args:
+        ELK_VERSION: ${ELK_VERSION}
+    image: logstash:${ELK_VERSION}
     container_name: logstash
     environment:
       node.name: logstash
