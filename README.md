@@ -4,7 +4,9 @@ A docker compose setup that allows Displaydata customers to ingest Dynamic Centr
 
 Events can be ingested directly from a running instance of Dynamic Solution (using Filebeat) or by reading a set of log files exported from a running instance of Dynamic Solution.
 
-Logs are ingested using logstash and written to an elasticsearch volume that can be backuped and restored.
+User event logs are ingested using logstash and written to an elasticsearch volume that can be backed up and restored. These are the primary source of information when it comes to managing, visualizing what the system is doing as well as the basis for alerts and reporting.
+
+Audit event logs are really only useful for development purposes. These provide some insight into the REST API Request/response bodies when developing against Displaydata's Command API. These events are not documented and are liable to change between Dynamic Solution releases so should only be used to support API development.
 
 This setup is aimed primarily at customers trialing Dynamic Solution.
 
@@ -46,18 +48,18 @@ AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&r
 
 The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co
 
-The docker host runs a seperate container for each of; elasticsearch, kibana &
+The docker host runs a separate container for each of; elasticsearch, kibana &
 logstash and mounts the configuration files and any data from the repo directory.
 
-A seperate docker volume is created for the elastic and logstash services. The
+A separate docker volume is created for the elastic and logstash services. The
 elastic volume is mapped to the elasticsearch node data and contains the elastic
-indexes etc. The logstash volume is mapped to the logstatsh data directory and
+indexes etc. The logstash volume is mapped to the logstash data directory and
 contains the information on what files have been processed and ingested into
 elastic.
 
 Container volumes have been mounted externally so that the data (documents indexed into Elasticsearch) and settings will survive container upgrades or the container instances being removed. Running `./develop.sh clear` will purge EVERYTHING, including the Elasticsearch database so should only be run to achieve this specific outcome.
 
-Once the environment is "up" the Kibana UI should be availabe via a browser on _host IP address_:5601
+Once the environment is "up" the Kibana UI should be available via a browser on _host IP address_:5601
 
 The directory structure of the repo is as follows:
 
@@ -93,8 +95,13 @@ for viewing. The format of this directory can be either of the following:
 .\logs\
   |
   |- user
+  |   |
+  |   |- <user event logs>
+  | 
+  |- audit
       |
-      |- <user event logs>
+      |- <audit event logs>
+
 ```
 
 Or
@@ -104,19 +111,24 @@ Or
   |
   |- <store name>
   |   |- user
-  |       |
-  |       |- <user event logs>
+  |   |   |
+  |   |   |- <user event logs>
+  |   |
+  |   |- audit
+  |         |
+  |         |- <audit event logs>
   |
   |- <store name>
       |- user
-          |
-          |- <user event logs>
+      |   |
+      |   |- <user event logs>
+      |
+      |- audit
+            |
+            |- <audit event logs>
 ```
 
-**NOTE:** In the second example the user event logs from multiple stores have been
-retrieved and are being reviewed. In this case the event data will be augmented
-with a `[store]` field that contains the name of `<store name>` directory.
-This field can then be used in visualisation filters to view a specific store etc.
+**NOTE:** In the second example the user event logs from multiple stores have been retrieved and are being reviewed. In this case the event data will be augmented with a `[store]` field that contains the name of `<store name>` directory. This field can then be used in visualisation filters to view a specific store etc.
 
 ### Kibana Spaces
 
@@ -151,7 +163,7 @@ ingest from the `logs` directory but logstash listens on port `5044` waiting
 for the various filebeat instances to forward the user events generated on
 each server.
 
-In order to set up `view-dc-events` to ingest Dynanic Central user events do the
+In order to set up `view-dc-events` to ingest Dynamic Central user events do the
 following on a Linux VM instance that already has docker and docker-compose installed:
 
 ```bash
@@ -204,6 +216,19 @@ configs/status.yml:
     - c:\Dynamic Central\Working\Logs\User\*\SystemStatus-*.json
   fields:
     type: status
+  processors:
+    -
+      add_locale: ~
+```
+
+config/audit.yml: 
+```yaml
+- type: log
+  paths:
+    - c:\Dynamic Central\Working\Logs\Audit\WebApi-*.json
+    - c:\Dynamic Central\Working\Logs\Audit\*\WebApi-*.json
+  fields:
+    type: audit
   processors:
     -
       add_locale: ~
