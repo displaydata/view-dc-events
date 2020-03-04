@@ -283,3 +283,71 @@ with providers for Virtualbox, VMWare Workstation or VMWare Fusion.
 
 This will will bring up a Debian machine with the necessary pre-requisites
 installed by running `vagrant up --provider <providername>`
+
+# Logstash Pipeline Structure
+
+Logstash makes use of multiple pipelines and pipeline-to-pipeline communication
+
+Either filebeat is sending all events to the input-beats pipeline config, where they're split into individual indexes or logstash is monitoring folder locations on the local machine for log files which have been copied from other systems as a way of quickly debugging issues. Monitoring for files locally requires an input pipeline per folder location hence there are three of these but only one input pipeline for filebeat.
+
+```
+.\config\pipelines.yml (definitions)
+  |
+  |- input-beats
+  |           |
+  |           |- dynamic-user             => (User Events index)
+  |           |- dynamic-display-state    => (Display State index)
+  |           |- dynamic-service-status   => (Dynamic Solution application Services index)
+  |           |  
+  |           |- dynamic-audit            => (Audit events for developer use only)   
+  |           |- fallback                 => (any events that aren't indexed by the filters above)
+  |
+  |- input-file-user --------
+  |                         |
+  |                         |- dynamic-file-user
+  |                         |- dynamic-file-display-state
+  |
+  |- input-file-service-status
+  |                         |
+  |                         |- dynamic-file-service-status
+  |
+  |- input-file-audit -------
+  |                         |
+  |                         |- dynamic-file-service-status
+```
+
+## Index definitions
+Each index should be used for a specific purpose. Any application events that are of use for managing Dynamic Solution are described in the Monitoring document which is available from Displaydata Support on request.
+
+### dynamic-user
+This is the main index created in Elasticsearch which makes up the history of all interesting activity in the system. Events are indexed into the Elasticsearch document store by time. The vast majority of visualizations, dashboards, reports and alerts are driven from this incoming stream of events.
+
+### dynamic-display-state
+This index contains the most recent 'state' of each display. DisplayUpdateComplete events arrive sequentially for each Display Serial Number and over-write the previous DisplayUpdateComplete record. This allows better reporting on the 'state' of Displays individually, per location or across an entire estate. There is a single document per Display which will always contain the most recent result of attempting to update that displays image. If you have 3843 Displays then this index will contain 3843 documents, one per Display serial number.
+
+### dynamic-service-status
+This index contains the ongoing updates of changes to the Dynamic Solution Services. It's primarily used to trigger alerts if the state of a service changes to 'Stopped'. As this index contains documents for a Dynamic Solution Service indexed against time it can also be used to look at service stability over time.
+
+### dynamic-audit
+This index contains WebApi requests and responses and can be used by developers as a way of assisting development and debugging of their own API integration effort to drive Dynamic Solution. *NOTE*: These events are undocumented as they are meant as an assist to developers only. They are subjected to rapid change between releases and as such should not be used as the basis for 'managing' Dynamic Solution. They are provided purely as a useful feature for developers.
+
+### fallback
+Events that fall through any previous condition. This should not contain any entries
+
+<!--
+# Audit Events (API) and Dashboard
+
+Added an Audit events dashboard which consists of three visualizations
+1. Ingest Rate dial which reports a per-second rate
+2. Average API request duration for all events.
+    * This has an annotation for any events that don't return a 200 Status Code
+3. Error table which shows events that don't return a 200 Status Code in the filter time
+
+This is not yet in the main 'Monitoring' documentation as it's not been decided whether to include Audit events in the main repo which we are sharing with Labs/Pilots.
+-->
+
+<!--
+  FIXME: Delete the fallback index, given that if an event in this pipeline isn't type:user if can really only be type: audit! This is really only here for debugging ATM
+  TODO: There may be a way of sharing output blocks rather than duplicating them across 4 files but that might be more confusing in the long run
+  TODO: think about renaming the files from dynamic-file-* to file-dynamic-* for file input pipelines
+-->
