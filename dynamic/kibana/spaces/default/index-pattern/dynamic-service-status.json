@@ -1,8 +1,8 @@
 {
   "type": "index-pattern",
-  "id": "dynamic-status-*",
+  "id": "dynamic-service-status-*",
   "attributes": {
-    "title": "dynamic-status-*",
+    "title": "dynamic-service-status-*",
     "timeFieldName": "@t"
   },
   "references": [],
