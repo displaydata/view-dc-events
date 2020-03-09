@@ -7,7 +7,14 @@
     },
     "mappings": {
         "properties": {
-            "Response": { "type": "text" },
+            "Response": {
+                "dynamic": true,
+                "properties": {}
+            },
+            "ResponseData": {
+                "dynamic": true,
+                "properties": {}
+            },
             "tags": { "type": "text" },
             "ObjectID": { "type": "long" }
         }
