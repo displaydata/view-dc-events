@@ -181,11 +181,11 @@ filebeat.yml:
 ```yaml
 filebeat.config.inputs:
   enabled: true
-  path: configs/user.yml
+  path: configs/*.yml
   reload.enabled: true
   reload.period: 10s
 
-tags: ["dynamiccentral", "core"]
+tags: ["dynamiccentral"]
 
 output.logstash:
   # The Logstash hosts
@@ -295,17 +295,19 @@ Either filebeat is sending all events to the input-beats pipeline config, where 
   |
   |- input-beats
   |           |
-  |           |- dynamic-user             => (User Events index)
-  |           |- dynamic-display-state    => (Display State index)
-  |           |- dynamic-service-status   => (Dynamic Solution application Services index)
+  |           |- dynamic-user               => (User Events index)
+  |           |- dynamic-display-state      => (Display State index)
+  |           |- dynamic-communicator-state => (Communicator State index)
+  |           |- dynamic-service-status     => (Dynamic Solution application Services index)
   |           |  
-  |           |- dynamic-audit            => (Audit events for developer use only)   
-  |           |- fallback                 => (any events that aren't indexed by the filters above)
+  |           |- dynamic-audit              => (Audit events for developer use only)   
+  |           |- fallback                   => (any events that aren't indexed by the filters above)
   |
   |- input-file-user --------
   |                         |
   |                         |- dynamic-file-user
   |                         |- dynamic-file-display-state
+  |                         |- dynamic-file-communicator-state
   |
   |- input-file-service-status
   |                         |
