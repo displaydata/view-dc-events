@@ -44,6 +44,8 @@
       "RFTransportLayerMode": { "type": "keyword" },
       "RequestReference": { "type": "keyword" },
       "Result": { "type": "keyword" },
+      "Response": { "dynamic": true, "properties": {} },
+      "ResponseData": { "dynamic": true, "properties": {} },
       "RuleName": { "type": "keyword" },
       "Rules": { "type": "text" },
       "SearchValues": { "type": "text" },
