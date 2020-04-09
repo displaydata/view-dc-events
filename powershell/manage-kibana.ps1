@@ -27,11 +27,12 @@
     Import the objects
 #>
 
-# TODO: Change to use Invoke-WebRequest
 # TODO: Create a powershell module to include import and export functions
 #     https://docs.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-6
 #     Put the module into the following directory "/usr/local/share/powershell/Modules"
 # TODO: Clean up pass / fail messages in imports
+# TODO: Tidy up use of $Header expression in GET requests
+# TODO: Combine this with manage-elastic.ps1
 
 [CmdletBinding()]
 param(
@@ -45,8 +46,14 @@ param(
 
 $KibanaUrl = $Url.trim('\')
 
-$secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
-$ElasticCreds = New-Object System.Management.Automation.PSCredential ($Username, $secpasswd)
+# Kibana's ElasticCloud API endpoint will NOT cope with -Credential in Invoke-RestMethod requests
+# This is because it is anticipating the Authorization header in an initial requests, something that -Credential does not do.
+# The following setting should also be set in the Kibana.yml via the ElasticCloud UI xpack.security.authc.providers: [basic]
+# Details of Kibana API and auth are here https://www.elastic.co/guide/en/kibana/current/using-api.html
+
+$base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Username,$Password)))
+
+$AuthHeader = @{Authorization=("Basic {0}" -f $base64AuthInfo)}
 
 <#
   As of Jan 2020 the following elastic saved_objects types are exportable:
@@ -251,20 +258,15 @@ function Backup-SpacesFolder {
 function New-ElasticGetRequest {
   Param(
     [parameter(Mandatory=$true)][string]$Controller,
-    [parameter(Mandatory=$false)]$Headers = @{},
-    [parameter(Mandatory=$false)][string]$Body = "{}"
+    [parameter(Mandatory=$false)]$Headers = @{}
   )
 
   $url = $KibanaUrl + '/' + $Controller
-  $Headers.Add("kbn-xsrf", "true")
+  $Headers.Add("kbn-xsrf", "true") # <== NOTE: should not be needed for GET
+  $Headers = $Headers + $AuthHeader
 
   Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
-  $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-    -Uri $url `
-    -Credential $ElasticCreds `
-    -Method GET `
-    -Headers $Headers `
-    -Body $Body
+  $response = Invoke-RestMethod -Uri $url -Method GET -Headers $Headers 
 
   Write-Debug "New-ElasticGetRequest: $response"
   Return $response
@@ -285,15 +287,10 @@ function New-ElasticPostRequest {
 
   $url = $KibanaUrl + "/" + $Controller
   $Headers.Add("kbn-xsrf", "true")
-
+  $Headers = $Headers + $AuthHeader
 
   Write-Debug "POST Url: $url, Headers: $headers, Body:`r`n$Body"
-  $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-    -Uri $url `
-    -Credential $ElasticCreds `
-    -Method POST `
-    -Headers $Headers `
-    -Body $Body
+  $response = Invoke-RestMethod -Uri $url -Method POST -Headers $Headers -Body $Body
 
     Write-Debug "New-ElasticPostRequest: $response"
     Return $response
@@ -310,7 +307,7 @@ function Get-KibanaSpacesList {
   $headers=@{}
   $headers.Add("content-type", "application/json")
 
-  $response = New-ElasticGetRequest -Controller $Controller -Headers $headers
+  $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
 
   Write-Debug "Get-KibanaSpacesList: $response"
   return $response
@@ -349,7 +346,7 @@ function New-KibanaSpace {
     $headers.Add("content-type", "application/json")
 
     Try {
-      $response = New-ElasticPostRequest -Controller $Controller -Headers $headers -Body $ElasticSpace
+      $response = New-ElasticPostRequest -Controller $Controller -Headers $Headers -Body $ElasticSpace
     }
     Catch {
       # Ignore if space already exists
@@ -381,10 +378,10 @@ function Find-ElasticObjects {
     $Controller = "s/$Space/$Controller"
   }
   $headers=@{}
-  $headers.Add("content-type", "application/json")
+  $headers.Add("content-type", "application/json") 
 
   Try {
-    $response = New-ElasticGetRequest -Controller $Controller -Headers $headers
+    $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
   } Catch {
     # Ignore if no objects found
     If ($($_.Exception.Response.StatusCode) -ne 404) {
@@ -417,7 +414,7 @@ function Import-ElasticObject {
   $headers.Add("content-type", "multipart/form-data; boundary=WebBoundary1234")
 
   Try{
-    $response = New-ElasticPostRequest -Controller $Controller -Headers $headers -Body $Body
+    $response = New-ElasticPostRequest -Controller $Controller -Headers $Headers  -Body $Body
   }
   Catch {
     Write-Host "Error: $($_.Exception.Message)"
@@ -468,8 +465,8 @@ function Get-DefaultElasticIndex {
   if ( $Space -ne "default" ) {
     $Controller = "s/$Space/$Controller"
   }
-  $headers=@{}
-  $headers.Add("content-type", "application/json")
+  $headers=@{} 
+  $headers.Add("content-type", "application/json") 
 
   Try {
     $response = New-ElasticGetRequest -Controller $Controller -Headers $headers
