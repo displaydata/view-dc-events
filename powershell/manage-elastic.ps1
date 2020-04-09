@@ -24,12 +24,13 @@ param(
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
-$global:ElasticUrl = $Url.trim('\')
-$secpasswd = ConvertTo-SecureString $Username -AsPlainText -Force
-$global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Password, $secpasswd)
+$ElasticUrl = $Url.trim('\')
+
+$secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
+$ElasticCreds = New-Object System.Management.Automation.PSCredential ($Username, $secpasswd)
 
 # Create a list of objects we manage
-[string[]]$global:ElasticObjectTypes = @(
+[string[]]$ElasticObjectTypes = @(
   "index-templates",
   "ingest-nodes"
 )
@@ -46,11 +47,11 @@ $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Pa
     For each file in  folder
       Import the object
 #>
-function Import-Saved-Objects {
+function Import-SavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$ImportObjectFolder
   )
-  WaitForElasticServer -Timeout 120
+  Wait-ForElasticServer -Timeout 120
 
   # Import default space first
   # Iterate thru all the object types e.g. index-template etc.
@@ -58,7 +59,7 @@ function Import-Saved-Objects {
     $ObjectType = $($_.Name)
     If ($ElasticObjectTypes.Contains($ObjectType)) {
       Write-Host "Importing $ObjectType"
-      ElasticImportObjectsFromFolder -Path $_
+      Import-ElasticObjectsFromFolder -Path $_
     }
   }
 }
@@ -69,9 +70,9 @@ function Import-Saved-Objects {
 .SYNOPSIS
   Function to save the objects retrieved from kibana
 .EXAMPLE
-  SaveObjects -Path "spaces/space" -Objects $Objects
+  Export-SavedObjects -Path "spaces/space" -Objects $Objects
 #>
-function SaveObjects {
+function Export-SavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$Path,
     [parameter(Mandatory=$true)]$Objects
@@ -90,28 +91,28 @@ function SaveObjects {
 .SYNOPSIS
   Function to issue an HTTP GET request to kibana
 .EXAMPLE
-  ElasticGetRequest -Controller "_cluster/health" -Headers $headers -Body $Body
+  New-ElasticGetRequest -Controller "_cluster/health" -Headers $headers -Body $Body
 #>
-function ElasticGetRequest {
+function New-ElasticGetRequest {
   Param(
     [parameter(Mandatory=$true)][string]$Controller,
     [parameter(Mandatory=$false)]$Headers = @{},
     [parameter(Mandatory=$false)][string]$Body = "{}"
   )
 
-  $url = $global:ElasticUrl + '/' + $Controller
+  $url = $ElasticUrl + '/' + $Controller
   $Headers.Add("kbn-xsrf", "true")
   $Headers.Add("Content-Type", "application/json")
 
   Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
     -Uri $url `
-    -Credential $global:ElasticCreds `
+    -Credential $ElasticCreds `
     -Method GET `
     -Headers $Headers `
     -Body $Body
 
-  Write-Debug "ElasticGetRequest: $response"
+  Write-Debug "New-ElasticGetRequest: $response"
   Return $response
 }
 
@@ -121,26 +122,26 @@ function ElasticGetRequest {
 .EXAMPLE
   ElasticPostRequest -Controller "_template" -Headers $headers -Body $Body
 #>
-function ElasticPutRequest {
+function New-ElasticPutRequest {
   Param(
     [parameter(Mandatory=$true)][string]$Controller,
     [parameter(Mandatory=$true)]$Headers,
     [parameter(Mandatory=$true)]$Body
   )
 
-  $url = $global:ElasticUrl + "/" + $Controller
+  $url = $ElasticUrl + "/" + $Controller
   $Headers.Add("kbn-xsrf", "true")
   $Headers.Add("Content-Type", "application/json")
 
   Write-Debug "PUT Url: $url, Headers: $headers, Body:`r`n$Body"
   $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
     -Uri $url `
-    -Credential $global:ElasticCreds `
+    -Credential $ElasticCreds `
     -Method PUT `
     -Headers $Headers `
     -Body $Body
 
-  Write-Debug "ElasticPutRequest: $response"
+  Write-Debug "New-ElasticPutRequest: $response"
   Return $response
 }
 
@@ -149,9 +150,9 @@ function ElasticPutRequest {
   Function to POST a previously saved object via an HHTP request to elastic
   for import
 .EXAMPLE
-  ElasticImportObject -ObjectType index-templates -ObjectName "dynamic-user-*" -Body $BodyString
+  Import-ElasticObject -ObjectType index-templates -ObjectName "dynamic-user-*" -Body $BodyString
 #>
-function ElasticImportObject {
+function Import-ElasticObject {
   Param(
     [parameter(Mandatory=$true)]$ObjectType,
     [parameter(Mandatory=$true)]$ObjectName,
@@ -162,7 +163,7 @@ function ElasticImportObject {
   $headers=@{}
 
   Try{
-    $response = ElasticPutRequest -Controller $Controller -Headers $headers -Body $Body
+    $response = New-ElasticPutRequest -Controller $Controller -Headers $headers -Body $Body
   }
   Catch {
     Write-Host "Error: $($_.Exception.Message)"
@@ -176,9 +177,9 @@ function ElasticImportObject {
 .SYNOPSIS
   Function to process and import objects from a folder into elastic
 .EXAMPLE
-  ElasticImportObjectsFromFolder -Space "Test" -Path "./kibana/spaces/test/visualization"
+  Import-ElasticObjectsFromFolder -Space "Test" -Path "./kibana/spaces/test/visualization"
 #>
-function ElasticImportObjectsFromFolder {
+function Import-ElasticObjectsFromFolder {
   Param(
     [parameter(Mandatory=$true)]$Path
   )
@@ -190,7 +191,7 @@ function ElasticImportObjectsFromFolder {
 
     $Body = (Get-Content -Raw -Path "$_").Replace("`r`n","").Replace("`n","").Replace("`r","")
     Write-Host -NoNewline "$ObjectType : $ObjectName, Response: "
-    $response = ElasticImportObject -ObjectType $ObjectType -ObjectName $ObjectName -Body $Body
+    $response = Import-ElasticObject -ObjectType $ObjectType -ObjectName $ObjectName -Body $Body
     If ($response.acknowledged -eq "True") {
       Write-Host -ForegroundColor Green "Success"
     } Else {
@@ -203,11 +204,11 @@ function ElasticImportObjectsFromFolder {
 .SYNOPSIS
   Attempt to connect to server and return its readiness state
 .EXAMPLE
-  If (0 -eq GetElasticServerStatus) {Write-Host "ready"}
+  If (0 -eq Get-ElasticServerStatus) {Write-Host "ready"}
 #>
-function GetElasticServerStatus {
+function Get-ElasticServerStatus {
   Try {
-    $health = ElasticGetRequest -Controller "_cluster/health?wait_for_status=yellow&timeout=5s"
+    $health = New-ElasticGetRequest -Controller "_cluster/health?wait_for_status=yellow&timeout=5s"
     $response = @{ "status" = 0; "description" = "ready"}
     If ($($health.status) -eq "yellow" -or $($health.status) -eq "green") {
       $response = @{ "status" = 0; "description" = "ready"}
@@ -217,7 +218,7 @@ function GetElasticServerStatus {
   } Catch {
     $response = @{ "status" = -2; "description" = $($_.Exception.Message)}
   }
-  Write-Debug "GetElasticServerStatus: $response"
+  Write-Debug "Get-ElasticServerStatus: $response"
   return $response
 }
 
@@ -228,16 +229,16 @@ function GetElasticServerStatus {
 .PARAMETER Timeout
   waittime in sconds to wait for server ready (default: 25)
 .EXAMPLE
-  WaitForElasticServer -Timeout 25
+  Wait-ForElasticServer -Timeout 25
 #>
-function WaitForElasticServer {
+function Wait-ForElasticServer {
   Param(
     [parameter(Mandatory=$false)][int]$Timeout
   )
   $waittime = New-TimeSpan -Seconds $Timeout
   $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
   $loopcount = 0
-  while ((GetElasticServerStatus).status -ne 0 -and $stopwatch.elapsed -lt $waittime) {
+  while ((Get-ElasticServerStatus).status -ne 0 -and $stopwatch.elapsed -lt $waittime) {
     if ($loopcount -eq 0) {
       Write-Host -NoNewline "Waiting for elasticsearch server"
     } else {
@@ -258,4 +259,4 @@ function WaitForElasticServer {
 # ---------------- Main Code -----------------
 
 Write-Host "Importing"
-Import-Saved-Objects -ImportObjectFolder $Path
+Import-SavedObjects -ImportObjectFolder $Path

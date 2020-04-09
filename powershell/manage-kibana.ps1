@@ -27,11 +27,12 @@
     Import the objects
 #>
 
-# TODO: Change to use Invoke-WebRequest
 # TODO: Create a powershell module to include import and export functions
 #     https://docs.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-6
 #     Put the module into the following directory "/usr/local/share/powershell/Modules"
 # TODO: Clean up pass / fail messages in imports
+# TODO: Tidy up use of $Header expression in GET requests
+# TODO: Combine this with manage-elastic.ps1
 
 [CmdletBinding()]
 param(
@@ -43,9 +44,16 @@ param(
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
-$global:KibanaUrl = $Url.trim('\')
-$secpasswd = ConvertTo-SecureString $Username -AsPlainText -Force
-$global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Password, $secpasswd)
+$KibanaUrl = $Url.trim('\')
+
+# Kibana's ElasticCloud API endpoint will NOT cope with -Credential in Invoke-RestMethod requests
+# This is because it is anticipating the Authorization header in an initial requests, something that -Credential does not do.
+# The following setting should also be set in the Kibana.yml via the ElasticCloud UI xpack.security.authc.providers: [basic]
+# Details of Kibana API and auth are here https://www.elastic.co/guide/en/kibana/current/using-api.html
+
+$base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Username,$Password)))
+
+$AuthHeader = @{Authorization=("Basic {0}" -f $base64AuthInfo)}
 
 <#
   As of Jan 2020 the following elastic saved_objects types are exportable:
@@ -64,7 +72,7 @@ $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Pa
   https://github.com/elastic/kibana/issues/34862
 #>
 # Create a list of objects we current manage
-[string[]]$global:ElasticObjectTypes = @(
+[string[]]$ElasticObjectTypes = @(
   "index-pattern",
   "dashboard",
   "visualization",
@@ -88,18 +96,18 @@ $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Pa
     For each saved_object type create a folder
       Export the saved_objects to the folder
 #>
-function Export-Saved-Objects {
+function Export-SavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$ExportObjectFolder
   )
 
   # Check we can communicate to kibana
-  WaitForKibanaServer -Timeout 300
+  Wait-ForKibanaServer -Timeout 300
 
   Write-Host "Backup existing spaces folder: $ExportObjectFolder"
-  $null = BackupSpacesFolder -Path $ExportObjectFolder
+  $null = Backup-SpacesFolder -Path $ExportObjectFolder
 
-  $ElasticSpaces = ElasticGetSpaces
+  $ElasticSpaces = Get-KibanaSpacesList
 
   # Iterate thru the spaces and save the objects
   $ElasticSpaces | ForEach-Object {
@@ -117,7 +125,7 @@ function Export-Saved-Objects {
 
     # Get the objects we are interested in and save them
     $ElasticObjectTypes | ForEach-Object {
-      $ElasticObjects = ElasticFindObjects $ElasticSpace $_
+      $ElasticObjects = Find-ElasticObjects $ElasticSpace $_
 
       # Don't do anything if there are no objects
       if ($($ElasticObjects.saved_objects).Length -eq 0) {
@@ -130,11 +138,11 @@ function Export-Saved-Objects {
         $null = New-Item -ItemType Directory -Path "$ExportObjectFolder/$ElasticSpace/$_"
       }
 
-      SaveObjects "$ExportObjectFolder/$ElasticSpace/$_" $ElasticObjects
+      Export-SavedObjects "$ExportObjectFolder/$ElasticSpace/$_" $ElasticObjects
     }
 
     # Get the default index for the space and save it
-    $ElasticDefaultIndex = ElasticGetDefaultIndex -Space $ElasticSpace
+    $ElasticDefaultIndex = Get-DefaultElasticIndex -Space $ElasticSpace
     If ($null -ne $ElasticDefaultIndex) {
       Write-Host "Default index for Space: $ElasticSpace is $ElasticDefaultIndex"
       $ElasticDefaultIndex | Out-File "$ExportObjectFolder/$ElasticSpace/default-index.txt"
@@ -154,11 +162,11 @@ function Export-Saved-Objects {
     For each folder in space folder
       Import the objects
 #>
-function Import-Saved-Objects {
+function Import-SavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$ImportObjectFolder
   )
-  WaitForKibanaServer -Timeout 300
+  Wait-ForKibanaServer -Timeout 300
 
   # Import default space first
   # Iterate thru all the object types e.g. dashboard, index-pattern, visualisation etc.
@@ -166,17 +174,17 @@ function Import-Saved-Objects {
     $ObjectType = $($_.Name)
     If ($ElasticObjectTypes.Contains($ObjectType)) {
       Write-Host "Importing $ObjectType into space: default"
-      ElasticImportObjectsFromFolder -Space "default" -Path $_
+      Import-ElasticObjectsFromFolder -Space "default" -Path $_
     }
   }
   # Set the default index for the default space
-  ElasticSetDefaultIndex -FolderPath "$ImportObjectFolder/default"
+  Set-DefaultElasticIndex -FolderPath "$ImportObjectFolder/default"
 
   # Iterate thru all other folders in the spaces directory
   Get-ChildItem -Path $ImportObjectFolder -Directory -Exclude "default" | Foreach-Object {
     $ElasticSpace = $($_.Name)
     Write-Host "Creating elastic space: $ElasticSpace"
-    $response = ElasticCreateSpace $ElasticSpace
+    $response = New-KibanaSpace $ElasticSpace
     Write-Host $response
 
     # Iterate thru all the object types e.g. dashboard, index-pattern, visualisation etc.
@@ -184,12 +192,12 @@ function Import-Saved-Objects {
       $ObjectType = $($_.Name)
       If ($ElasticObjectTypes.Contains($ObjectType)) {
         Write-Host "Importing $ObjectType into space: $ElasticSpace"
-        ElasticImportObjectsFromFolder -Space $ElasticSpace -Path $_
+        Import-ElasticObjectsFromFolder -Space $ElasticSpace -Path $_
       }
     }
 
     # Set the default index for the space
-    ElasticSetDefaultIndex -FolderPath "$ImportObjectFolder/$ElasticSpace"
+    Set-DefaultElasticIndex -FolderPath "$ImportObjectFolder/$ElasticSpace"
   }
 }
 
@@ -199,9 +207,9 @@ function Import-Saved-Objects {
 .SYNOPSIS
   Function to save the objects retrieved from kibana
 .EXAMPLE
-  SaveObjects -Path "spaces/space" -Objects $Objects
+  Export-SavedObjects -Path "spaces/space" -Objects $Objects
 #>
-function SaveObjects {
+function Export-SavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$Path,
     [parameter(Mandatory=$true)]$Objects
@@ -222,9 +230,9 @@ function SaveObjects {
 .PARAMETER Path
   Path of folder to backup
 .EXAMPLE
-  BackupSpacesFolder -Path "./dcomm/kibana/spaces"
+  Backup-SpacesFolder -Path "./dcomm/kibana/spaces"
 #>
-function BackupSpacesFolder {
+function Backup-SpacesFolder {
   Param(
     [parameter(Mandatory=$true)][string]$Path
   )
@@ -245,27 +253,22 @@ function BackupSpacesFolder {
 .SYNOPSIS
   Function to issue an HTTP GET request to kibana
 .EXAMPLE
-  ElasticPostRequest -Controller "spaces/space" -Headers $headers -Body $Body
+  New-ElasticPostRequest -Controller "spaces/space" -Headers $headers -Body $Body
 #>
-function ElasticGetRequest {
+function New-ElasticGetRequest {
   Param(
     [parameter(Mandatory=$true)][string]$Controller,
-    [parameter(Mandatory=$false)]$Headers = @{},
-    [parameter(Mandatory=$false)][string]$Body = "{}"
+    [parameter(Mandatory=$false)]$Headers = @{}
   )
 
-  $url = $global:KibanaUrl + '/' + $Controller
-  $Headers.Add("kbn-xsrf", "true")
+  $url = $KibanaUrl + '/' + $Controller
+  $Headers.Add("kbn-xsrf", "true") # <== NOTE: should not be needed for GET
+  $Headers = $Headers + $AuthHeader
 
   Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
-  $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-    -Uri $url `
-    -Credential $global:ElasticCreds `
-    -Method GET `
-    -Headers $Headers `
-    -Body $Body
+  $response = Invoke-RestMethod -Uri $url -Method GET -Headers $Headers 
 
-  Write-Debug "ElasticGetRequest: $response"
+  Write-Debug "New-ElasticGetRequest: $response"
   Return $response
 }
 
@@ -273,28 +276,23 @@ function ElasticGetRequest {
 .SYNOPSIS
   Function to create issue an HTTP POST request to kibana
 .EXAMPLE
-  ElasticPostRequest -Controller "spaces/space" -Headers $headers -Body $Body
+  New-ElasticPostRequest -Controller "spaces/space" -Headers $headers -Body $Body
 #>
-function ElasticPostRequest {
+function New-ElasticPostRequest {
   Param(
     [parameter(Mandatory=$true)][string]$Controller,
     [parameter(Mandatory=$true)]$Headers,
     [parameter(Mandatory=$true)]$Body
   )
 
-  $url = $global:KibanaUrl + "/" + $Controller
+  $url = $KibanaUrl + "/" + $Controller
   $Headers.Add("kbn-xsrf", "true")
-
+  $Headers = $Headers + $AuthHeader
 
   Write-Debug "POST Url: $url, Headers: $headers, Body:`r`n$Body"
-  $response = Invoke-RestMethod -AllowUnencryptedAuthentication `
-    -Uri $url `
-    -Credential $global:ElasticCreds `
-    -Method POST `
-    -Headers $Headers `
-    -Body $Body
+  $response = Invoke-RestMethod -Uri $url -Method POST -Headers $Headers -Body $Body
 
-    Write-Debug "ElasticPostRequest: $response"
+    Write-Debug "New-ElasticPostRequest: $response"
     Return $response
 }
 
@@ -302,16 +300,16 @@ function ElasticPostRequest {
 .SYNOPSIS
   Function to get the list of spaces from kibana
 .EXAMPLE
-  ElasticGetSpaces
+  Get-KibanaSpacesList
 #>
-function ElasticGetSpaces {
+function Get-KibanaSpacesList {
   $Controller = "api/spaces/space"
   $headers=@{}
   $headers.Add("content-type", "application/json")
 
-  $response = ElasticGetRequest -Controller $Controller -Headers $headers
+  $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
 
-  Write-Debug "ElasticGetSpaces: $response"
+  Write-Debug "Get-KibanaSpacesList: $response"
   return $response
 }
 
@@ -321,9 +319,9 @@ function ElasticGetSpaces {
   If the space is set to "default" then no action is taken as this space will
   always exist.
 .EXAMPLE
-  ElasticCreateSpace -Space "Test"
+  New-KibanaSpace -Space "Test"
 #>
-function ElasticCreateSpace {
+function New-KibanaSpace {
   Param(
     [parameter(Mandatory=$true)]$Space
   )
@@ -348,7 +346,7 @@ function ElasticCreateSpace {
     $headers.Add("content-type", "application/json")
 
     Try {
-      $response = ElasticPostRequest -Controller $Controller -Headers $headers -Body $ElasticSpace
+      $response = New-ElasticPostRequest -Controller $Controller -Headers $Headers -Body $ElasticSpace
     }
     Catch {
       # Ignore if space already exists
@@ -358,7 +356,7 @@ function ElasticCreateSpace {
       $response = $null
     }
   }
-  Write-Debug "ElasticCreateSpace: $response"
+  Write-Debug "New-KibanaSpace: $response"
   Return $response
 }
 
@@ -366,9 +364,9 @@ function ElasticCreateSpace {
 .SYNOPSIS
   Function to get the list of objects to save for a specific type fron kibana
 .EXAMPLE
-  ElasticFindObjects -Controller "spaces/space" -Space "default" -Type "dashboard"
+  Find-ElasticObjects -Controller "spaces/space" -Space "default" -Type "dashboard"
 #>
-function ElasticFindObjects {
+function Find-ElasticObjects {
   Param(
     [parameter(Mandatory=$true)][string]$Space,
     [parameter(Mandatory=$true)][string]$Type
@@ -380,10 +378,10 @@ function ElasticFindObjects {
     $Controller = "s/$Space/$Controller"
   }
   $headers=@{}
-  $headers.Add("content-type", "application/json")
+  $headers.Add("content-type", "application/json") 
 
   Try {
-    $response = ElasticGetRequest -Controller $Controller -Headers $headers
+    $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
   } Catch {
     # Ignore if no objects found
     If ($($_.Exception.Response.StatusCode) -ne 404) {
@@ -391,7 +389,7 @@ function ElasticFindObjects {
     }
     $response = $null
   }
-  Write-Debug "ElasticFindObjects: $response"
+  Write-Debug "Find-ElasticObjects: $response"
   return $response
 }
 
@@ -400,9 +398,9 @@ function ElasticFindObjects {
   Function to POST a previously saved object via an HHTP request to elastic
   for import
 .EXAMPLE
-  ElasticImportObject -Space "default" -Body $BodyString
+  Import-ElasticObject -Space "default" -Body $BodyString
 #>
-function ElasticImportObject {
+function Import-ElasticObject {
   Param(
     [parameter(Mandatory=$true)][string]$Space,
     [parameter(Mandatory=$true)]$Body
@@ -416,14 +414,14 @@ function ElasticImportObject {
   $headers.Add("content-type", "multipart/form-data; boundary=WebBoundary1234")
 
   Try{
-    $response = ElasticPostRequest -Controller $Controller -Headers $headers -Body $Body
+    $response = New-ElasticPostRequest -Controller $Controller -Headers $Headers  -Body $Body
   }
   Catch {
     Write-Host "Error: $($_.Exception.Message)"
     $response = $null
   }
 
-  Write-Debug "ElasticImportObject: $response"
+  Write-Debug "Import-ElasticObject: $response"
   Return $response
 }
 
@@ -432,14 +430,14 @@ function ElasticImportObject {
   Function to create an HTTP request body from a previously saved object into
   a suitable format for elastic to consume when importing
 .EXAMPLE
-  ElasticImportObject -Path "./kibana/spaces/test/index-pattern/dcomm.json"
+  Import-ElasticObject -Path "./kibana/spaces/test/index-pattern/dcomm.json"
 #>
-function ElasticSetSavedObjectBody {
+function Set-SavedElasticObjectBody {
   Param(
     [parameter(Mandatory=$true)]$Path
   )
 
-  Write-Debug "ElasticSetSavedObjectBody: $Path"
+  Write-Debug "Set-SavedElasticObjectBody: $Path"
   # Kibana is very picky and needs any line feeds or carriage returns removed
   $filecontent = (Get-Content -Raw -Path "$Path").Replace("`r`n","").Replace("`n","").Replace("`r","")
   # Kibana also requires the filename in the request to end in .ndjson
@@ -448,7 +446,7 @@ function ElasticSetSavedObjectBody {
   #       due to an extra <CR> being added in the .ps1 file by Windows!
   $ObjectBody = "--WebBoundary1234`r`nContent-Disposition: form-data; name=`"file`"; filename=`"$filename`"`r`nContent-Type: application/octet-stream`r`n`r`n$filecontent`r`n--WebBoundary1234--"
 
-  Write-Debug "ElasticSetSavedObjectBody: `r`n$ObjectBody"
+  Write-Debug "Set-SavedElasticObjectBody: `r`n$ObjectBody"
   Return $ObjectBody
 }
 
@@ -456,9 +454,9 @@ function ElasticSetSavedObjectBody {
 .SYNOPSIS
   Function to get the current default index from kibana
 .EXAMPLE
-  ElasticGetDefaultIndex
+  Get-DefaultElasticIndex
 #>
-function ElasticGetDefaultIndex {
+function Get-DefaultElasticIndex {
   Param(
     [parameter(Mandatory=$true)]$Space
   )
@@ -467,11 +465,11 @@ function ElasticGetDefaultIndex {
   if ( $Space -ne "default" ) {
     $Controller = "s/$Space/$Controller"
   }
-  $headers=@{}
-  $headers.Add("content-type", "application/json")
+  $headers=@{} 
+  $headers.Add("content-type", "application/json") 
 
   Try {
-    $response = ElasticGetRequest -Controller $Controller -Headers $headers
+    $response = New-ElasticGetRequest -Controller $Controller -Headers $headers
   } Catch {
     return $null
   }
@@ -485,9 +483,9 @@ function ElasticGetDefaultIndex {
   Function to process and set a default index for a space if a default-index.txt
   file exists.
 .EXAMPLE
-  ElasticSetDefaultIndex -FolderPath "./kibana/spaces/test"
+  Set-DefaultElasticIndex -FolderPath "./kibana/spaces/test"
 #>
-function ElasticSetDefaultIndex {
+function Set-DefaultElasticIndex {
   Param(
     [parameter(Mandatory=$true)]$FolderPath
   )
@@ -508,8 +506,8 @@ function ElasticSetDefaultIndex {
     $headers.Add("content-type", "application/json")
     $body = "{`"value`":`"$ElasticIndex`"}"
 
-    $response = ElasticPostRequest -Controller $Controller -Headers $headers -Body $body
-    Write-Debug "ElasticSetDefaultIndex: $response"
+    $response = New-ElasticPostRequest -Controller $Controller -Headers $headers -Body $body
+    Write-Debug "Set-DefaultElasticIndex: $response"
   }
 }
 
@@ -517,9 +515,9 @@ function ElasticSetDefaultIndex {
 .SYNOPSIS
   Function to process and import objects from a folder into elastic
 .EXAMPLE
-  ElasticImportObjectsFromFolder -Space "Test" -Path "./kibana/spaces/test/visualization"
+  Import-ElasticObjectsFromFolder -Space "Test" -Path "./kibana/spaces/test/visualization"
 #>
-function ElasticImportObjectsFromFolder {
+function Import-ElasticObjectsFromFolder {
   Param(
     [parameter(Mandatory=$true)]$Space,
     [parameter(Mandatory=$true)]$Path
@@ -530,9 +528,9 @@ function ElasticImportObjectsFromFolder {
   Get-ChildItem -Path $Path -File -Filter "*.json" | Foreach-Object {
     $ObjectName = $($_.Name)
 
-    $Body = ElasticSetSavedObjectBody $_
+    $Body = Set-SavedElasticObjectBody $_
     Write-Host -NoNewline "Space: $Space, $ObjectType : $ObjectName, Response: "
-    $response = ElasticImportObject -Space $Space -Body $Body
+    $response = Import-ElasticObject -Space $Space -Body $Body
     If ($response.success -eq "True") {
       Write-Host -ForegroundColor Green "Success"
     } Else {
@@ -545,11 +543,11 @@ function ElasticImportObjectsFromFolder {
 .SYNOPSIS
   Attempt to connect to server and return its readiness state
 .EXAMPLE
-  If (0 -eq GetKibanaServerStatus) {Write-Host "ready"}
+  If (0 -eq Get-KibanaServerStatus) {Write-Host "ready"}
 #>
-function GetKibanaServerStatus {
+function Get-KibanaServerStatus {
   Try {
-    $status = ElasticGetRequest -Controller "api/status"
+    $status = New-ElasticGetRequest -Controller "api/status"
     If ($($status.status.overall.state) -eq "green") {
       $response = @{ "status" = 0; "description" = "ready"}
     } Else {
@@ -558,7 +556,7 @@ function GetKibanaServerStatus {
   } Catch {
     $response = @{ "status" = -2; "description" = $($_.Exception.Message)}
   }
-  Write-Debug "GetKibanaServerStatus: $response"
+  Write-Debug "Get-KibanaServerStatus: $response"
   return $response
 }
 
@@ -569,16 +567,16 @@ function GetKibanaServerStatus {
 .PARAMETER Timeout
   waittime in seconds to wait for server ready (default: 25)
 .EXAMPLE
-  WaitForKibanaServer -Timeout 25
+  Wait-ForKibanaServer -Timeout 25
 #>
-function WaitForKibanaServer {
+function Wait-ForKibanaServer {
   Param(
     [parameter(Mandatory=$true)][int]$Timeout
   )
   $waittime = New-TimeSpan -Seconds $Timeout
   $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
   $loopcount = 0
-  while ((GetKibanaServerStatus).status -ne 0 -and $stopwatch.Elapsed -lt $waittime) {
+  while ((Get-KibanaServerStatus).status -ne 0 -and $stopwatch.Elapsed -lt $waittime) {
     if ($loopcount -eq 0) {
       Write-Host -NoNewline "Waiting for kibana server"
     } else {
@@ -603,8 +601,8 @@ function WaitForKibanaServer {
 
 If ($Export) {
   Write-Host "Exporting..."
-  Export-Saved-Objects -ExportObjectFolder $Path
+  Export-SavedObjects -ExportObjectFolder $Path
 } Else {
   Write-Host "Importing"
-  Import-Saved-Objects -ImportObjectFolder $Path
+  Import-SavedObjects -ImportObjectFolder $Path
 }
