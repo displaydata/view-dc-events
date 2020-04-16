@@ -1,1 +1,6 @@
 /.vagrant/**
+/logs/**
+!/logs/**/
+!/logs/**/.gitkeep
+/temp/**
+settings.json

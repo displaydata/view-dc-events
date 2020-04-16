@@ -1,0 +1,14 @@
+{
+    "type": "index-pattern",
+    "id": "dynamic-communicator-state",
+    "attributes": {
+      "title": "dynamic-communicator-state",
+      "timeFieldName": "Timestamp"
+    },
+    "references": [],
+    "migrationVersion": {
+      "index-pattern": "6.5.0"
+    },
+    "updated_at": "2020-03-12T12:35:14.868Z",
+    "version": "WzM1LRTS"
+  }

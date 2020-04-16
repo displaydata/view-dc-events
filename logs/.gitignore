@@ -1,4 +1,0 @@
-*.txt
-**/*.json
-**/*.gz
-!StatusMonitor-Sample.json

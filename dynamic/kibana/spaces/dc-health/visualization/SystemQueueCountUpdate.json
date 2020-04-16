@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "fbec8990-e135-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "SystemQueueCountUpdate",
+    "visState": "{\"title\":\"SystemQueueCountUpdate\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"avg\",\"field\":\"SystemQueueCount\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"line\",\"line_width\":\"2\",\"point_size\":1,\"fill\":\"0\",\"stacked\":\"none\",\"label\":\"System Queue\"},{\"id\":\"eb3583e0-e135-11e9-8094-f9f62457029f\",\"color\":\"rgba(62,59,206,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"eb3583e1-e135-11e9-8094-f9f62457029f\",\"type\":\"avg\",\"field\":\"ClientQueueCount\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"line\",\"line_width\":\"2\",\"point_size\":1,\"fill\":\"0\",\"stacked\":\"none\",\"label\":\"Client Queue\"}],\"time_field\":\"\",\"index_pattern\":\"\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":1,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"SystemQueueCountUpdate\\\"\",\"language\":\"kuery\"}},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:48.089Z",
+  "version": "WzE2LDFd"
+}

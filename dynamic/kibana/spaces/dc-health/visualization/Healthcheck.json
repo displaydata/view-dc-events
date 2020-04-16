@@ -1,0 +1,31 @@
+{
+  "type": "visualization",
+  "id": "e106e1d0-dbbc-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Healthcheck",
+    "visState": "{\"title\":\"Healthcheck\",\"type\":\"pie\",\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false,\"labels\":{\"show\":false,\"values\":true,\"last_level\":true,\"truncate\":100},\"dimensions\":{\"metric\":{\"accessor\":1,\"format\":{\"id\":\"number\"},\"params\":{},\"aggType\":\"count\"},\"buckets\":[{\"accessor\":0,\"format\":{},\"params\":{},\"aggType\":\"filters\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"filters\",\"schema\":\"segment\",\"params\":{\"filters\":[{\"input\":{\"query\":\"Success : true \",\"language\":\"kuery\"},\"label\":\"Success\"},{\"input\":{\"query\":\"Success : false \",\"language\":\"kuery\"},\"label\":\"Failed\"}]}}]}",
+    "uiStateJSON": "{\"vis\":{\"colors\":{\"NoError\":\"#629E51\",\"SystemHealthCheckFailed\":\"#BF1B00\",\"Success\":\"#629E51\",\"Failed\":\"#BF1B00\"}}}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"type\":\"phrase\",\"key\":\"MessageType\",\"value\":\"SystemHealthCheck\",\"params\":{\"query\":\"SystemHealthCheck\"},\"disabled\":false,\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match\":{\"MessageType\":{\"query\":\"SystemHealthCheck\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "dynamic-user-*"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-10T10:10:49.119Z",
+  "version": "WzIzLDFd"
+}

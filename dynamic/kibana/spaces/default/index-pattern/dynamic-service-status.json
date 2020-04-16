@@ -1,14 +1,14 @@
 {
   "type": "index-pattern",
-  "id": "dynamic-user-*",
+  "id": "dynamic-service-status-*",
   "attributes": {
-    "title": "dynamic-user-*",
-    "timeFieldName": "Timestamp"
+    "title": "dynamic-service-status-*",
+    "timeFieldName": "@t"
   },
   "references": [],
   "migrationVersion": {
     "index-pattern": "6.5.0"
   },
-  "updated_at": "2020-01-10T10:12:14.868Z",
+  "updated_at": "2020-01-13T10:12:14.868Z",
   "version": "WzM1LDFd"
 }
