@@ -10,16 +10,16 @@
 .PARAMETER Password
   Elastic password (optional)
 .EXAMPLE
-   manage-elastic.ps1
-   manage-elastic.ps1 -Url "http://192.168.56.4:9200"
-   manage-elastic.ps1 -Path "./temp"
+  manage-elastic.ps1
+  manage-elastic.ps1 -Url "http://192.168.56.4:9200"
+  manage-elastic.ps1 -Path "./temp"
 #>
 
 # TODO: Refactor import code to be more generic
 
 param(
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:9200",
-  [Parameter(Mandatory=$false)][string]$Path = "./dynamic/elasticsearch",
+  [Parameter(Mandatory=$false)][string]$Path = "./elasticsettings",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )

@@ -14,25 +14,3 @@
   path.config: "pipeline/dynamic-audit.conf"
 - pipeline.id: fallback
   path.config: "pipeline/fallback.conf"
-# define input for user events files
-- pipeline.id: input-file-user
-  path.config: "pipeline/input-file-user.conf"
-- pipeline.id: file-user
-  path.config: "pipeline/dynamic-file-user.conf"
-- pipeline.id: file-display-state
-  path.config: "pipeline/dynamic-file-display-state.conf"
-- pipeline.id: file-communicator-state
-  path.config: "pipeline/dynamic-file-communicator-state.conf"
-- pipeline.id: input-file-service-status
-  path.config: "pipeline/input-file-service-status.conf"
-- pipeline.id: file-service-status
-  path.config: "pipeline/dynamic-file-service-status.conf"
-- pipeline.id: input-file-audit
-  path.config: "pipeline/input-file-audit.conf"
-- pipeline.id: file-audit
-  path.config: "pipeline/dynamic-file-audit.conf"
-
-
-
-
-

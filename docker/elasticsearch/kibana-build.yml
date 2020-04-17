@@ -1,0 +1,4 @@
+server.name: kibana
+server.host: "0"
+elasticsearch.hosts: [ "http://localhost:9200" ]
+xpack.monitoring.ui.container.elasticsearch.enabled: false # TODO: consider set this to false when clear what it is
