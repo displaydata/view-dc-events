@@ -2,6 +2,8 @@ ARG ELK_VERSION=7.6.2
 
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 
+USER root
+
 # copy index files to container
 COPY ./elasticsettings/index-templates /home/elasticsearch/index-templates/
 # copy management scripts to container
@@ -40,6 +42,10 @@ COPY ./kibanasettings/spaces/ /home/kibana/spaces/
 # REQUIRED: to be able to start kibana serice with systemctl https://github.com/gdraheim/docker-systemctl-replacement
 # IMPORTANT: must be a LF end of line sequence file otherwise this won't be recognised by the host (Contos7) OS
 COPY ./systemctl.py /usr/bin/systemctl
+
+RUN usermod -a -G root $USER
+
+RUN  newgrp root
 
 # systemctl daemon reload required to take into account that kibana has been installed
 RUN /bin/systemctl daemon-reload
