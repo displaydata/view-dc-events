@@ -70,16 +70,6 @@ services:
     networks:
       - elastic-net
     volumes:
-      - type: bind
-        source: ./dynamic/logstash/config/pipelines.yml
-        target: /usr/share/logstash/config/pipelines.yml
-      - type: bind
-        source: ./dynamic/logstash/pipeline
-        target: /usr/share/logstash/pipeline
-      # Mount point for log files to ingest
-      - type: bind
-        source: "${DYNAMIC_BASEDIR}"
-        target: /logs
       # Mount point for logstash persistent data
       - type: volume
         source: logstash-data

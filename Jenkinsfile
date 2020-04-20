@@ -1,60 +1,33 @@
-//pipeline {
-//    agent {
-//        node {
-//            label 'docker-host'
-//       }
-//    }
-//    environment {
-//        // put global env vars here
-//        def server = Artifactory.server 'default'
-//        def rtDocker = Artifactory.docker server: server
-//    }
-//    stages {
-//        stage('Build elasticsearch container') {
-//           steps {
-//                docker.build("docker-infra-local.artifactory.dev.zbddisplays.local/displaydata/elasticsearch:7.6.2", "./docker/elasticsearch")
-//                def elasticInfo = rtDocker.push "docker-infra-local.artifactory.dev.zbddisplays.local/displaydata/elasticsearch:7.6.2", 'docker-infra-local'
-//                server.publishBuildInfo elasticInfo
-//           }
-//        }
-//        stage('Build kibana container') {
-//            steps {
-//
-//            }
-//        }
-//        stage('Build logstash container') {
-//            steps {
-//
-//            }
-//        }
-//    }
-//}
-
 node('docker-host') {
     checkout scm
 
-    // see example https://gitlab.dev.zbddisplays.local/infrastructure/cloud-costs-docker/blob/master/Jenkinsfile
+    def ELK_VERSION = "7.6.2"
+    def EDTPLUGIN_VERSION= "1.8.0"
+    def dynamicCentralVersion = "1.12.0"
+
+    def tag = "${dynamicCentralVersion}-${ELK_VERSION}-${BUILD_ID}"
+
+    def containerPrefix = "dev-elasticsearchdocker-build-local.artifactory.dev.zbddisplays.local/displaydata/"
 
     def server = Artifactory.server 'default'
     def rtDocker = Artifactory.docker server: server
 
-    def elasticImage = docker.build("docker-infra-local.artifactory.dev.zbddisplays.local/displaydata/elasticsearch:7.6.2", "./docker/elasticsearch")//.inside("--privileged")
-    def elasticInfo = elasticInfo.push "docker-infra-local.artifactory.dev.zbddisplays.local/displaydata/elasticsearch:7.6.2", 'docker-infra-local'
-    server.publishBuildInfo elasticInfo
-    //docker.build // name? & build commands go here <<buildto>>?
+    //build elasticsearch container
+    def elasticImageName = "${containerPrefix}elasticsearch:${tag}"
+    def elasticImage = docker.build(elasticImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/elasticsearch")
+    def elasticBuildInfo = rtDocker.push elasticImageName, 'dev-elasticsearchdocker-build-local'
+    server.publishBuildInfo elasticBuildInfo
 
-    //def elasticInfo = rtDocker.push "<<buildto>>", 'docker-infra-local'
-    //server.publishBuildInfo elasticInfo
+    //build kibana container
+    def kibanaImageName = "${containerPrefix}kibana:${tag}"
+    def kibanaImage = docker.build(kibanaImageName, "--build-arg ELK_VERSION=${ELK_VERSION} --build-arg EDTPLUGIN_VERSION=${EDTPLUGIN_VERSION} ./docker/kibana")
+    def kibanaBuildInfo = rtDocker.push kibanaImageName, 'dev-elasticsearchdocker-build-local'
+    server.publishBuildInfo kibanaBuildInfo
 
-    //docker.build // kibana defined how?
-
-    //def kibanaInfo = rtDocker.push 
-    //server.publishBuildInfo kibanaInfo
-
-    //docker.build // logstash defined how?
-
-    //def logstashInfo = rtDocker.push 
-    //server.publishBuildInfo logstashInfo
+    //build logstash container
+    def logstashImageName = "${containerPrefix}logstash:${tag}"
+    def logstashImage = docker.build(logstashImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/logstash")
+    def logstashBuildInfo = rtDocker.push logstashImageName, 'dev-elasticsearchdocker-build-local'
+    server.publishBuildInfo logstashBuildInfo
     
-
 }

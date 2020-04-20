@@ -41,6 +41,7 @@ COPY ./kibanasettings/spaces/ /home/kibana/spaces/
 # IMPORTANT: must be a LF end of line sequence file otherwise this won't be recognised by the host (Contos7) OS
 COPY ./systemctl.py /usr/bin/systemctl
 
+# make new systemctl executable - required to allow others users to execute this file, specifically the next command
 RUN chmod +x /usr/bin/systemctl 
 
 # systemctl daemon reload required to take into account that kibana has been installed
