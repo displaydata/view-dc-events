@@ -12,9 +12,9 @@ This setup is aimed primarily at customers trialing Dynamic Solution.
 
 It can also be used by Displaydata customers (who are in the rollout stage) as a starting point from which to develop their own customised dashboards and monitoring.
 
-**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so is not suitable for production environments.
+**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **not** suitable for production environments.
 
-**NOTE:** This set of containers only supports Elasticsearch's 7.5 release.
+**NOTE:** This set of containers only supports Elasticsearch's 7.6.2 release and associated plugins as defined in the .env file.
 
 Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.
 
