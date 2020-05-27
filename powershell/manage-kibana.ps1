@@ -96,7 +96,7 @@ $AuthHeader = @{Authorization=("Basic {0}" -f $base64AuthInfo)}
     For each saved_object type create a folder
       Export the saved_objects to the folder
 #>
-function Export-SavedObjects {
+function Export-AllSavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$ExportObjectFolder
   )
@@ -162,7 +162,7 @@ function Export-SavedObjects {
     For each folder in space folder
       Import the objects
 #>
-function Import-SavedObjects {
+function Import-AllSavedObjects {
   Param(
     [parameter(Mandatory=$true)][string]$ImportObjectFolder
   )
@@ -244,7 +244,7 @@ function Backup-SpacesFolder {
     Remove-Item -Path "$FolderPath/$BackupFolderName" -Force -Recurse
   }
 
-  Rename-Item -Path $Path -NewName "$BackupFolderName"
+  Rename-Item -Path $Path -NewName "$BackupFolderName" -ErrorAction:Ignore
   $null = New-Item -ItemType Directory -Force -Path $Path
 
 }
@@ -266,7 +266,7 @@ function New-ElasticGetRequest {
   $Headers = $Headers + $AuthHeader
 
   Write-Debug "GET Url: $url, Headers: $headers, Body:`r`n$Body"
-  $response = Invoke-RestMethod -Uri $url -Method GET -Headers $Headers 
+  $response = Invoke-RestMethod -Uri $url -Method GET -Headers $Headers
 
   Write-Debug "New-ElasticGetRequest: $response"
   Return $response
@@ -307,7 +307,7 @@ function Get-KibanaSpacesList {
   $headers=@{}
   $headers.Add("content-type", "application/json")
 
-  $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
+  $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers
 
   Write-Debug "Get-KibanaSpacesList: $response"
   return $response
@@ -378,10 +378,10 @@ function Find-ElasticObjects {
     $Controller = "s/$Space/$Controller"
   }
   $headers=@{}
-  $headers.Add("content-type", "application/json") 
+  $headers.Add("content-type", "application/json")
 
   Try {
-    $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers 
+    $response = New-ElasticGetRequest -Controller $Controller -Headers $Headers
   } Catch {
     # Ignore if no objects found
     If ($($_.Exception.Response.StatusCode) -ne 404) {
@@ -465,8 +465,8 @@ function Get-DefaultElasticIndex {
   if ( $Space -ne "default" ) {
     $Controller = "s/$Space/$Controller"
   }
-  $headers=@{} 
-  $headers.Add("content-type", "application/json") 
+  $headers=@{}
+  $headers.Add("content-type", "application/json")
 
   Try {
     $response = New-ElasticGetRequest -Controller $Controller -Headers $headers
@@ -601,8 +601,8 @@ function Wait-ForKibanaServer {
 
 If ($Export) {
   Write-Host "Exporting..."
-  Export-SavedObjects -ExportObjectFolder $Path
+  Export-AllSavedObjects -ExportObjectFolder $Path
 } Else {
   Write-Host "Importing"
-  Import-SavedObjects -ImportObjectFolder $Path
+  Import-AllSavedObjects -ImportObjectFolder $Path
 }

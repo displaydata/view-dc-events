@@ -325,7 +325,175 @@ Each index should be used for a specific purpose. Any application events that ar
 This is the main index created in Elasticsearch which makes up the history of all interesting activity in the system. Events are indexed into the Elasticsearch document store by time. The vast majority of visualizations, dashboards, reports and alerts are driven from this incoming stream of events.
 
 ### dynamic-display-state
-This index contains the most recent 'state' of each display. DisplayUpdateComplete events arrive sequentially for each Display Serial Number and over-write the previous DisplayUpdateComplete record. This allows better reporting on the 'state' of Displays individually, per location or across an entire estate. There is a single document per Display which will always contain the most recent result of attempting to update that displays image. If you have 3843 Displays then this index will contain 3843 documents, one per Display serial number.
+This index contains the most recent 'state' of each display and is an amalgamation of the following event types: -
+
+* DisplayUpdateComplete
+* SystemHealthcheck
+* BatteryReplace
+* DisplayConfigurationComplete
+* DisplayRestorationPropertiesStageComplete
+* DisplayUnconfigurationComplete
+
+This allows better reporting on the 'state' of Displays individually, per location or across an entire estate. There is a single document per Display which will always contain the most recent result of attempting to change that display, depending on the command sent to it. 
+ 
+If you have 3843 Displays then this index will contain 3843 documents, one per Display serial number.
+
+This index now contains a wealth of information about a display which can be used for: -
+
+  * Troubleshooting issues with an individual display
+  * Understanding the overall 'health' of an installation
+  * Reports and dashboards for groups of displays for use cases like
+    * Asset tracking
+    * Which displays responded to a healthcheck request recently
+    * Which displays are up-to-date with the correct image
+
+A document for a display in this index might look like this: - 
+
+```
+{
+    "CommunicatorRssi": -55,
+    "LocationName": "Soak Test 3B",
+    "type": "user",
+    "@version": "1",
+    "GeoLocation": "51.408011,-0.724939",
+    "Result": "NoError",
+    "TemperatureOutOfRange": false,
+    "PageNumber": 1,
+    "RequestReference": "Page1.xml_1_2020-05-13T08:48:00.6312002Z",
+    "date_object": "2020-05-13T08:48:29.058Z",
+    "Duration": 14.307382899999999,
+    "NodeName": null,
+    "DisplaySerialNumber": "KB00301006B",
+    "Timestamp": "2020-05-13T08:48:29.0582222Z",
+    "path": "/logs/user/StatusMonitor-20200513.000.json",
+    "@timestamp": "2020-05-19T13:05:44.080Z",
+    "@t": "2020-05-13T09:48:29.0836882+01:00",
+    "Action": "DownloadAndDisplay",
+    "ObjectIds": [
+      "00164535"
+    ],
+    "Success": true,
+    "DisplayUpdateComplete": {
+      "SuccessTimestamp": "2020-05-13T08:48:29.0582222Z"
+    },
+    "Temperature": 20.5,
+    "DeliveryProcessRetries": 0,
+    "MessageType": "DisplayUpdateComplete",
+    "DisplayRssi": -65,
+    "SystemHealthCheck: {
+      "SuccessResult": "NoError",
+      "SuccessTimestamp": "2020-05-13T00:05:56.0000000Z",
+      "Success": "true"
+    },
+    "CommunicatorSerialNumber": "ZC00001547"    
+  }
+```
+
+The following fields are updated by the most recent DisplayUpdateComplete event: - 
+
+- Action
+- CommunicatorRssi
+- DeliveryProcessRetries
+- Duration
+- GeoLocation
+- ObjectIds
+- LocationName
+- Temperature
+- TemperatureOutOfRange
+- DisplayUpdateComplete.Success (see below)
+
+To help understand the state of a Display (following image updates particularly) additional fields are created...
+
+- DisplayUpdateComplete.SuccessResult
+- DisplayUpdateComplete.SuccessTimestamp
+
+If a display is not updated successfully then the following fields are created: -
+
+- DisplayUpdateComplete.FailureResult
+- DisplayUpdateComplete.FailureTimestamp
+
+This allows user to see when the last time a display updated successfully versus when it last failed to update its image as well as the reason why (Result). The `DisplayUpdateComplete.Success` field shows `true` if the display is showing the correct image and `false` if it is not. This field only shows the state of the **most recent** DisplayUpdateComplete message so it can be used specifically to address queries about image accuracy.
+
+BatteryReplace and SystemHealthCheck events will also over-write the following if these events are more recent than the last BatteryReplace or SystemHealthCheck message type: -
+
+- GeoLocation
+- LocationName
+- Temperature
+- CommunicatorRssi
+
+The following field values in SystemHealthCheck messages will also be added to the display's record. These values are included for completeness rather than utility. These fields should not be used for troubleshooting or analysis purposes.
+
+ - CommunicatorSerialNumber
+ - DisplayRssi
+
+They will also **add** specific fields allowing users to understand the state of a Display in that moment: -
+
+- BatteryReplace.Required = true - the Battery should be replaced in that display
+- BatteryReplace.Timestamp - when was the Battery Replace message received
+- Position - this is only present if customers have included the 'Assign to position' feature in their Hand Held Terminal implementation
+
+- LastSystemHealthCheck.SuccessTimestamp - when was the last time the communicator was successfully able to talk to the Display
+- LastSystemHealthCheck.SuccessResult - what was the result of the last successful healthcheck event?
+- LastSystemHealthCheck.FailureTimestamp - when did the communicator most recently fail to talk to the display
+- LastSystemHealthCheck.FailureResult - what was the result of the last successful healthcheck event?
+
+DisplayConfigurationComplete, DisplayRestorationPropertiesStageComplete and DisplayUnconfigurationComplete message types will add the following events: -
+
+- *messagetype*Timestamp - when did configuration complete?
+- *messagetype*Result - what was the result
+- *messagetype*Success - success/fail
+
+**NOTE**: MessageType and RequestReference fields will **ALWAYS** be over-written with the most recent event that has happened at that display.
+
+Having a full picture with all event fields relies on those events having been passed through Logstash from the beginning of the installation being live. If this is not the case then this index will build up over time as each deployed display is sent a Display update or a SystemHealthCheck request by the communicator.
+
+This information is extremely useful to supplement the Dynamic Central UI Displays page as it allows operations teams to ask the same sort of questions programmatically. 
+
+An example could be to find how many displays have been updated in the last week with the correct image and have responded to a system healthcheck in the last week.
+
+```
+GET display-state-index/_count
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "match": {
+          "Result": "NoError"
+          }
+        }
+      ],
+      "filter": {
+        "range": {
+          "SystemHealthcheck.SuccessTimestamp": {
+            "gte": "now-7d",
+            "lt": "now"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+This will return the total number of displays in an easy to parse format.
+
+```
+{
+  "count" : 1128,
+  "_shards" : {
+    "total" : 2,
+    "successful" : 2,
+    "skipped" : 0,
+    "failed" : 0
+  }
+}
+```
+Another example here would be to change the query value from 'success' to SystemHealthcheck.FailureTimestamp which would denote that the image on the display is correct from the most recent update but the SystemHealthCheck carried out in the last week failed.
+
+The use of bucket aggregations would also allow a very quick count of the number of displays at a location and their respective state.
+
+**NOTE**: Using script fields in the logstash output ensures that events of the same type aren't parsed out of order (preventing older events over-write newer events). This requires setting `script.max_compilations_rate: "10000/1m"` in Elasticsearch.yml so users should make sure this value is correct and works for their cluster.
 
 ### dynamic-communicator-state
 This index contains the most recent 'state' of each communicator and works in the same way as the dynamic-display-state index but with CommunicatorStateChange message types.
