@@ -244,7 +244,7 @@ function Backup-SpacesFolder {
     Remove-Item -Path "$FolderPath/$BackupFolderName" -Force -Recurse
   }
 
-  Rename-Item -Path $Path -NewName "$BackupFolderName"
+  Rename-Item -Path $Path -NewName "$BackupFolderName" -ErrorAction:Ignore
   $null = New-Item -ItemType Directory -Force -Path $Path
 
 }
