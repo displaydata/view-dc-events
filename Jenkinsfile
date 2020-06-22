@@ -1,9 +1,9 @@
 node('docker-host') {
     checkout scm
 
-    def ELK_VERSION = "7.6.2"
-    def EDTPLUGIN_VERSION= "1.8.0"
-    def dynamicCentralVersion = "1.12.0"
+    def ELK_VERSION = "7.7.1"
+    def EDTPLUGIN_VERSION= "1.9.0"
+    def dynamicCentralVersion = "1.13.0"
 
     def tag = "${dynamicCentralVersion}-${ELK_VERSION}-${BUILD_ID}"
 

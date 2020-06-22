@@ -1,4 +1,4 @@
-ARG ELK_VERSION=7.6.2
+ARG ELK_VERSION=7.7.1
 
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 
@@ -26,10 +26,13 @@ RUN /usr/local/bin/docker-entrypoint.sh eswrapper & \
 #  required to install kibana with rpm
 COPY ./kibana.repo /etc/yum.repos.d/kibana.repo
 
+# ARG must be re-declared to be available at the next build stage
+ARG ELK_VERSION
+
 # install kibana into the container
 RUN echo "install kibana" && \
     rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch && \
-    yum install -y kibana
+    yum install -y "kibana-$ELK_VERSION-1"
 
 # required to start kibana NOTE: this path is DIFFERENT FOR CONTAINERS i.e. if used in multi-stage builds this must change
 COPY --chown=1000:0 ./kibana-build.yml /etc/kibana/kibana.yml
