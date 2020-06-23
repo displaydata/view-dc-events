@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "create containers", type: "shell", inline: <<-SCRIPT
     cd /vagrant
-    ./develop.sh ingest
+    docker-compose up
     docker --version
     docker-compose --version
     echo "vagrant ssh - to access the debian host for the containers"

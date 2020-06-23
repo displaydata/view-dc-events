@@ -4,7 +4,7 @@ A docker compose setup that allows Displaydata customers to ingest Dynamic Centr
 
 Events can be ingested directly from a running instance of Dynamic Solution (using Filebeat) or by setting up Filebeat locally to send events to these containers.
 
-User event logs are ingested using logstash and written to an elasticsearch volume that can be backed up and restored. These are the primary source of information when it comes to managing, visualizing what the system is doing as well as the basis for alerts and reporting.
+User event logs are ingested using logstash and written to an elasticsearch volume that can be backed up and restored. These are the primary source of information when it comes to visualizing what the system is doing as well as the basis for alerts and reporting.
 
 Audit event logs are really only useful for development purposes. These provide some insight into the REST API Request/response bodies when developing against Displaydata's Command API. These events are not documented and are liable to change between Dynamic Solution releases so should only be used to support API development.
 
@@ -24,6 +24,8 @@ Ubuntu or Debian host machine (Minimum 4Gb RAM, >12Gb disk space) with the follo
 
 * docker
 * docker compose
+
+Microsoft's WSL2 is also a suitable (local) environment for running these containers.
 
 Also follow the 'post installation steps for Linux' section here:
 https://docs.docker.com/install/linux/linux-postinstall/
@@ -46,7 +48,7 @@ AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&r
 
 ## Overview
 
-The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co which are then modified to contain all the index-templates, visualizations and dashboards.
+The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co which are then modified to contain all the Dynamic Solution specific index-templates, visualizations and dashboards. Displaydata's "Monitoring" document explains these dashboards, visualizations and their formats of specific events emitted from Dynamic Central. This document is available on request from Displaydata Support: <support@displaydata.com>
 
 The docker host runs a separate container for each of; elasticsearch, kibana & logstash and mounts the configuration files and any data from the repo directory.
 
@@ -56,41 +58,7 @@ Container volumes have been mounted externally so that the data (documents index
 
 Once the environment is "up" the Kibana UI should be available via a browser on _host IP address_:5601
 
-<!-- FIXME: this directory structure section has changed
-
-The top level root directory contains the `docker-compose` configuration file
-and the scripts for loading and setting up the containers.
-
-The `dynamic` directory contains the spaces, dashboards, visualisations, indexes
-& configuration files required to setup the docker host, ingest and visualise
-the events being sent from Dynamic Central.
-
-Displaydata's "Monitoring" document explains these dashboards, visualisations
-and the format of specific events emitted from Dynamic Central. This document
-is available on request from Displaydata Support: <support@displaydata.com>
-
-
-### Kibana Spaces
-
-Spaces are a kibana component that enable you to organize your dashboards and
-other saved objects into meaningful categories. Each space has its own set of
-objects and dashboards.
-
-The default space is always available. Other named spaces are added to present
-a clean set of dashboards for a specific category of information e.g. Health,
-Alerts, Performance.
-
-The default space must always be present and if no other spaces are created
-you will enter the default space when connecting to the kibana UI.
-
-Saved objects are loaded into kibana using the `manage-kibana.ps1` powershell
-script. The script uses the kibana API to load any predefined
-spaces that appear under the `.../kibana/spaces` directory.
-Execute this by running `./develop.sh update` to update the kibana with any
-changes you make to the saved objects.
-
-Objects that the script will load are; dashboards, visualisations, searches & index patterns.
-
+<!--
 **NOTE:** The `./develop.sh ingest` script will start the containers and load
 the saved objects. `./develop.sh update` is only required if you wish to update
 the saved objects
@@ -109,7 +77,7 @@ $ # Clone the repo
 $ git clone https://gitlab.dev.zbddisplays.local/internal/view-dc-events.git
 $ # Start the containers
 $ cd view-dc-events
-$ ./develop.sh ingest
+$ docker-compose up -d
 ```
 
 Now point your filebeat instances on your Dynamic Central Services at your VM instance e.g.
@@ -174,51 +142,33 @@ config/audit.yml:
 
 ### Commands
 
-`./develop.sh down` - Stop the containers
+`docker-compose down` - Stop the containers
 
-`./develop.sh up` - Start the containers
+`docker-compose up -d` - Start the containers
 
-`./develop.sh clean` - Remove all running containers AND *delete volumes*
+`docker-compose down -v` - Remove all running containers AND *delete volumes*
 
-`./develop.sh export` - Export all current visualisations, dashboards etc. to
-`./dynamic/kibana/spaces` after moving the existing folder to `./dynamic/kibana/spaces~`
+`./develop.sh export` - Export all current visualisations, dashboards etc. to `./dynamic/kibana/spaces` after moving the existing folder to `./dynamic/kibana/spaces~`
 
 ## Ingesting user events from locally saved log files
 
-Install filebeat locally, using config files as outlined above which reference different directories for each type of event:
+Install filebeat locally by following the installation guide(s) for your operating system. Filebeat is available for Windows via an .msi package.
+
+Set up local config files as outlined above which reference different directories for each type of event:
 
 ```
 \Logs\User\*.json
 \Logs\Status\WebApi-*.json
 \Logs\Audit\SystemStatus-*.json
 ```
-The config files for each event type should be edited to reflect where the logs are.
 
-Filebeat.yml will need to be able to send events to the LOGSTASH endpoint
-
-### Commands
-
-<!-- FIXME: these commands need looking at / changing as the develop.sh script now contains too much overhead -->
-
-`./develop.sh ingest` - Start the containers including the facility to pull
-customer supplied logs from the 'logs' directory
-
-`./develop.sh down` - Stop the containers
-
-`./develop.sh up` - Start the containers
-
-`./develop.sh clean` - Remove all running containers AND *delete volumes*
-
-<!-- FIXME: change this to use the powershell scripts/module rather NOTE: is there a powershell module for elasticsearch on the PSGallery already? -->
-`./develop.sh export` - Export all current visualisations, dashboards etc. to `./dynamic/kibana/spaces` after moving the existing folder to `./dynamic/kibana/spaces~`
+Filebeat.yml will need to be able to send events to the *LOGSTASH* endpoint
 
 ## Vagrant file
 
-If you're familiar with Hashicorp's Vagrant there is a Vagrantfile in this repo
-with providers for Virtualbox, VMWare Workstation or VMWare Fusion.
+If you're familiar with Hashicorp's Vagrant there is a Vagrantfile in this repo with providers for Virtualbox, VMWare Workstation or VMWare Fusion.
 
-This will will bring up a Debian machine with the necessary pre-requisites
-installed by running `vagrant up --provider <providername>`
+This will will bring up a Debian machine with the necessary pre-requisites and can be installed by running `vagrant up --provider <providername>`
 
 # Logstash Pipeline Structure
 
@@ -362,9 +312,9 @@ They will also **add** specific fields allowing users to understand the state of
 
 DisplayConfigurationComplete, DisplayRestorationPropertiesStageComplete and DisplayUnconfigurationComplete message types will add the following events: -
 
-- *messagetype*Timestamp - when did configuration complete?
-- *messagetype*Result - what was the result
-- *messagetype*Success - success/fail
+- *messagetype*.Timestamp - when did configuration complete?
+- *messagetype*.Result - what was the result
+- *messagetype*.Success - success/fail
 
 **NOTE**: MessageType and RequestReference fields will **ALWAYS** be over-written with the most recent event that has happened at that display.
 
