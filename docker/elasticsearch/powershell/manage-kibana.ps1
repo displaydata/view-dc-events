@@ -39,7 +39,7 @@ param(
   [switch]$Import,
   [switch]$Export,
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:5601",
-  [Parameter(Mandatory=$false)][string]$Path = "./dynamic/kibana/spaces",
+  [Parameter(Mandatory=$false)][string]$Path = "./kibanasettings/spaces",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )

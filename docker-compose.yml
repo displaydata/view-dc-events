@@ -1,7 +1,13 @@
-version: "3.5"
+version: "3.7"
 services:
   elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    # image: elasticsearch:${ELK_VERSION}
+    # container_name: elasticsearch
+    build:
+      context: ./docker/elasticsearch
+      args:
+        ELK_VERSION: ${ELK_VERSION}
+    image: elasticsearch:${ELK_VERSION}
     container_name: elasticsearch
     environment:
       node.name: elasticsearch
@@ -23,7 +29,7 @@ services:
     networks:
       - elastic-net
     volumes:
-      # Mount point for elasticsearch persistemt data
+      # Mount point for elasticsearch persistent data
       - type: volume
         source: elastic-data
         target: /usr/share/elasticsearch/data
@@ -64,16 +70,6 @@ services:
     networks:
       - elastic-net
     volumes:
-      - type: bind
-        source: ./dynamic/logstash/config/pipelines.yml
-        target: /usr/share/logstash/config/pipelines.yml
-      - type: bind
-        source: ./dynamic/logstash/pipeline
-        target: /usr/share/logstash/pipeline
-      # Mount point for log files to ingest
-      - type: bind
-        source: "${DYNAMIC_BASEDIR}"
-        target: /logs
       # Mount point for logstash persistent data
       - type: volume
         source: logstash-data
