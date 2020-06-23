@@ -29,7 +29,7 @@ services:
     networks:
       - elastic-net
     volumes:
-      # Mount point for elasticsearch persistemt data
+      # Mount point for elasticsearch persistent data
       - type: volume
         source: elastic-data
         target: /usr/share/elasticsearch/data
