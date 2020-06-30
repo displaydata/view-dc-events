@@ -1,32 +1,3 @@
-<#
-.SYNOPSIS
-  Script enables import and export of elastic objects
-.PARAMETER Url
-  URI of the elasicsearch api endpoint e.g. "http://localhost:9200" (optional)
-.PARAMETER Path
-  Path to the directory containing the objects to import (optional)
-.PARAMETER Username
-  Elastic user name (optional)
-.PARAMETER Password
-  Elastic password (optional)
-.EXAMPLE
-  manage-elastic.ps1
-  manage-elastic.ps1 -Url "http://192.168.56.4:9200"
-  manage-elastic.ps1 -Path "./temp"
-#>
-
-# ---------------- Operations ----------------
-
-<#
-.SYNOPSIS
-  Import all previously saved elastc objects
-.PARAMETER ImportObjectFolder
-  A folder containing the objects you want to import
-.NOTES
-  Scan folder structure
-    For each file in  folder
-      Import the object
-#>
 function Import-ElasticSavedObjects {
     Param(
       [parameter(Mandatory=$true)][string]$ImportObjectFolder
