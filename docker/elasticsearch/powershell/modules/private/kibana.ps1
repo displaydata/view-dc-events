@@ -27,12 +27,9 @@
     Import the objects
 #>
 
-function Import-KibanaSettings {
+function Set-KibanaConfiguration {
     param(
-        [switch]$Import,
-        [switch]$Export,
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Url,
-        [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Path,
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Username,
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Password
       )
@@ -48,16 +45,8 @@ function Import-KibanaSettings {
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Username,$Password)))
 
     $global:AuthHeader = @{Authorization=("Basic {0}" -f $base64AuthInfo)}
-    If ($Export) {
-        Write-Host "Exporting..."
-        Export-AllSavedObjects -ExportObjectFolder $Path
-      } Else {
-        Write-Host "Importing"
-        Import-AllSavedObjects -ImportObjectFolder $Path
-      }
-      
-  }
-  
+}
+
 <#
   As of Jan 2020 the following Kibana saved_objects types are exportable:
   [

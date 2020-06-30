@@ -39,11 +39,18 @@ param(
   [switch]$Import,
   [switch]$Export,
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:5601",
-  [Parameter(Mandatory=$false)][string]$Path = "./kibanasettings/spaces",
+  [Parameter(Mandatory=$false)][string]$Path = "/home/njones/Projects/view-dc-events/docker/elasticsearch/kibanasettings/spaces",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
 
 Import-Module $PSScriptRoot/modules/elastic.psm1 -Verbose
 
-Import-KibanaSavedObjects -Url $Url -Path $Path -Username $Username -Password $Password
+If ($Export) {
+  Write-Host "Exporting..."
+  Export-KibanaSavedObjects -Url $Url -Path $Path -Username $Username -Password $Password
+} Else {
+  Write-Host "Importing..."
+  Import-KibanaSavedObjects -Url $Url -Path $Path -Username $Username -Password $Password
+}
+

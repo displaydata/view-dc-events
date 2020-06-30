@@ -32,11 +32,27 @@ function Import-ElasticSettingsToElasticCloud {
 }
 
 function Export-KibanaSavedObjects {
-
+  param(
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Url,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Path,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Username,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Password
+  )
+  Set-KibanaConfiguration -Url $Url -Username $Username -Password $Password
+  Write-Host "Exporting..."
+  Export-AllSavedObjects -ExportObjectFolder $Path
 }
 
 function Import-KibanaSavedObjects {
-
+  param(
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Url,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Path,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Username,
+    [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Password
+  )
+  Set-KibanaConfiguration -Url $Url -Username $Username -Password $Password
+  Write-Host "Importing"
+  Import-AllSavedObjects -ImportObjectFolder $Path
 }
 
 Export-ModuleMember -Function Import-ElasticSettingsToUrl
