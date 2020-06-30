@@ -280,8 +280,8 @@ function Import-ElasticSavedObjects {
     }
   
     If ($stopwatch.elapsed -ge $waittime) {
-      Write-Host "`nUnable to contact elasticsearch server. Exiting..."
-      Exit -1
+      throw "Unable to contact elasticsearch server. Exiting..."
+      
     } elseif ($loopcount -gt 0) {
       Write-Host "  Done"
     }
@@ -296,7 +296,8 @@ function Import-ElasticSavedObjects {
     )
   
     $global:ElasticUrl = ([Uri]$Url).AbsoluteUri
-  
+    $global:ElasticUrl = $global:ElasticUrl.trim('/')
+    
     $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
     $global:ElasticCreds = New-Object System.Management.Automation.PSCredential ($Username, $secpasswd)
   

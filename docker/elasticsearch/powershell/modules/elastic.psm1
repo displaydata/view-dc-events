@@ -11,7 +11,7 @@ function Import-ElasticSettingsToUrl {
     [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string]$Password
   )
 
-  Import-ElasticSettings -Url $url -Path $Password -Username $Username -Password $Password
+  Import-ElasticSettings -Url $url -Path $Path -Username $Username -Password $Password
 }
 
 function Import-ElasticSettingsToElasticCloud {
@@ -31,5 +31,15 @@ function Import-ElasticSettingsToElasticCloud {
   Import-ElasticSettingsToUrl -Url $url -Path $Password -Username $Username -Password $Password
 }
 
+function Export-KibanaSavedObjects {
+
+}
+
+function Import-KibanaSavedObjects {
+
+}
+
 Export-ModuleMember -Function Import-ElasticSettingsToUrl
 Export-ModuleMember -Function Import-ElasticSettingsToElasticCloud
+Export-ModuleMember -Function Export-KibanaSavedObjects
+Export-ModuleMember -Function Import-KibanaSavedObjects
