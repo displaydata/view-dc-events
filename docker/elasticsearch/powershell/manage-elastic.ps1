@@ -16,7 +16,7 @@
 #>
 param(
   [Parameter(Mandatory=$false)][string]$Url = "http://localhost:9200",
-  [Parameter(Mandatory=$false)][string]$Path = "/home/njones/Projects/view-dc-events/docker/elasticsearch/elasticsettings/",
+  [Parameter(Mandatory=$false)][string]$Path = "./elasticsettings/",
   [Parameter(Mandatory=$false)][string]$Username = "elastic",
   [Parameter(Mandatory=$false)][string]$Password = "elastic"
 )
