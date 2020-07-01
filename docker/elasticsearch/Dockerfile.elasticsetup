@@ -1,0 +1,5 @@
+FROM mcr.microsoft.com/powershell
+
+COPY ./powershell /home/powershell
+
+ENTRYPOINT [ "/home/powershell/manage-elastic.ps1" ]
