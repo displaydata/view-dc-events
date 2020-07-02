@@ -2,8 +2,7 @@
     "type": "index-pattern",
     "id": "dynamic-communicator-state",
     "attributes": {
-      "title": "dynamic-communicator-state",
-      "timeFieldName": "Timestamp"
+      "title": "dynamic-communicator-state"
     },
     "references": [],
     "migrationVersion": {

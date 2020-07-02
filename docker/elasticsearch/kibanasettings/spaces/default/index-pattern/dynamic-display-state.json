@@ -2,8 +2,7 @@
     "type": "index-pattern",
     "id": "dynamic-display-state",
     "attributes": {
-      "title": "dynamic-display-state",
-      "timeFieldName": "Timestamp"
+      "title": "dynamic-display-state"
     },
     "references": [],
     "migrationVersion": {
