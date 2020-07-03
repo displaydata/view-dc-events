@@ -1,0 +1,39 @@
+{
+  "type": "dashboard",
+  "id": "2065dff0-bc7e-11ea-ab31-ed63f66ee09d",
+  "attributes": {
+    "title": "Display Health Dashboard",
+    "hits": 0,
+    "description": "",
+    "panelsJSON": "[{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"e4771634-c198-4a15-b185-0d673d989c66\"},\"panelIndex\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":15,\"w\":48,\"h\":23,\"i\":\"e9930546-97d6-4ee8-a915-438f6e129723\"},\"panelIndex\":\"e9930546-97d6-4ee8-a915-438f6e129723\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
+    "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+    "version": 1,
+    "timeRestore": true,
+    "timeTo": "now",
+    "timeFrom": "now-7d",
+    "refreshInterval": {
+      "pause": true,
+      "value": 0
+    },
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "33d43710-bc76-11ea-ab31-ed63f66ee09d"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "b9e8d840-bc7d-11ea-ab31-ed63f66ee09d"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-07-02T16:07:28.367Z",
+  "version": "Wzc5LDJd"
+}

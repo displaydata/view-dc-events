@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "b9e8d840-bc7d-11ea-ab31-ed63f66ee09d",
+  "attributes": {
+    "title": "SerialNumberList",
+    "visState": "{\"type\":\"document_table\",\"aggs\":[],\"params\":{\"computedColsPerSplitCol\":false,\"computedColumns\":[],\"fieldColumns\":[{\"enabled\":true,\"field\":{\"aggregatable\":true,\"count\":0,\"esTypes\":[\"keyword\"],\"name\":\"DisplaySerialNumber\",\"readFromDocValues\":true,\"scripted\":false,\"searchable\":true,\"type\":\"string\"},\"label\":\"Display Serial Number\"},{\"enabled\":true,\"field\":{\"aggregatable\":true,\"count\":0,\"esTypes\":[\"keyword\"],\"name\":\"LocationName\",\"readFromDocValues\":true,\"scripted\":false,\"searchable\":true,\"type\":\"string\"},\"label\":\"Location Name\"},{\"enabled\":true,\"field\":{\"aggregatable\":false,\"count\":0,\"esTypes\":[\"text\"],\"name\":\"ObjectIds\",\"readFromDocValues\":false,\"scripted\":false,\"searchable\":true,\"type\":\"string\"},\"label\":\"Object Ids\"}],\"filterAsYouType\":false,\"filterBarHideable\":false,\"filterBarWidth\":\"25%\",\"filterCaseSensitive\":false,\"filterHighlightResults\":false,\"filterTermsSeparately\":false,\"hideExportLinks\":false,\"hitsSize\":2000,\"perPage\":100,\"showFilterBar\":false,\"showMetricsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"sortField\":{\"name\":\"_score\"},\"sortOrder\":\"desc\",\"stripedRows\":false,\"totalFunc\":\"sum\"},\"title\":\"SerialNumberList\"}",
+    "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-display-state"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.7.0"
+  },
+  "updated_at": "2020-07-02T16:04:36.42Z",
+  "version": "WzcwLDJd"
+}
