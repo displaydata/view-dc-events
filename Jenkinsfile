@@ -5,7 +5,12 @@ node('docker-host') {
     def EDTPLUGIN_VERSION= "1.9.0"
     def dynamicCentralVersion = "1.13.0"
 
-    def tag = "${dynamicCentralVersion}-${ELK_VERSION}-${BUILD_ID}"
+    def tag_branch = ''
+    if (BRANCH_NAME != 'develop') {
+        tag_branch = "-${BRANCH_NAME.replaceAll('/', '_')}"
+    }
+
+    def tag = "${dynamicCentralVersion}-${ELK_VERSION}${tag_branch}-${BUILD_ID}"
 
     def containerPrefix = "dev-elasticsearchdocker-build-local.artifactory.dev.zbddisplays.local/displaydata/"
 
