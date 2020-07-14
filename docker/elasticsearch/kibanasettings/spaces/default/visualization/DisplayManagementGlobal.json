@@ -2,7 +2,7 @@
   "type": "visualization",
   "id": "33d43710-bc76-11ea-ab31-ed63f66ee09d",
   "attributes": {
-    "title": "DisplayManagementGloabl",
+    "title": "DisplayManagementGlobal",
     "visState": "{\"type\":\"pie\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"StoreHealthDashboard.Health.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"exclude\":\"\"}}],\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false,\"labels\":{\"show\":true,\"values\":true,\"last_level\":true,\"truncate\":10000},\"row\":false},\"title\":\"DisplayManagementGloabl\"}",
     "uiStateJSON": "{\"vis\":{\"colors\":{\"Yellow\":\"#EAB839\",\"Red\":\"#E24D42\"}}}",
     "description": "Shows the number of displays where the last Display Update was successful, where the last Display Update was successful but most recent System Healthcheck failed and finally, where the last attempt to update the display with a new image failed.",
