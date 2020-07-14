@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "a7cb91a0-c5da-11ea-a587-a50cb0a14e91",
+  "attributes": {
+    "title": "Nifi Bulletins",
+    "visState": "{\"title\":\"Nifi Bulletins\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"percentageCol\":\"\",\"dimensions\":{\"metrics\":[{\"accessor\":4,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Count\",\"aggType\":\"count\"}],\"buckets\":[{\"accessor\":0,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"date\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://192-168-56-4.ip.dev.zbddisplays.local:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"bulletinTimestamp: Descending\",\"aggType\":\"terms\"},{\"accessor\":1,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://192-168-56-4.ip.dev.zbddisplays.local:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"bulletinGroupPath.keyword: Descending\",\"aggType\":\"terms\"},{\"accessor\":2,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://192-168-56-4.ip.dev.zbddisplays.local:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"bulletinSourceName.keyword: Descending\",\"aggType\":\"terms\"},{\"accessor\":3,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://192-168-56-4.ip.dev.zbddisplays.local:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"bulletinMessage.keyword: Descending\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"top_hits\",\"schema\":\"metric\",\"params\":{\"field\":\"bulletinMessage\",\"aggregate\":\"concat\",\"size\":1,\"sortField\":\"bulletinTimestamp\",\"sortOrder\":\"desc\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"bulletinTimestamp\",\"orderBy\":\"_key\",\"order\":\"desc\",\"size\":9999,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"bulletinGroupPath.keyword\",\"orderBy\":\"_key\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"4\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"bulletinSourceName.keyword\",\"orderBy\":\"_key\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
+    "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "ffae5a20-c5cf-11ea-a587-a50cb0a14e91"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-07-14T14:02:29.69Z",
+  "version": "Wzc5LDEwXQ=="
+}
