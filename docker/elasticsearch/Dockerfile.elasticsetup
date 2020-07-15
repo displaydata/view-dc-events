@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/powershell:lts-ubuntu-18.04
+
+# copy module manifest to the container
+COPY ./powershell/modules/elastic.psm1 /usr/local/share/powershell/Modules/elastic/elastic.psm1
+
+# copy functions for module to container
+COPY ./powershell/modules/private/ /usr/local/share/powershell/Modules/elastic/
+
+RUN pwsh -c "Import-Module -Name elastic"
+
+COPY ./elasticsettings/ /usr/share/elasticsettings/
+
+COPY ./kibanasettings/ /usr/share/kibanasettings/
+
+# TODO: modify this container to supply defaults or RUN over-rides to elastic module
+
+# TODO: re-wire the build elastic/kibana container scripts to use this module rather
+
+# TODO: delete the existing manage elastic/manage kibana scripts
+
+# TODO: check wither container FROM should contain tog or :latest
+
+CMD [ "pwsh" ]

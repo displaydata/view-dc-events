@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "15333650-c6a6-11ea-8565-8176c89e2842",
+  "attributes": {
+    "title": "Display Health Buckets",
+    "visState": "{\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"StoreHealthDashboard.Health.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":4,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}],\"params\":{\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\",\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}}},\"title\":\"Display Health Buckets\"}",
+    "uiStateJSON": "{}",
+    "description": "Groups displays into 4 buckets ranging from Image and Last Healthcheck Success, Image Success but Last Healthcheck Failed, Both Image and Healthcheck Failed and finally Replace Battery.",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-display-state"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.7.0"
+  },
+  "updated_at": "2020-07-15T14:18:41.076Z",
+  "version": "WzE1MiwyXQ=="
+}

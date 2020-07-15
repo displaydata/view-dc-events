@@ -1,0 +1,36 @@
+{
+  "type": "search",
+  "id": "7a017200-c6a5-11ea-8565-8176c89e2842",
+  "attributes": {
+    "title": "Last Image Update Success but Last Healthcheck Failure",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "DisplaySerialNumber",
+      "LocationName",
+      "ObjectIds"
+    ],
+    "sort": [],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Succcess but Last Healthcheck Failure\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Succcess but Last Healthcheck Failure\"}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-display-state"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "dynamic-display-state"
+    }
+  ],
+  "migrationVersion": {
+    "search": "7.4.0"
+  },
+  "updated_at": "2020-07-15T14:14:20.704Z",
+  "version": "WzE0NywyXQ=="
+}
