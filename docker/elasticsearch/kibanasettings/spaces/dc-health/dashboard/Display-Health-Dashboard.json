@@ -5,7 +5,7 @@
     "title": "Display Health Dashboard",
     "hits": 0,
     "description": "",
-    "panelsJSON": "[{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"e4771634-c198-4a15-b185-0d673d989c66\"},\"panelIndex\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":15,\"w\":48,\"h\":23,\"i\":\"e9930546-97d6-4ee8-a915-438f6e129723\"},\"panelIndex\":\"e9930546-97d6-4ee8-a915-438f6e129723\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
+    "panelsJSON": "[{\"version\":\"7.7.1\",\"gridData\":{\"h\":15,\"i\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"w\":24,\"x\":0,\"y\":0},\"panelIndex\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.7.1\",\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":0,\"i\":\"f85d449b-e44c-4403-83ac-2695582e7786\"},\"panelIndex\":\"f85d449b-e44c-4403-83ac-2695582e7786\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
     "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
     "version": 1,
     "timeRestore": true,
@@ -28,12 +28,12 @@
     {
       "name": "panel_1",
       "type": "visualization",
-      "id": "b9e8d840-bc7d-11ea-ab31-ed63f66ee09d"
+      "id": "15333650-c6a6-11ea-8565-8176c89e2842"
     }
   ],
   "migrationVersion": {
     "dashboard": "7.3.0"
   },
-  "updated_at": "2020-07-02T16:07:28.367Z",
-  "version": "Wzc5LDJd"
+  "updated_at": "2020-07-15T14:19:30.652Z",
+  "version": "WzE1MywyXQ=="
 }
