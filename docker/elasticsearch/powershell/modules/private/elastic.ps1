@@ -115,7 +115,7 @@ function Import-ElasticSavedObjects {
       [parameter(Mandatory=$true)]$Body
     )
   
-    $Controller = "_template/" + $($ObjectName) -replace '\.json', '-*'
+    $Controller = "_template/" + $($ObjectName) -replace '\.json', ''
     $headers=@{}
   
     Try{
