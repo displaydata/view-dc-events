@@ -1,29 +1,19 @@
 <#
 .SYNOPSIS
-  Script enables creation of communicator alerts
+  Script enables creation of communicator alerts that are sent to support@displaydata.com
 .PARAMETER Communicator
   Declare to set up an alert for a communicator by serial number
-.PARAMETER Export
-  Declare to export a set of elastic saved_objects. Mutually exclusive with -Import
 .PARAMETER Url
   URI of the kibana api endpoint e.g. "http://localhost:5601" (optional)
 .PARAMETER Username
   Elastic user name (optional)
 .PARAMETER Password
   Elastic password (optional)
-.PARAMETER Email
-  Recipient for alert email
-  #FIXME: might be more than one recipient(?)
-
 .EXAMPLE
-  setup-communicator-alert.ps1 -Communicator ZC00003472 -Url "https://192.168.56.4:5601" -Username elastic -Password 'fgefliferihf'
-
+  Set-CommunicatorAlert -Communicator ZC00003472 -Url "https://192.168.56.4:5601" -Username elastic -Password 'fgefliferihf'
 .NOTES
   Creates an alert per communicator that triggers every hour and fires if the communicator is either Disconnected or Connecting and if the 'LastConnected' timestamp value is older than 30 minutes ago
 #>
-
-
-
 function Set-CommunicatorAlert {
 
     param(
@@ -113,3 +103,34 @@ $alert='
 
 }
 
+<#
+.SYNOPSIS
+  Script enables creation of communicator alerts from a Csv file
+.PARAMETER Filepath
+  Location of CSV file containing communicator 'Serial Number' heading
+.PARAMETER Url
+  URI of the elasticsearch api endpoint e.g. "http://localhost:9200" (optional)
+.PARAMETER Username
+  Elastic user name (optional)
+.PARAMETER Password
+  Elastic password (optional)
+
+.EXAMPLE
+  Set-CommunicatorAlertFromCsv -Filepath C:\Username\Downloads\communicators.csv -Url "https://192.168.56.4:5601" -Username elastic -Password 'fgefliferihf'
+
+.NOTES
+  Creates an alert per communicator that triggers every hour and fires if the communicator is either Disconnected or Connecting and if the 'LastConnected' timestamp value is older than 30 minutes ago
+#>
+function Set-CommunicatorAlertFromCsv {
+
+    param(
+        [Parameter(Mandatory=$true)]$Filepath,
+        [Parameter(Mandatory=$false)][string]$Url = "http://localhost:9200",
+        [Parameter(Mandatory=$false)][string]$Username = "elastic",
+        [Parameter(Mandatory=$false)][string]$Password = "elastic"
+    )
+
+    Import-Csv -Path $Filepath -Delimiter ',' | Select-Object -Property 'Serial Number' | ForEach-Object { Set-CommunicatorAlert -Url $Url -Communicators ($_.'Serial Number')}
+
+}
+# Set-CommunicatorAlertFromCsv -Filepath C:\Users\rsweetman\Desktop\Zabka_Dcomms.csv -Url "http://localhost:9200"
