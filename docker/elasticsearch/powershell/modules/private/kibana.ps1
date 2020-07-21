@@ -37,8 +37,8 @@ function Set-KibanaConfiguration {
 # Create a list of objects we current manage
 [string[]]$global:KibanaObjectTypes = @(
   "index-pattern",
-  "dashboard",
   "visualization",
+  "dashboard",
   "canvas-workpad",
   "graph-workspace",
   "search",
