@@ -5,7 +5,7 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 # copy index files to container
 COPY ./elasticsettings/index-templates /home/elasticsearch/index-templates/
 # copy management scripts to container
-COPY ./powershell /home/powershell/
+COPY ./powershell-elastic-utils /home/powershell/
 # Possibly replace with the Powershell version of this sh script <== needs to be its own script or a MODULE to use this method
 COPY ./check-ready.sh check-ready.sh
 # copy elasticsearch config to the correct location in the container
@@ -45,7 +45,7 @@ COPY ./kibanasettings/spaces/ /home/kibana/spaces/
 COPY ./systemctl.py /usr/bin/systemctl
 
 # make new systemctl executable - required to allow others users to execute this file, specifically the next command
-RUN chmod +x /usr/bin/systemctl 
+RUN chmod +x /usr/bin/systemctl
 
 # systemctl daemon reload required to take into account that kibana has been installed
 RUN /bin/systemctl daemon-reload
@@ -58,7 +58,7 @@ RUN /bin/systemctl enable kibana.service && \
     pwsh -c '/home/powershell/manage-kibana.ps1 -Url "http://localhost:5601" -Path /home/kibana/spaces' && \
     echo "finished kibana settings upload"
 
-# final image - this uses multi-stage builds to avoid carrying all the setup steps into the new container 
+# final image - this uses multi-stage builds to avoid carrying all the setup steps into the new container
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
 # copies the indexes from the previous container
 COPY --from=elasticbase /usr/share/elasticsearch/data/ /usr/share/elasticsearch/data/
@@ -67,4 +67,4 @@ COPY --from=elasticbase /usr/share/elasticsearch/data/ /usr/share/elasticsearch/
 # 1. run the saved-objects API on the elasticbase image to properly export the .kibana_1 index & others
 # 2. copy these exported items to the 'final image' using a shell script
 # 3. run the saved objects API on the final image to import the indexes OR make them get imported on BEFORE container init
-# 4. delete the copied items 
+# 4. delete the copied items
