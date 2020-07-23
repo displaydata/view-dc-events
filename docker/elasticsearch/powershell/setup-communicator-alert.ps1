@@ -44,11 +44,8 @@ $alert='
                     "bool": {
                         "must": [
                             {
-                            "terms": {
-                                "Result": [
-                                    "CommunicatorDisconnected",
-                                    "CommunicatorConnecting"
-                                ]
+                            "exists": {
+                                "field": "disconnectedTimestamp"
                             }
                         },
                     {
@@ -65,7 +62,7 @@ $alert='
     },
     "condition": {
         "compare": {
-            "ctx.payload.hits.hits.0._source.LastConnectedTimestamp": {
+            "ctx.payload.hits.hits.0._source.disconnectedTimestamp": {
                 "lte": "<{now-30m}>"
             }
         }
