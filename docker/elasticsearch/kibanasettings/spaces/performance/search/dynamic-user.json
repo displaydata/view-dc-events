@@ -1,0 +1,34 @@
+﻿{
+    "type":  "search",
+    "id":  "3466c910-d65f-11ea-87d7-17816c64b3b2",
+    "attributes":  {
+                       "title":  "dynamic-user",
+                       "description":  "",
+                       "hits":  0,
+                       "columns":  [
+                                       "MessageType",
+                                       "Result",
+                                       "LocationName",
+                                       "DisplaySerialNumber"
+                                   ],
+                       "sort":  [
+
+                                ],
+                       "version":  1,
+                       "kibanaSavedObjectMeta":  {
+                                                     "searchSourceJSON":  "{\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[]}"
+                                                 }
+                   },
+    "references":  [
+                       {
+                           "name":  "kibanaSavedObjectMeta.searchSourceJSON.index",
+                           "type":  "index-pattern",
+                           "id":  "dynamic-user"
+                       }
+                   ],
+    "migrationVersion":  {
+                             "search":  "7.4.0"
+                         },
+    "updated_at":  "2020-08-05T14:09:46.472Z",
+    "version":  "WzUwLDFd"
+}
