@@ -1,3 +1,1 @@
-[submodule "docker/elasticsearch/powershell-elastic-utils"]
-	path = docker/elasticsearch/powershell-elastic-utils
-	url = https://gitlab.dev.zbddisplays.local:443/internal/powershell-elastic-utils.git
+
