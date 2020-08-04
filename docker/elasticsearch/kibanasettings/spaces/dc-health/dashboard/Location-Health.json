@@ -1,64 +1,64 @@
 {
-    "attributes":{
-       "description":"Summary of overall Health of a Location with respect to Communicator Connections, Display Updates, Healthcheck results and Battery Values.\n\nFilter by a single LocationName value to see the specifics for a particular location. ",
-       "hits":0,
-       "kibanaSavedObjectMeta":{
-          "searchSourceJSON":"{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
-       },
-       "optionsJSON":"{\"hidePanelTitles\":false,\"useMargins\":true}",
-       "panelsJSON":"[{\"version\":\"7.5.1\",\"gridData\":{\"h\":12,\"i\":\"2\",\"w\":39,\"x\":0,\"y\":10},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"3\",\"w\":32,\"x\":0,\"y\":0},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"4\",\"w\":9,\"x\":39,\"y\":10},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"5\",\"w\":9,\"x\":39,\"y\":16},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"6\",\"w\":16,\"x\":32,\"y\":0},\"panelIndex\":\"6\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":15,\"i\":\"8\",\"w\":24,\"x\":0,\"y\":22},\"panelIndex\":\"8\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"7.5.1\",\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":22,\"i\":\"29db95cf-441f-478e-823b-b10e646221c2\"},\"panelIndex\":\"29db95cf-441f-478e-823b-b10e646221c2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"}]",
-       "refreshInterval":{
-          "pause":true,
-          "value":0
-       },
-       "timeFrom":"now/d",
-       "timeRestore":true,
-       "timeTo":"now/d",
-       "title":"Location Health",
-       "version":1
+  "type": "dashboard",
+  "id": "dc-location-health",
+  "attributes": {
+    "description": "Summary of overall Health of a Location with respect to Communicator Connections, Display Updates, Healthcheck results and Battery Values.\n\nFilter by a single LocationName value to see the specifics for a particular location. ",
+    "hits": 0,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
     },
-    "id":"dc-location-health",
-    "migrationVersion":{
-       "dashboard":"7.3.0"
+    "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+    "panelsJSON": "[{\"version\":\"7.5.1\",\"gridData\":{\"h\":12,\"i\":\"2\",\"w\":39,\"x\":0,\"y\":10},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"3\",\"w\":32,\"x\":0,\"y\":0},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"4\",\"w\":9,\"x\":39,\"y\":10},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"5\",\"w\":9,\"x\":39,\"y\":16},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"6\",\"w\":16,\"x\":32,\"y\":0},\"panelIndex\":\"6\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":15,\"i\":\"8\",\"w\":24,\"x\":0,\"y\":22},\"panelIndex\":\"8\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"7.5.1\",\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":22,\"i\":\"29db95cf-441f-478e-823b-b10e646221c2\"},\"panelIndex\":\"29db95cf-441f-478e-823b-b10e646221c2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"}]",
+    "refreshInterval": {
+      "pause": true,
+      "value": 0
     },
-    "references":[
-       {
-          "id":"3c1e9a00-d635-11e9-8524-a53adb816424",
-          "name":"panel_0",
-          "type":"visualization"
-       },
-       {
-          "id":"53855370-d638-11e9-8524-a53adb816424",
-          "name":"panel_1",
-          "type":"visualization"
-       },
-       {
-          "id":"b8080300-d63e-11e9-8524-a53adb816424",
-          "name":"panel_2",
-          "type":"visualization"
-       },
-       {
-          "id":"4c91fb70-d63f-11e9-8524-a53adb816424",
-          "name":"panel_3",
-          "type":"visualization"
-       },
-       {
-          "id":"223f5e20-d640-11e9-8524-a53adb816424",
-          "name":"panel_4",
-          "type":"visualization"
-       },
-       {
-          "id":"e106e1d0-dbbc-11e9-b666-23c0bc229fd2",
-          "name":"panel_5",
-          "type":"visualization"
-       },
-       {
-          "id":"795b10b0-7423-11ea-9892-a91b0c7413ce",
-          "name":"panel_6",
-          "type":"visualization"
-       }
-    ],
-    "type":"dashboard",
-    "updated_at":"2020-04-01T14:23:17.668Z",
-    "version":"WzYxLDFd"
- }
+    "timeFrom": "now/d",
+    "timeRestore": true,
+    "timeTo": "now/d",
+    "title": "Location Health",
+    "version": 1
+  },
+  "references": [
+    {
+      "id": "3c1e9a00-d635-11e9-8524-a53adb816424",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "53855370-d638-11e9-8524-a53adb816424",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "b8080300-d63e-11e9-8524-a53adb816424",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "4c91fb70-d63f-11e9-8524-a53adb816424",
+      "name": "panel_3",
+      "type": "visualization"
+    },
+    {
+      "id": "223f5e20-d640-11e9-8524-a53adb816424",
+      "name": "panel_4",
+      "type": "visualization"
+    },
+    {
+      "id": "e106e1d0-dbbc-11e9-b666-23c0bc229fd2",
+      "name": "panel_5",
+      "type": "visualization"
+    },
+    {
+      "id": "795b10b0-7423-11ea-9892-a91b0c7413ce",
+      "name": "panel_6",
+      "type": "visualization"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-04T17:42:13.789Z",
+  "version": "WzM3LDFd"
+}
