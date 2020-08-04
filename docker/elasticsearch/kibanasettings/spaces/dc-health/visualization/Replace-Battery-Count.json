@@ -1,26 +1,26 @@
 {
-   "attributes":{
-      "description":"",
-      "kibanaSavedObjectMeta":{
-         "searchSourceJSON":"{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
-      },
-      "title":"Replace Battery Count",
-      "uiStateJSON":"{}",
-      "version":1,
-      "visState":"{\"title\":\"Replace Battery Count\",\"type\":\"metric\",\"params\":{\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"type\":\"range\",\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}},\"dimensions\":{\"metrics\":[{\"type\":\"vis_dimension\",\"accessor\":1,\"format\":{\"id\":\"number\",\"params\":{}}}],\"bucket\":{\"type\":\"vis_dimension\",\"accessor\":0,\"format\":{\"id\":\"string\",\"params\":{}}}},\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"DisplaySerialNumber\",\"customLabel\":\"Total\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"filters\",\"schema\":\"group\",\"params\":{\"filters\":[{\"input\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" \",\"language\":\"kuery\"},\"label\":\"Number of Displays\"},{\"input\":{\"query\":\"MessageType : \\\"BatteryReplace\\\" \",\"language\":\"kuery\"},\"label\":\"Replace Battery\"}]}}]}"
-   },
-   "id":"795b10b0-7423-11ea-9892-a91b0c7413ce",
-   "migrationVersion":{
-      "visualization":"7.4.2"
-   },
-   "references":[
-      {
-         "id":"dynamic-user-*",
-         "name":"kibanaSavedObjectMeta.searchSourceJSON.index",
-         "type":"index-pattern"
-      }
-   ],
-   "type":"visualization",
-   "updated_at":"2020-04-01T14:17:09.690Z",
-   "version":"WzU5LDFd"
+  "type": "visualization",
+  "id": "795b10b0-7423-11ea-9892-a91b0c7413ce",
+  "attributes": {
+    "description": "",
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    },
+    "title": "Replace Battery Count",
+    "uiStateJSON": "{}",
+    "version": 1,
+    "visState": "{\"title\":\"Replace Battery Count\",\"type\":\"metric\",\"params\":{\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"type\":\"range\",\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}},\"dimensions\":{\"metrics\":[{\"type\":\"vis_dimension\",\"accessor\":1,\"format\":{\"id\":\"number\",\"params\":{}}}],\"bucket\":{\"type\":\"vis_dimension\",\"accessor\":0,\"format\":{\"id\":\"string\",\"params\":{}}}},\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"DisplaySerialNumber\",\"customLabel\":\"Total\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"filters\",\"schema\":\"group\",\"params\":{\"filters\":[{\"input\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" \",\"language\":\"kuery\"},\"label\":\"Number of Displays\"},{\"input\":{\"query\":\"MessageType : \\\"BatteryReplace\\\" \",\"language\":\"kuery\"},\"label\":\"Replace Battery\"}]}}]}"
+  },
+  "references": [
+    {
+      "id": "dynamic-user-*",
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.7.0"
+  },
+  "updated_at": "2020-08-04T18:35:43.795Z",
+  "version": "WzI5LDFd"
 }

@@ -1,55 +1,33 @@
 {
-   "attributes":{      "description":"Look back over the history of updates to a particular display to see its overall health.",
-      "hits":0,
-      "kibanaSavedObjectMeta":{
-         "searchSourceJSON":"{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
-      
-},
-      "optionsJSON":"{\"hidePanelTitles\":false,\"useMargins\":false}",
-      "panelsJSON":"[{\"version\":\"7.4.0\",\"gridData\":{\"h\":7,\"i\":\"3\",\"w\":48,\"x\":0,\"y\":23},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.4.0\",\"gridData\":{\"h\":7,\"i\":\"4\",\"w\":48,\"x\":0,\"y\":30},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.4.0\",\"gridData\":{\"h\":8,\"i\":\"5\",\"w\":48,\"x\":0,\"y\":0},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.4.0\",\"gridData\":{\"h\":8,\"i\":\"6\",\"w\":48,\"x\":0,\"y\":15},\"panelIndex\":\"6\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.4.0\",\"gridData\":{\"h\":7,\"i\":\"7\",\"w\":48,\"x\":0,\"y\":8},\"panelIndex\":\"7\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"}]",
-      "timeRestore":false,
-      "title":"Display Health",
-      "version":1
-   
-},
-   "id":"dc-display-health",
-   "migrationVersion":{
-      "dashboard":"7.3.0"
-   
-},
-   "references":[      {
-         "id":"05e1a3e0-e424-11e9-b666-23c0bc229fd2",
-         "name":"panel_0",
-         "type":"visualization"
-      
-},
-      {
-         "id":"4fe5e4a0-e425-11e9-b666-23c0bc229fd2",
-         "name":"panel_1",
-         "type":"visualization"
-      
-},
-      {
-         "id":"40aa1610-e12c-11e9-b666-23c0bc229fd2",
-         "name":"panel_2",
-         "type":"visualization"
-      
-},
-      {
-         "id":"6c3c57f0-e12e-11e9-b666-23c0bc229fd2",
-         "name":"panel_3",
-         "type":"visualization"
-      
-},
-      {
-         "id":"f9ccf5c0-e426-11e9-b666-23c0bc229fd2",
-         "name":"panel_4",
-         "type":"visualization"
-      
-}
-   
-],
-   "type":"dashboard",
-   "updated_at":"2020-03-26T17:25:54.247Z",
-   "version":"WzEwLDFd"
+  "type": "dashboard",
+  "id": "2065dff0-bc7e-11ea-ab31-ed63f66ee09d",
+  "attributes": {
+    "title": "Display Health",
+    "hits": 0,
+    "description": "Shows which Displays successfully updated with the most recent image they were sent, which ones failed and the number of displays which need their batteries replaced. This dashboard can also be easily filtered by Location",
+    "panelsJSON": "[{\"embeddableConfig\":{},\"gridData\":{\"h\":15,\"i\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"w\":24,\"x\":0,\"y\":0},\"panelIndex\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"version\":\"7.7.1\",\"panelRefName\":\"panel_0\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":15,\"i\":\"f85d449b-e44c-4403-83ac-2695582e7786\",\"w\":24,\"x\":24,\"y\":0},\"panelIndex\":\"f85d449b-e44c-4403-83ac-2695582e7786\",\"version\":\"7.7.1\",\"panelRefName\":\"panel_1\"}]",
+    "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "33d43710-bc76-11ea-ab31-ed63f66ee09d"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "15333650-c6a6-11ea-8565-8176c89e2842"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-04T18:35:47.939Z",
+  "version": "WzMzLDFd"
 }

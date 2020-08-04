@@ -4,8 +4,8 @@
   "attributes": {
     "title": "Image Delivery",
     "hits": 0,
-    "description": "Overview of Image Delivery across the whole system which can be filtered to a specific LocationName",
-    "panelsJSON": "[{\"version\":\"7.4.0\",\"gridData\":{\"x\":0,\"y\":0,\"w\":48,\"h\":9,\"i\":\"1\"},\"panelIndex\":\"1\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.4.0\",\"gridData\":{\"x\":0,\"y\":9,\"w\":48,\"h\":9,\"i\":\"2\"},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.4.0\",\"gridData\":{\"x\":0,\"y\":18,\"w\":48,\"h\":9,\"i\":\"4\"},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.4.0\",\"gridData\":{\"x\":0,\"y\":27,\"w\":48,\"h\":7,\"i\":\"5\"},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"}]",
+    "description": "Overview of Image Delivery across the whole system which can be filtered to a specific Location",
+    "panelsJSON": "[{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":48,\"h\":9,\"i\":\"1\"},\"panelIndex\":\"1\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":9,\"w\":48,\"h\":9,\"i\":\"2\"},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":18,\"w\":48,\"h\":9,\"i\":\"4\"},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.7.1\",\"gridData\":{\"x\":0,\"y\":27,\"w\":48,\"h\":7,\"i\":\"5\"},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"}]",
     "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":false}",
     "version": 1,
     "timeRestore": false,
@@ -38,6 +38,6 @@
   "migrationVersion": {
     "dashboard": "7.3.0"
   },
-  "updated_at": "2020-01-10T10:10:48.089Z",
-  "version": "WzEyLDFd"
+  "updated_at": "2020-08-04T18:35:49.968Z",
+  "version": "WzM1LDFd"
 }

@@ -1,22 +1,20 @@
 {
-   "attributes":{
-      "description":"",
-      "kibanaSavedObjectMeta":{
-         "searchSourceJSON":"{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
-      },
-      "title":"Battery Status",
-      "uiStateJSON":"{}",
-      "version":1,
-      "visState":"{\"title\":\"Battery Status\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"rgba(254,146,0,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\",\"field\":\"BatteryPercentage\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":\"2\",\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"terms_field\":null,\"terms_order_by\":\"_key\",\"label\":\"Battery Status\",\"split_color_mode\":\"rainbow\",\"value_template\":\"{{value}}\",\"filter\":{\"query\":\"\",\"language\":\"kuery\"},\"hide_in_legend\":0}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"axis_min\":\"0\",\"axis_max\":\"200\",\"filter\":{\"query\":\"MessageType : \\\"BatteryReplace\\\"\",\"language\":\"kuery\"},\"isModelInvalid\":false},\"aggs\":[]}"
-   },
-   "id":"6c3c57f0-e12e-11e9-b666-23c0bc229fd2",
-   "migrationVersion":{
-      "visualization":"7.4.2"
-   },
-   "references":[
-
-   ],
-   "type":"visualization",
-   "updated_at":"2020-04-01T13:37:27.336Z",
-   "version":"WzUzLDFd"
+  "type": "visualization",
+  "id": "6c3c57f0-e12e-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "description": "",
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    },
+    "title": "Battery Status",
+    "uiStateJSON": "{}",
+    "version": 1,
+    "visState": "{\"title\":\"Battery Status\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"rgba(254,146,0,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\",\"field\":\"BatteryPercentage\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":\"2\",\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"terms_field\":null,\"terms_order_by\":\"_key\",\"label\":\"Battery Status\",\"split_color_mode\":\"rainbow\",\"value_template\":\"{{value}}\",\"filter\":{\"query\":\"\",\"language\":\"kuery\"},\"hide_in_legend\":0}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"axis_min\":\"0\",\"axis_max\":\"200\",\"filter\":{\"query\":\"MessageType : \\\"BatteryReplace\\\"\",\"language\":\"kuery\"},\"isModelInvalid\":false},\"aggs\":[]}"
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.7.0"
+  },
+  "updated_at": "2020-08-04T18:35:30.25Z",
+  "version": "WzE2LDFd"
 }
