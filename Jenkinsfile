@@ -2,7 +2,6 @@ node('docker-host') {
     checkout scm
 
     def ELK_VERSION = "7.7.1"
-    def EDTPLUGIN_VERSION= "1.9.0"
     def dynamicCentralVersion = "1.13.0"
 
     def tag_branch = ''
@@ -25,7 +24,7 @@ node('docker-host') {
 
     //build kibana container
     def kibanaImageName = "${containerPrefix}kibana:${tag}"
-    def kibanaImage = docker.build(kibanaImageName, "--build-arg ELK_VERSION=${ELK_VERSION} --build-arg EDTPLUGIN_VERSION=${EDTPLUGIN_VERSION} ./docker/kibana")
+    def kibanaImage = docker.build(kibanaImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/kibana")
     def kibanaBuildInfo = rtDocker.push kibanaImageName, 'dev-elasticsearchdocker-build-local'
     server.publishBuildInfo kibanaBuildInfo
 
