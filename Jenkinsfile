@@ -22,12 +22,6 @@ node('docker-host') {
     def elasticBuildInfo = rtDocker.push elasticImageName, 'dev-elasticsearchdocker-build-local'
     server.publishBuildInfo elasticBuildInfo
 
-    //build kibana container
-    def kibanaImageName = "${containerPrefix}kibana:${tag}"
-    def kibanaImage = docker.build(kibanaImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/kibana")
-    def kibanaBuildInfo = rtDocker.push kibanaImageName, 'dev-elasticsearchdocker-build-local'
-    server.publishBuildInfo kibanaBuildInfo
-
     //build logstash container
     def logstashImageName = "${containerPrefix}logstash:${tag}"
     def logstashImage = docker.build(logstashImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/logstash")
