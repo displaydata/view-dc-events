@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "a84332c0-f73e-11e9-8d7e-e33855748277",
+  "attributes": {
+    "description": "",
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    },
+    "title": "Last known test end time",
+    "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+    "version": 1,
+    "visState": "{\"title\":\"Last known test end time\",\"type\":\"table\",\"params\":{\"perPage\":1,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"dimensions\":{\"metrics\":[{\"accessor\":0,\"format\":{\"id\":\"date\"},\"params\":{},\"aggType\":\"top_hits\"}],\"buckets\":[]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"top_hits\",\"schema\":\"metric\",\"params\":{\"field\":\"end-time\",\"aggregate\":\"concat\",\"size\":1,\"sortField\":\"end-time\",\"sortOrder\":\"desc\",\"customLabel\":\"Last known test\"}}]}"
+  },
+  "references": [
+    {
+      "id": "regression-test",
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.4.2"
+  },
+  "updated_at": "2020-01-27T10:42:02.865Z",
+  "version": "WzM2LDFd"
+}

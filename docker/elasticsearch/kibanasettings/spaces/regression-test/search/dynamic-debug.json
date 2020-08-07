@@ -1,0 +1,37 @@
+{
+  "type": "search",
+  "id": "9a9c69d0-474c-11ea-8ee7-9d02d23af33a",
+  "attributes": {
+    "title": "dynamic-debug",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "fields.testGroup",
+      "fields.testBuildNumber",
+      "@mt",
+      "@x"
+    ],
+    "sort": [
+      [
+        "@timestamp",
+        "desc"
+      ]
+    ],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "dynamic-debug"
+    }
+  ],
+  "migrationVersion": {
+    "search": "7.4.0"
+  },
+  "updated_at": "2020-02-04T12:48:12.524Z",
+  "version": "WzE4OSwxMF0="
+}
