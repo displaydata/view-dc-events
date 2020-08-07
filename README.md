@@ -18,6 +18,19 @@ It can also be used by Displaydata customers (who are in the rollout stage) as a
 
 Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.
 
+## 1.13.0 Release changes to Elasticsearch settings
+
+* view-dc-events repo will no longer be merged to master and pushed to GitHub. Artifacts will be provided externally as follows: -
+  * Elastic and Logstash containers on Displaydata docker hub with an associated README
+  * Powershell module containing the settings which is intended to be used in one of two ways 
+      * end users upload settings to their own Elasticsearch instances
+      * by Displaydata Support to update Elastic Cloud
+
+## Changelog
+Introduced a changelog to the view-dc-events repo after the release of 1.12.6 which was shipped on 31/06/2020
+
+
+
 ## Pre-requisites
 
 Ubuntu or Debian host machine (Minimum 4Gb RAM, >12Gb disk space) with the following installed:
@@ -379,3 +392,5 @@ This index contains WebApi requests and responses and can be used by developers 
 
 ### fallback
 Events that fall through any previous condition. This should not contain any entries
+
+![container strategy for view-dc-events](elasticsearch_settings_container_distribution_plan.png)
