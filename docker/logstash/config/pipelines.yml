@@ -12,5 +12,8 @@
   path.config: "pipeline/dynamic-service-status.conf"
 - pipeline.id: audit
   path.config: "pipeline/dynamic-audit.conf"
+- pipeline.id: debug
+  path.config: "pipeline/dynamic-debug.conf"
 - pipeline.id: fallback
   path.config: "pipeline/fallback.conf"
+
