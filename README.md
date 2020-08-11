@@ -35,7 +35,7 @@ Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 
 <!-- TODO: complete the changelog
 -->
 
-**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **not** suitable for production environments.
+**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **NOT** suitable for production environments.
 
 ## Pre-requisites
 
