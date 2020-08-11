@@ -1,35 +1,41 @@
 # view-dc-events
 
-A docker compose setup that allows Displaydata customers to ingest Dynamic Central User Events to view and review with a default set of visualisations.
+## 1.13.0 Release 
 
-Events can be ingested directly from a running instance of Dynamic Solution (using Filebeat) or by setting up Filebeat locally to send events to these containers.
+**Changes to managing Elasticsearch settings and how this repository is used**
 
-User event logs are ingested using logstash and written to an elasticsearch volume that can be backed up and restored. These are the primary source of information when it comes to visualizing what the system is doing as well as the basis for alerts and reporting.
+The view-dc-events repo will no longer be merged to master and pushed to GitHub. 
 
-Audit event logs are really only useful for development purposes. These provide some insight into the REST API Request/response bodies when developing against Displaydata's Command API. These events are not documented and are liable to change between Dynamic Solution releases so should only be used to support API development.
+![container strategy for view-dc-events](elasticsearch_settings_container_distribution.png)
 
-This setup is aimed primarily at customers trialing Dynamic Solution.
+Instead, containers will be provided externally to address these target environments (see diagram above): -
+  * An internal 'dev' container including the regression test and other performance related visualizations
 
-It can also be used by Displaydata customers (who are in the rollout stage) as a starting point from which to develop their own customised dashboards and monitoring.
+  * Elastic and Logstash containers on Displaydata docker hub with an associated README with a 'default' and 'health' space for distribution to customers for use in PILOTS only
+    * This can also be used as the basis for customers looking at their own monitoring/reporting needs
 
-**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **not** suitable for production environments.
+  * Powershell container including the DCSetupElastic which is intended to be used in one of two ways 
+    * end users upload settings to their own Elasticsearch instances
+    * Displaydata Support to update Elastic Cloud
+  
+  * Settings (for visualizations and Dashboards in spaces) will ultimately reside separately in Artifactory as well
+    * *This change is pending* 
 
-**NOTE:** This set of containers only supports Elasticsearch's 7.8.1 release.
-
-Be aware that dashboards exported from this setup and imported into earlier or later Elasticsearch instances may not render properly.
-
-## 1.13.0 Release changes to Elasticsearch settings
-
-* view-dc-events repo will no longer be merged to master and pushed to GitHub. Artifacts will be provided externally as follows: -
-  * Elastic and Logstash containers on Displaydata docker hub with an associated README
-  * Powershell module containing the settings which is intended to be used in one of two ways 
-      * end users upload settings to their own Elasticsearch instances
-      * by Displaydata Support to update Elastic Cloud
+  * Developers can clone the view-dc-events repo and quickly iterate on changes
 
 ## Changelog
-Introduced a changelog to the view-dc-events repo after the release of 1.12.6 which was shipped on 31/06/2020
+Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 which was shipped on 31/06/2020
 
+| Item                | Description                                                                |
+|---------------------|----------------------------------------------------------------------------|
+| Version Update      | Supports Elasticsearch 7.8.1                                               |
+| Remove Dependency   | Removed Enhanced Table plugin from Kibana                                  |
+| Use Vanilla Kibana  | Kibana Container is pulled direct from Docker Hub, rather than being built |
 
+<!-- TODO: complete the changelog
+-->
+
+**WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **not** suitable for production environments.
 
 ## Pre-requisites
 
@@ -59,11 +65,13 @@ Azure: https://azuremarketplace.microsoft.com/en-us/marketplace/apps/debian.debi
 
 AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&ref_=srh_res_product_title
 
-## Overview
+## Overview for local development
 
 The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co which are then modified to contain all the Dynamic Solution specific index-templates, visualizations and dashboards. Displaydata's "Monitoring" document explains these dashboards, visualizations and their formats of specific events emitted from Dynamic Central. This document is available on request from Displaydata Support: <support@displaydata.com>
 
-The docker host runs a separate container for each of; elasticsearch, kibana & logstash and mounts the configuration files and any data from the repo directory.
+This repo pulls in a PowerShell Module called DCSetupElastic (which can also be distributed as a container) from Artifactory in order to avoid duplication of functions between this repository (view-dc-events) and the view-dcomm-logs repository, since the same PowerShell code is used to upload settings.
+
+The docker host runs a separate container for each of; elasticsearch, kibana & logstash and mounts the configuration files and any data from the repo directory. In this new version the Kibana container is vanilla.
 
 A separate docker volume is created for the elastic and logstash services. The elastic volume is mapped to the elasticsearch node data and contains the elastic indexes etc. The logstash volume is mapped to the logstash data directory and contains the information on what files have been processed and ingested into elastic.
 
@@ -77,13 +85,11 @@ the saved objects. `./develop.sh update` is only required if you wish to update
 the saved objects
 -->
 
-## Ingesting directly from Dynamic Central
+## Ingesting User events directly from Dynamic Central (pilots or Support)
 
-This docker-compose setup can be used for ingesting and analysing Dynamic
-Solution's live user events. 
+This docker-compose setup can be used for ingesting and analysing Dynamic Solution's live user events. 
 
-In order to set up `view-dc-events` to ingest Dynamic Central user events do the
-following on a Linux VM instance that already has docker and docker-compose installed:
+In order to set up `view-dc-events` to ingest Dynamic Central user events do the following on a Linux VM instance that already has docker and docker-compose installed:
 
 ```bash
 $ # Clone the repo
@@ -161,6 +167,8 @@ config/audit.yml:
 
 `docker-compose down -v` - Remove all running containers AND *delete volumes*
 
+<!--> TODO: check this is still correct (below) -->
+
 `./develop.sh export` - Export all current visualisations, dashboards etc. to `./dynamic/kibana/spaces` after moving the existing folder to `./dynamic/kibana/spaces~`
 
 ## Ingesting user events from locally saved log files
@@ -176,6 +184,8 @@ Set up local config files as outlined above which reference different directorie
 ```
 
 Filebeat.yml will need to be able to send events to the *LOGSTASH* endpoint
+
+On Windows filebeat appears to have somewhat strict installation permissions. It may be beneficial to add the local user to the permissions of folders which filebeat has installed in C:\ProgramData\Elastic\Beats\filebeat to avoid frustration.
 
 ## Vagrant file
 
@@ -392,5 +402,3 @@ This index contains WebApi requests and responses and can be used by developers 
 
 ### fallback
 Events that fall through any previous condition. This should not contain any entries
-
-![container strategy for view-dc-events](elasticsearch_settings_container_distribution_plan.png)
