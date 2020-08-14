@@ -3,7 +3,7 @@
   "id": "05e1a3e0-e424-11e9-b666-23c0bc229fd2",
   "attributes": {
     "title": "Average Temperature",
-    "visState": "{\"title\":\"Average Temperature\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"sigma\":\"\",\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"avg\",\"field\":\"Temperature\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"0.0\",\"chart_type\":\"line\",\"line_width\":\"1\",\"point_size\":\"4\",\"fill\":\"0\",\"stacked\":\"none\",\"label\":\"Temperature\",\"value_template\":\"{{value}}?C\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" \",\"language\":\"kuery\"}},\"aggs\":[]}",
+    "visState": "{\"title\":\"Average Temperature\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"sigma\":\"\",\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"avg\",\"field\":\"Temperature\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"0.0\",\"chart_type\":\"line\",\"line_width\":\"1\",\"point_size\":\"4\",\"fill\":\"0\",\"stacked\":\"none\",\"label\":\"Temperature\",\"value_template\":\"{{value}}?C\",\"split_color_mode\":\"gradient\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" \",\"language\":\"kuery\"}},\"aggs\":[]}",
     "uiStateJSON": "{}",
     "description": "",
     "version": 1,
@@ -13,8 +13,8 @@
   },
   "references": [],
   "migrationVersion": {
-    "visualization": "7.7.0"
+    "visualization": "7.8.0"
   },
-  "updated_at": "2020-08-04T18:35:29.207Z",
-  "version": "WzE1LDFd"
+  "updated_at": "2020-08-14T10:52:19.444Z",
+  "version": "WzE0LDFd"
 }

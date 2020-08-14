@@ -1,0 +1,31 @@
+{
+  "type": "visualization",
+  "id": "374dea60-de29-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Disconnected Communicators",
+    "visState": "{\"type\":\"table\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"},{\"id\":\"4\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"CommunicatorSerialNumber\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":2000,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"},\"schema\":\"bucket\"},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"disconnectedTimestamp\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":1,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"},\"schema\":\"bucket\"},{\"id\":\"5\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"LocationName\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":1,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"},\"schema\":\"bucket\"}],\"params\":{\"perPage\":50,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":true,\"totalFunc\":\"count\",\"percentageCol\":\"\"},\"title\":\"Disconnected Communicators\"}",
+    "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+    "description": "Serial Number, Location and Disconnection Time of communicators that are NOT communicating properly with Dynamic Central",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"Result\",\"negate\":true,\"params\":{\"query\":\"CommunicatorConnected\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"Result\":\"CommunicatorConnected\"}}}]}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "075ac9f0-de28-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "075ac9f0-de28-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T12:26:44.139Z",
+  "version": "WzExOCwyXQ=="
+}

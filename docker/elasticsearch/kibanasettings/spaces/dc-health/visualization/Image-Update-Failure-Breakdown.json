@@ -1,0 +1,31 @@
+{
+  "type": "visualization",
+  "id": "4b660980-de36-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Image Update Failure Breakdown",
+    "visState": "{\"type\":\"pie\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"DisplayUpdateComplete.FailureResult\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":10,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"},\"schema\":\"segment\"}],\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true,\"labels\":{\"show\":false,\"values\":true,\"last_level\":true,\"truncate\":100}},\"title\":\"Image Update Failure Breakdown\"}",
+    "uiStateJSON": "{}",
+    "description": "Drills down to why assigned displays didn't update successfully ",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"$state\":{\"store\":\"appState\"},\"exists\":{\"field\":\"ObjectIds\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"ObjectIds\",\"negate\":false,\"type\":\"exists\",\"value\":\"exists\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"}}]}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T13:58:56.28Z",
+  "version": "WzI5MiwyXQ=="
+}

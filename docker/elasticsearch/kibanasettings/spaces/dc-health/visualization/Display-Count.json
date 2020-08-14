@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "b77800c0-de26-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Display Count",
+    "visState": "{\n  \"type\": \"metric\",\n  \"aggs\": [\n    {\n      \"id\": \"1\",\n      \"enabled\": true,\n      \"type\": \"count\",\n      \"params\": {},\n      \"schema\": \"metric\"\n    }\n  ],\n  \"params\": {\n    \"addTooltip\": true,\n    \"addLegend\": false,\n    \"type\": \"metric\",\n    \"metric\": {\n      \"percentageMode\": false,\n      \"useRanges\": false,\n      \"colorSchema\": \"Green to Red\",\n      \"metricColorMode\": \"None\",\n      \"colorsRange\": [\n        {\n          \"from\": 0,\n          \"to\": 10000\n        }\n      ],\n      \"labels\": {\n        \"show\": true\n      },\n      \"invertColors\": false,\n      \"style\": {\n        \"bgFill\": \"#000\",\n        \"bgColor\": false,\n        \"labelColor\": false,\n        \"subText\": \"\",\n        \"fontSize\": 60\n      }\n    }\n  },\n  \"title\": \"Display Count\"\n}",
+    "uiStateJSON": "{}",
+    "description": "Count of the total number of displays on the system",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\n  \"query\": {\n    \"query\": \"\",\n    \"language\": \"kuery\"\n  },\n  \"indexRefName\": \"kibanaSavedObjectMeta.searchSourceJSON.index\",\n  \"filter\": []\n}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "id": "dynamic-display-*",
+      "type": "index-pattern"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T12:32:49.282Z",
+  "version": "WzEzOSwyXQ=="
+}

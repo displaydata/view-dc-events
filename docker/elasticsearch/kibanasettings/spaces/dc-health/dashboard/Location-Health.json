@@ -2,63 +2,68 @@
   "type": "dashboard",
   "id": "dc-location-health",
   "attributes": {
-    "description": "Summary of overall Health of a Location with respect to Communicator Connections, Display Updates, Healthcheck results and Battery Values.\n\nFilter by a single LocationName value to see the specifics for a particular location. ",
+    "title": "Location Health",
     "hits": 0,
-    "kibanaSavedObjectMeta": {
-      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
-    },
+    "description": "Summary of overall Health of a Location with respect to Communicator Connections, Display Updates, Healthcheck results and Displays that need new batteries\n\nFilter by a single LocationName value to see the specifics for a particular location. ",
+    "panelsJSON": "[{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":10,\"w\":39,\"h\":12,\"i\":\"2\"},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":32,\"h\":10,\"i\":\"3\"},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":39,\"y\":10,\"w\":9,\"h\":6,\"i\":\"4\"},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":39,\"y\":16,\"w\":9,\"h\":6,\"i\":\"5\"},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":22,\"w\":24,\"h\":14,\"i\":\"8\"},\"panelIndex\":\"8\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":32,\"y\":0,\"w\":16,\"h\":10,\"i\":\"56a6edb4-9a48-44ca-9514-675b63ee6069\"},\"panelIndex\":\"56a6edb4-9a48-44ca-9514-675b63ee6069\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":24,\"y\":22,\"w\":15,\"h\":7,\"i\":\"65b4e6b3-be34-48cb-84f9-3d52943e76b0\"},\"panelIndex\":\"65b4e6b3-be34-48cb-84f9-3d52943e76b0\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":39,\"y\":22,\"w\":9,\"h\":7,\"i\":\"3c7fcb2f-88e7-4583-9eb7-7cd6bd8e6c3e\"},\"panelIndex\":\"3c7fcb2f-88e7-4583-9eb7-7cd6bd8e6c3e\",\"embeddableConfig\":{},\"panelRefName\":\"panel_7\"}]",
     "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
-    "panelsJSON": "[{\"version\":\"7.5.1\",\"gridData\":{\"h\":12,\"i\":\"2\",\"w\":39,\"x\":0,\"y\":10},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"3\",\"w\":32,\"x\":0,\"y\":0},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"4\",\"w\":9,\"x\":39,\"y\":10},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":6,\"i\":\"5\",\"w\":9,\"x\":39,\"y\":16},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":10,\"i\":\"6\",\"w\":16,\"x\":32,\"y\":0},\"panelIndex\":\"6\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.5.1\",\"gridData\":{\"h\":15,\"i\":\"8\",\"w\":24,\"x\":0,\"y\":22},\"panelIndex\":\"8\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"7.5.1\",\"gridData\":{\"w\":24,\"h\":15,\"x\":24,\"y\":22,\"i\":\"29db95cf-441f-478e-823b-b10e646221c2\"},\"panelIndex\":\"29db95cf-441f-478e-823b-b10e646221c2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"}]",
+    "version": 1,
+    "timeRestore": true,
+    "timeTo": "now/d",
+    "timeFrom": "now/d",
     "refreshInterval": {
       "pause": true,
       "value": 0
     },
-    "timeFrom": "now/d",
-    "timeRestore": true,
-    "timeTo": "now/d",
-    "title": "Location Health",
-    "version": 1
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
   },
   "references": [
     {
-      "id": "3c1e9a00-d635-11e9-8524-a53adb816424",
       "name": "panel_0",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "3c1e9a00-d635-11e9-8524-a53adb816424"
     },
     {
-      "id": "53855370-d638-11e9-8524-a53adb816424",
       "name": "panel_1",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "53855370-d638-11e9-8524-a53adb816424"
     },
     {
-      "id": "b8080300-d63e-11e9-8524-a53adb816424",
       "name": "panel_2",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "b8080300-d63e-11e9-8524-a53adb816424"
     },
     {
-      "id": "4c91fb70-d63f-11e9-8524-a53adb816424",
       "name": "panel_3",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "4c91fb70-d63f-11e9-8524-a53adb816424"
     },
     {
-      "id": "223f5e20-d640-11e9-8524-a53adb816424",
       "name": "panel_4",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "e106e1d0-dbbc-11e9-b666-23c0bc229fd2"
     },
     {
-      "id": "e106e1d0-dbbc-11e9-b666-23c0bc229fd2",
       "name": "panel_5",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "374dea60-de29-11ea-b4e5-ab59fd4cb098"
     },
     {
-      "id": "795b10b0-7423-11ea-9892-a91b0c7413ce",
       "name": "panel_6",
-      "type": "visualization"
+      "type": "visualization",
+      "id": "065236c0-de2c-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "panel_7",
+      "type": "visualization",
+      "id": "2aa7f8c0-de2c-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "dashboard": "7.3.0"
   },
-  "updated_at": "2020-08-04T18:35:51.007Z",
-  "version": "WzM2LDFd"
+  "updated_at": "2020-08-14T13:38:59.672Z",
+  "version": "WzI2MywyXQ=="
 }
