@@ -8,7 +8,8 @@
     "columns": [
       "DisplaySerialNumber",
       "LocationName",
-      "ObjectIds"
+      "ObjectIds",
+      "DisplayUpdateComplete.FailureResult"
     ],
     "sort": [],
     "version": 1,
@@ -31,6 +32,6 @@
   "migrationVersion": {
     "search": "7.4.0"
   },
-  "updated_at": "2020-08-14T13:41:36.248Z",
-  "version": "WzI3MywyXQ=="
+  "updated_at": "2020-08-14T14:46:14.293Z",
+  "version": "Wzc3LDJd"
 }
