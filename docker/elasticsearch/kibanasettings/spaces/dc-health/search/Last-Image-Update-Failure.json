@@ -9,7 +9,8 @@
       "DisplaySerialNumber",
       "LocationName",
       "ObjectIds",
-      "DisplayUpdateComplete.FailureResult"
+      "DisplayUpdateComplete.FailureResult,
+      DisplayUpdateComplete.LastFailureTimestamp"
     ],
     "sort": [],
     "version": 1,
