@@ -31,9 +31,11 @@ Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 
 | Version Update      | Supports Elasticsearch 7.8.1                                               |
 | Remove Dependency   | Removed Enhanced Table plugin from Kibana                                  |
 | Use Vanilla Kibana  | Kibana Container is pulled direct from Docker Hub, rather than being built |
+| DS-3893 | Displays that need investigating can be exported from saved searches |
+| DS-3901 | Change logstash to improve the communicator disconnection alerts in Elasticsearch |
+| DS-3939 | Displays are grouped with dashboards to help manage displays across the entire enterprise |
+| DSAAS-47 | Internal script to create communicator alerts from a csv list of communicator serial numbers |
 
-<!-- TODO: complete the changelog
--->
 
 **WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **NOT** suitable for production environments.
 
@@ -69,7 +71,7 @@ AWS: https://aws.amazon.com/marketplace/pp/B073HW9SP3?qid=1571395555537&sr=0-1&r
 
 The repo consists of a docker-compose configuration file that uses off-the-shelf elasticsearch containers from https://www.docker.elastic.co which are then modified to contain all the Dynamic Solution specific index-templates, visualizations and dashboards. Displaydata's "Monitoring" document explains these dashboards, visualizations and their formats of specific events emitted from Dynamic Central. This document is available on request from Displaydata Support: <support@displaydata.com>
 
-This repo pulls in a PowerShell Module called DCSetupElastic (which can also be distributed as a container) from Artifactory in order to avoid duplication of functions between this repository (view-dc-events) and the view-dcomm-logs repository, since the same PowerShell code is used to upload settings.
+This repo pulls in a PowerShell Module called DCSetupElastic (which can also be distributed as a container) from Artifactory. This approach is used because the same PowerShell code is used to upload settings to Elastic containers as what's used in the view-dcomm-logs repository.
 
 The docker host runs a separate container for each of; elasticsearch, kibana & logstash and mounts the configuration files and any data from the repo directory. In this new version the Kibana container is vanilla.
 
@@ -78,12 +80,6 @@ A separate docker volume is created for the elastic and logstash services. The e
 Container volumes have been mounted externally so that the data (documents indexed into Elasticsearch) and settings will survive container upgrades or the container instances being removed. Running `./develop.sh clear` will purge EVERYTHING, including the Elasticsearch database so should only be run to achieve this specific outcome.
 
 Once the environment is "up" the Kibana UI should be available via a browser on _host IP address_:5601
-
-<!--
-**NOTE:** The `./develop.sh ingest` script will start the containers and load
-the saved objects. `./develop.sh update` is only required if you wish to update
-the saved objects
--->
 
 ## Ingesting User events directly from Dynamic Central (pilots or Support)
 
@@ -185,9 +181,9 @@ Set up local config files as outlined above which reference different directorie
 
 Filebeat.yml will need to be able to send events to the *LOGSTASH* endpoint
 
-On Windows filebeat appears to have somewhat strict installation permissions. It may be beneficial to add the local user to the permissions of folders which filebeat has installed in C:\ProgramData\Elastic\Beats\filebeat to avoid frustration.
+On Windows filebeat appears to have somewhat strict installation permissions if the .zip file is un-packed to C:\ProgramData\Elastic so this is worth paying attention to. It may be beneficial to add the local user to the permissions of folders which filebeat has installed in C:\ProgramData\Elastic\Beats\filebeat to avoid frustration.
 
-## Vagrant file
+## Alternatively - use Vagrant
 
 If you're familiar with Hashicorp's Vagrant there is a Vagrantfile in this repo with providers for Virtualbox, VMWare Workstation or VMWare Fusion.
 
