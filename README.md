@@ -155,6 +155,19 @@ config/audit.yml:
       add_locale: ~
 ```
 
+config/debug.yml: 
+```yaml
+- type: log
+  paths:
+    - c:\Dynamic Central\Working\Logs\Debug\*.json
+    - c:\Dynamic Central\Working\Logs\Debug\*\*.json
+  fields:
+    type: debug
+  processors:
+    -
+      add_locale: ~
+```
+
 ### Commands
 
 `docker-compose down` - Stop the containers
