@@ -3,7 +3,7 @@
   "id": "53855370-d638-11e9-8524-a53adb816424",
   "attributes": {
     "title": "Communicator Connections",
-    "visState": "{\"title\":\"Communicator Connections\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Connected\",\"filter\":{\"query\":\"Result:\\\"CommunicatorConnected\\\" \",\"language\":\"kuery\"}},{\"id\":\"f83b4510-d637-11e9-860d-bfe3070dff55\",\"color\":\"rgba(211,49,21,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"f83b4511-d637-11e9-860d-bfe3070dff55\",\"type\":\"count\"},{\"script\":\"params.error*-1\",\"id\":\"0acbc5b0-d638-11e9-860d-bfe3070dff55\",\"type\":\"math\",\"variables\":[{\"id\":\"0de27b90-d638-11e9-860d-bfe3070dff55\",\"name\":\"error\",\"field\":\"f83b4511-d637-11e9-860d-bfe3070dff55\"}]}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Disconnected\",\"filter\":{\"query\":\"Result: \\\"CommunicatorDisconnected\\\" \",\"language\":\"kuery\"}}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"1h\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"CommunicatorStateChange\\\" \",\"language\":\"kuery\"}},\"aggs\":[]}",
+    "visState": "{\"title\":\"Communicator Connections\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Connected\",\"filter\":{\"query\":\"Result:\\\"CommunicatorConnected\\\" \",\"language\":\"kuery\"},\"split_color_mode\":\"gradient\"},{\"id\":\"f83b4510-d637-11e9-860d-bfe3070dff55\",\"color\":\"rgba(211,49,21,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"f83b4511-d637-11e9-860d-bfe3070dff55\",\"type\":\"count\"},{\"script\":\"params.error*-1\",\"id\":\"0acbc5b0-d638-11e9-860d-bfe3070dff55\",\"type\":\"math\",\"variables\":[{\"id\":\"0de27b90-d638-11e9-860d-bfe3070dff55\",\"name\":\"error\",\"field\":\"f83b4511-d637-11e9-860d-bfe3070dff55\"}]}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"bar\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"label\":\"Disconnected\",\"filter\":{\"query\":\"Result: \\\"CommunicatorDisconnected\\\" \",\"language\":\"kuery\"},\"split_color_mode\":\"gradient\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"1h\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"CommunicatorStateChange\\\" \",\"language\":\"kuery\"}},\"aggs\":[]}",
     "uiStateJSON": "{}",
     "description": "",
     "version": 1,
@@ -13,8 +13,8 @@
   },
   "references": [],
   "migrationVersion": {
-    "visualization": "7.7.0"
+    "visualization": "7.8.0"
   },
-  "updated_at": "2020-08-04T18:35:32.415Z",
-  "version": "WzE4LDFd"
+  "updated_at": "2020-08-14T10:52:22.499Z",
+  "version": "WzE3LDFd"
 }

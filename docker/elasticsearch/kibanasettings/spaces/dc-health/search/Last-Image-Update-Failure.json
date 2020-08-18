@@ -1,6 +1,6 @@
 {
   "type": "search",
-  "id": "7a017200-c6a5-11ea-8565-8176c89e2842",
+  "id": "df7dbf80-de33-11ea-b4e5-ab59fd4cb098",
   "attributes": {
     "title": "Last Image Update Failure",
     "description": "",
@@ -8,29 +8,31 @@
     "columns": [
       "DisplaySerialNumber",
       "LocationName",
-      "ObjectIds"
+      "ObjectIds",
+      "DisplayUpdateComplete.FailureResult",
+      "DisplayUpdateComplete.LastFailureTimestamp"
     ],
     "sort": [],
     "version": 1,
     "kibanaSavedObjectMeta": {
-      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Failure\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Failure\"}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Failure\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Failure\"}},\"$state\":{\"store\":\"appState\"}}]}"
     }
   },
   "references": [
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     },
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "search": "7.4.0"
   },
-  "updated_at": "2020-08-04T18:35:54.174Z",
-  "version": "WzM5LDFd"
+  "updated_at": "2020-08-14T14:46:14.293Z",
+  "version": "Wzc3LDJd"
 }

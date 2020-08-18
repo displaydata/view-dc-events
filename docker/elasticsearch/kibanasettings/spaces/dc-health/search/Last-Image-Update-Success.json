@@ -1,6 +1,6 @@
 {
   "type": "search",
-  "id": "f14bbcf0-c699-11ea-8565-8176c89e2842",
+  "id": "15251980-de34-11ea-b4e5-ab59fd4cb098",
   "attributes": {
     "title": "Last Image Update Success",
     "description": "",
@@ -13,24 +13,24 @@
     "sort": [],
     "version": 1,
     "kibanaSavedObjectMeta": {
-      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Success\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Success\"}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Success\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Success\"}},\"$state\":{\"store\":\"appState\"}}]}"
     }
   },
   "references": [
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     },
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "search": "7.4.0"
   },
-  "updated_at": "2020-08-04T18:35:55.21Z",
-  "version": "WzQwLDFd"
+  "updated_at": "2020-08-14T13:43:06.264Z",
+  "version": "WzI4MCwyXQ=="
 }

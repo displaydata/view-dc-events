@@ -1,36 +1,36 @@
 {
   "type": "search",
-  "id": "f66a8260-c69a-11ea-8565-8176c89e2842",
+  "id": "42df6c80-de2b-11ea-b4e5-ab59fd4cb098",
   "attributes": {
     "title": "Battery Replace Required",
     "description": "",
     "hits": 0,
     "columns": [
       "DisplaySerialNumber",
-      "ObjectIds",
-      "LocationName"
+      "LocationName",
+      "ObjectIds"
     ],
     "sort": [],
     "version": 1,
     "kibanaSavedObjectMeta": {
-      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"BatteryReplace.Required\",\"params\":{\"query\":true},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"BatteryReplace.Required\":true}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"BatteryReplace.Required\",\"params\":{\"query\":true},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"BatteryReplace.Required\":true}},\"$state\":{\"store\":\"appState\"}}]}"
     }
   },
   "references": [
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     },
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
       "type": "index-pattern",
-      "id": "dynamic-display-state"
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "search": "7.4.0"
   },
-  "updated_at": "2020-08-04T18:35:53.126Z",
-  "version": "WzM4LDFd"
+  "updated_at": "2020-08-14T12:40:29.176Z",
+  "version": "WzE2OCwyXQ=="
 }

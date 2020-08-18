@@ -4,8 +4,8 @@
   "attributes": {
     "title": "Display Health",
     "hits": 0,
-    "description": "Shows which Displays successfully updated with the most recent image they were sent, which ones failed and the number of displays which need their batteries replaced. This dashboard can also be easily filtered by Location",
-    "panelsJSON": "[{\"embeddableConfig\":{},\"gridData\":{\"h\":15,\"i\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"w\":24,\"x\":0,\"y\":0},\"panelIndex\":\"e4771634-c198-4a15-b185-0d673d989c66\",\"version\":\"7.7.1\",\"panelRefName\":\"panel_0\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":15,\"i\":\"f85d449b-e44c-4403-83ac-2695582e7786\",\"w\":24,\"x\":24,\"y\":0},\"panelIndex\":\"f85d449b-e44c-4403-83ac-2695582e7786\",\"version\":\"7.7.1\",\"panelRefName\":\"panel_1\"}]",
+    "description": "Shows how many Displays successfully updated with the most recent image they were sent and how many failed. This dashboard can also be easily filtered by Location",
+    "panelsJSON": "[{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"2dd257d6-a15c-48cf-9965-b358c20826cb\"},\"panelIndex\":\"2dd257d6-a15c-48cf-9965-b358c20826cb\",\"embeddableConfig\":{\"enhancements\":{\"dynamicActions\":{\"events\":[{\"eventId\":\"02560ec6-1526-4e3e-b101-9ac5a5216067\",\"triggers\":[\"VALUE_CLICK_TRIGGER\",\"SELECT_RANGE_TRIGGER\"],\"action\":{\"name\":\"Failure Drilldown\",\"config\":{\"dashboardId\":\"b4fc8630-de36-11ea-b4e5-ab59fd4cb098\",\"useCurrentFilters\":true,\"useCurrentDateRange\":true},\"factoryId\":\"DASHBOARD_TO_DASHBOARD_DRILLDOWN\"}}]}}},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":15,\"i\":\"1886dc6c-58e7-4841-bd7b-cd9b2c88924a\"},\"panelIndex\":\"1886dc6c-58e7-4841-bd7b-cd9b2c88924a\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
     "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
     "version": 1,
     "timeRestore": false,
@@ -17,17 +17,17 @@
     {
       "name": "panel_0",
       "type": "visualization",
-      "id": "33d43710-bc76-11ea-ab31-ed63f66ee09d"
+      "id": "7cf58060-de2d-11ea-b4e5-ab59fd4cb098"
     },
     {
       "name": "panel_1",
       "type": "visualization",
-      "id": "15333650-c6a6-11ea-8565-8176c89e2842"
+      "id": "07121970-de2e-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "dashboard": "7.3.0"
   },
-  "updated_at": "2020-08-04T18:35:47.939Z",
-  "version": "WzMzLDFd"
+  "updated_at": "2020-08-14T14:03:11.684Z",
+  "version": "WzI5OCwyXQ=="
 }
