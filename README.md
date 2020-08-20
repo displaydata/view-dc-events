@@ -23,20 +23,6 @@ Instead, containers will be provided externally to address these target environm
 
   * Developers can clone the view-dc-events repo and quickly iterate on changes
 
-## Changelog
-Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 which was shipped on 31/06/2020
-
-| Item                | Description                                                                |
-|---------------------|----------------------------------------------------------------------------|
-| Version Update      | Supports Elasticsearch 7.8.1                                               |
-| Remove Dependency   | Removed Enhanced Table plugin from Kibana                                  |
-| Use Vanilla Kibana  | Kibana Container is pulled direct from Docker Hub, rather than being built |
-| DS-3893 | Displays that need investigating can be exported from saved searches |
-| DS-3901 | Change logstash to improve the communicator disconnection alerts in Elasticsearch |
-| DS-3939 | Displays are grouped with dashboards to help manage displays across the entire enterprise |
-| DSAAS-47 | Internal script to create communicator alerts from a csv list of communicator serial numbers |
-
-
 **WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **NOT** suitable for production environments.
 
 ## Pre-requisites
@@ -219,6 +205,7 @@ Filebeat sends all Dynamic Central events to the input-beats pipeline, where the
   |           |- dynamic-service-status     => (Dynamic Solution application Services index)
   |           |  
   |           |- dynamic-audit              => (Audit events for developer use only)   
+  |           |- dynamic-debug              => (Debug events for developer use only)
   |           |- fallback                   => (any events that aren't indexed by the filters above)
   |
 ```
@@ -408,6 +395,9 @@ This index contains the ongoing updates of changes to the Dynamic Solution Servi
 
 ### dynamic-audit
 This index contains WebApi requests and responses and can be used by developers as a way of assisting development and debugging of their own API integration effort to drive Dynamic Solution. *NOTE*: These events are undocumented as they are meant as an assist to developers only. They are subjected to rapid change between releases and as such should not be used as the basis for 'managing' Dynamic Solution. They are provided purely as a useful feature for developers.
+
+### dynamic-debug
+This index contains un-structured log events to assist Displaydata development debug specific issues. Again, these are subject to rapid change between releases and should not be used as the basis for 'managing' Dynamic Solution.
 
 ### fallback
 Events that fall through any previous condition. This should not contain any entries
