@@ -1,6 +1,6 @@
 # view-dc-events
 
-## 1.13.0 Release 
+## 1.13.0 Release onwards
 
 **Changes to managing Elasticsearch settings and how this repository is used**
 
@@ -24,6 +24,15 @@ Instead, containers will be provided externally to address these target environm
   * Developers can clone the view-dc-events repo and quickly iterate on changes
 
 **WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **NOT** suitable for production environments.
+
+## Versioning
+
+Container names will be the primary means of telling what's in the container.
+
+{Container Name}-{usage}:{Usage}-{DynamicCentral Version}-{Elasticsearch Version}-{Jenkins Build Number}
+
+e.g. displaydata/elasticsearch:dev-1.13.0-7.9.0-5
+or   displaydata/elasticsearch:customer-1.13.0-7.9.0-5
 
 ## Pre-requisites
 
