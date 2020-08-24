@@ -26,6 +26,7 @@ Instead, containers will be provided externally to address these target environm
 **WARNING**: This Elasticsearch setup does not guard against data loss and is only configured for a single node so it is **NOT** suitable for production environments.
 
 ## Versioning
+=======
 
 Container names will be the primary means of telling what's in the container.
 
