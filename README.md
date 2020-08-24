@@ -28,7 +28,7 @@ Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 
 
 | Item                | Description                                                                |
 |---------------------|----------------------------------------------------------------------------|
-| Version Update      | Supports Elasticsearch 7.8.1                                               |
+| Version Update      | Supports Elasticsearch 7.9.0                                               |
 | Remove Dependency   | Removed Enhanced Table plugin from Kibana                                  |
 | Use Vanilla Kibana  | Kibana Container is pulled direct from Docker Hub, rather than being built |
 | DS-3893 | Displays that need investigating can be exported from saved searches |
