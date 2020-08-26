@@ -22,6 +22,7 @@
       "DeliveryProcessSystemProcessId": { "type": "keyword" },
       "DeliveryProcessToState": { "type": "keyword" },
       "Details": { "type": "text" },
+      "DisplayApiResult": { "type": "integer"},
       "DisplaySerialNumber": { "type": "keyword" },
       "Duration": { "type": "float" },
       "Filename": { "type": "text" },
