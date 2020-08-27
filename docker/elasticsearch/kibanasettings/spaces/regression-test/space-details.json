@@ -1,0 +1,8 @@
+{
+    "id":  "regression-test",
+    "name":  "Regression Test",
+    "initials": "RT",
+    "disabledFeatures":  [],
+    "color":  "#fd0a0a",
+    "description": " Regression Test workspace"
+}

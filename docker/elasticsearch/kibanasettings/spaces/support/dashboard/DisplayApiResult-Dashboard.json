@@ -1,0 +1,37 @@
+{
+  "type": "dashboard",
+  "id": "79563530-e7d3-11ea-afb8-852fc35555c7",
+  "attributes": {
+    "title": "DisplayApiResult Dashboard",
+    "hits": 0,
+    "description": "Shows the DisplayApiResult code for displays that have failed to update",
+    "panelsJSON": "[{\"version\":\"7.9.0\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"56e1d8a9-c8c7-4385-9b09-8eadffd9fe36\"},\"panelIndex\":\"56e1d8a9-c8c7-4385-9b09-8eadffd9fe36\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.9.0\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":15,\"i\":\"24788a38-9b16-42ce-a6ae-99117e99b60f\"},\"panelIndex\":\"24788a38-9b16-42ce-a6ae-99117e99b60f\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
+    "optionsJSON": "{\"useMargins\":true,\"hidePanelTitles\":false}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "12e4c640-e7d3-11ea-afb8-852fc35555c7"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "50614890-e7d3-11ea-afb8-852fc35555c7"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-26T19:36:44.802Z",
+  "version": "WzE2MSwyXQ==",
+  "namespaces": [
+    "default"
+  ],
+  "score": 0
+}

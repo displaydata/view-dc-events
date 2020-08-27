@@ -23,6 +23,7 @@
             "DisplayUpdateComplete.Success" : { "type": "boolean"},
             "DisplayUpdateComplete.SuccessResult" : { "type": "keyword"},
             "DisplayUpdateComplete.FailureResult" : { "type": "keyword"},
+            "DisplayApiResult": { "type": "integer"},
             "DisplaySerialNumber": { "type": "keyword" },
             "GeoLocation": { "type": "geo_point" },
             "LocationName": { "type": "keyword" },
