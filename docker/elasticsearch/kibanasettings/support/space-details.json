@@ -1,0 +1,8 @@
+{
+    "id": "dc-support",
+    "name": "Support",
+    "description": "Dynamic Central Support Space",
+    "initials": "DCS",
+    "color": "#32CD32",
+    "disabledFeatures": []
+  }
