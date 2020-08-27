@@ -1,7 +1,7 @@
 ﻿{
     "id":  "performance",
     "name":  "Performance",
-    "initials": "Perf",
+    "initials": "P",
     "disabledFeatures":  [],
     "color":  "#fd0a0a",
     "description":  "Performance Test workspace"
