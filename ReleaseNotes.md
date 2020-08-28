@@ -65,6 +65,19 @@ Depending on what version of Elastic Cloud the customer is going from-to there m
 
 ## Carrying out the upgrade
 
+1. Upgrade to the latest version of Elasticstack
+2. Follow the same steps as you did in testing above
+   * Amend the existing documents to add new fields & values using 'update-by-query'
+    * Use the PSModule to add new settings
+      * Pay attention to any failures in uploading the new settings!
+    * Use the Kibana UI to re-index all fields
+    * Check Visualizations and Dashboards for errors
+    * Check Saved searches for errors
+3. Change the logstash config files to have the same OUTPUT block as the target machine!
+4. Make sure the line endings are correct if copying files from Windows machines to Linux hosts
+5. Update the logstash pipeline config files
+6. Restart Logstash and check the container logs output
+
 This basically follows Section 10 in the 'Testing' process above with the additional step at the end of changing the Logstash configs, restarting Logstash and checking for ingest errors.
 
 ### Making modifications to existing state indexes (Dynamic-Display-* or Dynamic-Communicator-*)
