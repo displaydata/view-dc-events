@@ -87,10 +87,20 @@ if [[ $# -gt 0 ]];then
     # Export the index patterns, templates etc...
     $COMPOSE run --rm powershell pwsh -c '/home/powershell/manage-kibana.ps1 -Export -Url "http://kibana:5601" -Path /home/kibana/spaces'
 
-  # decode: Uncompress log files in DYNAMIC_BASEDIR
-  # elif [[ "$1" == "decode" ]]; then
-  #   echo "Finding and uncompressing any compressed log files..."
-  #   find "${DYNAMIC_BASEDIR}" -name '*json.gz' -exec gunzip {} \;
+  # snapshot: Create a snapshot of indices and save to zip
+  elif [[ "$1" == "snapshot" ]]; then
+    shift 1
+    $COMPOSE up --detach elastic
+    # Additional flags can be added to find out more  -Verbose -Debug
+    $COMPOSE run --rm powershell pwsh -c 'Save-Snapshot -Url "http://elastic:9200" -Path /files/snapshots -Username elastic -Password elastic'
+
+  # restore: Restore a snapshot of indices and save to zip
+  elif [[ "$1" == "restore" ]]; then
+    shift 1
+    $COMPOSE up --detach elastic
+    # must run as user elasticsearch (1000)
+    # Additional flags can be added to find out more  -Verbose -Debug -Delete 0
+    $COMPOSE run --rm --user="1000" powershell pwsh -c 'Restore-Snapshot -Url "http://elastic:9200" -Path /files/snapshots -Username elastic -Password elastic'
 
   # backup: backup the volume to host PC
   elif [[ "$1" == "backup" ]]; then

@@ -17,6 +17,7 @@ services:
       ES_JAVA_OPTS: "-Xms2g -Xmx2g"
       xpack.monitoring.collection.enabled: "true"
       script.max_compilations_rate: "10000/1m"
+      path.repo: '/usr/share/elasticsearch/snapshots'
     ulimits:
           memlock:
             soft: -1
@@ -33,6 +34,10 @@ services:
       - type: volume
         source: elastic-data
         target: /usr/share/elasticsearch/data
+      # Mount point for snapshot  data
+      - type: volume
+        source: snapshot-data
+        target: /usr/share/elasticsearch/snapshots
 
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
@@ -92,13 +97,16 @@ services:
       - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
 
   powershell:
-    image: mcr.microsoft.com/powershell
+    image: ${DOCKER_REGISTRY}/displaydata/powershell-modules:latest
     container_name: powershell
     networks:
       - elastic-net
     volumes:
-      - ./powershell:/home/powershell
-      - ./dynamic:/home
+      - ${PWD}:/files
+      # Mount point for snapshot data
+      - type: volume
+        source: snapshot-data
+        target: /snapshots
 
 networks:
   elastic-net:
@@ -107,4 +115,6 @@ volumes:
   elastic-data:
     driver: local
   logstash-data:
+    driver: local
+  snapshot-data:
     driver: local

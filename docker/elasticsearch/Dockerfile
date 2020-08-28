@@ -70,6 +70,7 @@ RUN /bin/systemctl enable kibana.service \
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
 # copies the indexes from the previous container
 COPY --from=elasticbase /usr/share/elasticsearch/data/ /usr/share/elasticsearch/data/
+RUN mkdir -m 775 /usr/share/elasticsearch/snapshots && chown elasticsearch /usr/share/elasticsearch/snapshots
 
 # NOTE: possible improvements
 # 1. run the saved-objects API on the elasticbase image to properly export the .kibana_1 index & others
