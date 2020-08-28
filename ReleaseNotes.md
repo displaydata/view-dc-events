@@ -49,15 +49,36 @@ Before upgrading the production system it is well worth creating a copy of the c
 6. Select 'Create Deployment'
 7. Make sure to note the Elastic username and password since this is only shown *once*
 8. Wait for the deployment to complete
-9. Run the upgrade steps below
-10. Note any adjustments
+9. Delete all watchers/alerts from the system manually - this will stop Support receiving duplicate alerts
+10. Run the upgrade steps below
+    * Amend the existing documents to add new fields & values using 'update-by-query'
+    * Use the PSModule to add new settings
+      * Pay attention to any failures in uploading the new settings!
+    * Use the Kibana UI to re-index all fields
+    * Check Visualizations and Dashboards for errors
+    * Check Saved searches for errors
+11. Note any adjustments that need to be made for the production system
 
 Depending on what version of Elastic Cloud the customer is going from-to there may be some issues and breaking changes which need to be taken into account. This is why running an upgrade on a clone from a customer snapshot is so valuable.
 
-### Using PSModule or PSModule container to add new settings
+<span style="color:red">**WARNING**</span>: Do not forget to update the Logstash config and restart it, then check logstash for ingest errors!
 
-1. Use the DCSetupElastic Module directly or it's container to setup Elasticsearch (indexes) and Kibana 
-2. See the README.md in the powershell-modules-container repo for instructions on how to update these settings
+## Carrying out the upgrade
+
+1. Upgrade to the latest version of Elasticstack
+2. Follow the same steps as you did in testing above
+   * Amend the existing documents to add new fields & values using 'update-by-query'
+    * Use the PSModule to add new settings
+      * Pay attention to any failures in uploading the new settings!
+    * Use the Kibana UI to re-index all fields
+    * Check Visualizations and Dashboards for errors
+    * Check Saved searches for errors
+3. Change the logstash config files to have the same OUTPUT block as the target machine!
+4. Make sure the line endings are correct if copying files from Windows machines to Linux hosts
+5. Update the logstash pipeline config files
+6. Restart Logstash and check the container logs output
+
+This basically follows Section 10 in the 'Testing' process above with the additional step at the end of changing the Logstash configs, restarting Logstash and checking for ingest errors.
 
 ### Making modifications to existing state indexes (Dynamic-Display-* or Dynamic-Communicator-*)
 
@@ -82,6 +103,10 @@ dynamic-display-state.conf (part 1)
                     "EventTimestampFieldName" => "LastSuccessTimestamp"
                 }
             }
+        } else if ([Result] in ["ImageUpdateStateAlreadyMet","ImageUpdateStaleImage"]) {
+    # do not record this event because these are NOT actually changing what is on the display
+    # either this event is being discarded or not actioned because the image won't change
+            drop {}
         } else {
             mutate {
                 add_field => {
@@ -116,10 +141,10 @@ Pipeline part 1 adds new fields based on whether the incoming (new) state is a s
 This script has to amend the existing "state" documents. 
 
 ```painless
-   POST dynamic-display-state/_update_by_query
+POST dynamic-display-state/_update_by_query
 {
   "script": {
-    "source": "def timestamp = ctx._source.Timestamp; def failureResult = ctx._source.Result; boolean updateSuccess = ctx._source.Success; boolean assigned = ctx._source.ObjectIds != null && ctx._source.ObjectIds.length > 0; def storeHealth; if (ctx._source.MessageType == 'DisplayUpdateComplete') { if (ctx._source.Result == 'NoError' ) { ctx._source_DisplayUpdateComplete.LastSuccessTimestamp = timestamp; ctx._source_DisplayUpdateComplete.Timestamp = timestamp; ctx._source_DisplayUpdateComplete.Success = true } else { ctx._source_DisplayUpdateComplete.LastFailureTimestamp = timestamp; ctx._source_DisplayUpdateComplete.Timestamp = timestamp; ctx._source_DisplayUpdateComplete.FailureResult = failureResult; ctx._source_DisplayUpdateComplete.Success = false } ctx_source.remove('Result'); ctx._source.remove('Success') } if (assigned) { if (updateSuccess) { storeHealth = 'Last Image Update Success' } else { storeHealth = 'Last Image Update Failure' }} if (ctx._source.StoreHealthDashboard == null) {  ctx._source.StoreHealthDashboard = new LinkedHashMap() }  if (storeHealth != ctx._source.StoreHealthDashboard.Health) { ctx._source.StoreHealthDashboard.Health = storeHealth; ctx._source.StoreHealthDashboard.LastChangedTimestamp = timestamp; } ctx._source.StoreHealthDashboard.Timestamp = timestamp; "
+    "source": "def timestamp = ctx._source.Timestamp; def failureResult = ctx._source.Result; boolean updateSuccess = ctx._source.Success; boolean assigned = ctx._source.ObjectIds != null && ctx._source.ObjectIds.length > 0; def storeHealth; if (ctx._source.DisplayUpdateComplete == null) {  ctx._source.DisplayUpdateComplete = new LinkedHashMap() } if (ctx._source.MessageType == 'DisplayUpdateComplete') { if (updateSuccess) { ctx._source.DisplayUpdateComplete.LastSuccessTimestamp = ctx._source.Timestamp; ctx._source.DisplayUpdateComplete.Timestamp = timestamp; ctx._source.DisplayUpdateComplete.Success = true } else { ctx._source.DisplayUpdateComplete.LastFailureTimestamp = timestamp; ctx._source.DisplayUpdateComplete.Timestamp = timestamp; ctx._source.DisplayUpdateComplete.FailureResult = failureResult; ctx._source.DisplayUpdateComplete.Success = false } ctx._source.remove('Result'); ctx._source.remove('Success') } if (assigned) { if (updateSuccess) { storeHealth = 'Last Image Update Success' } else { storeHealth = 'Last Image Update Failure' }} if (ctx._source.StoreHealthDashboard == null) {  ctx._source.StoreHealthDashboard = new LinkedHashMap() }  if (storeHealth != ctx._source.StoreHealthDashboard.Health) { ctx._source.StoreHealthDashboard.Health = storeHealth; ctx._source.StoreHealthDashboard.LastChangedTimestamp = timestamp; } ctx._source.StoreHealthDashboard.Timestamp = timestamp; "
   },
   "query": {
     "match_all": {}
@@ -135,6 +160,22 @@ The differences between the logstash pipeline config and this script are:
 4. Fields are being defined first so they can be easily re-used
 
 Any errors running something like this need to be addressed BEFORE running any sort of Elastic Cloud version upgrade on a snapshot based copy of the customer implementation
+
+### Using PSModule or PSModule container to add new settings
+
+1. Use the DCSetupElastic Module directly or it's container to setup Elasticsearch (indexes) and Kibana 
+2. See the README.md in the powershell-modules-container repo for instructions on how to update these settings
+
+Example commands:
+
+Add new settings to Elasticsearch
+
+`Import-ElasticSettingsToElasticCloud -ElasticId zabka-upgrade-test-3:ZXVyb3BlLXdlc3QzLmdjcC5jbG91ZC5lcy5pbyRhM2Y0NTUwOWUwNzg0OWIyYmQwOTllZTc3YTU2YTBiMiRjMDFkNzkzMjcxNzc0NmFiOGQxZWFlODMwNjRiZWQ1Zg== -Path 'C:\Users\rsweetman\Documents\app-dev\internal\view-dc-events\docker\elasticsearch\elasticsettings\' -Username elastic -Password 0G7MO4Qjmp7DEFfpqh8dl5zC`
+
+Add new visualizations to Kibana
+
+`Import-KibanaSavedObjects -Url https://c01d7932717746ab8d1eae83064bed5f.europe-west3.gcp.cloud.es.io:9243 -Path 'C:\Users\rsweetman\Documents\Project Management\Zabka\Upgrade_files\' -Username elastic -Password 0G7MO4Qjmp7DEFfpqh8dl5zC`
+
 
 ## Dealing with field mapping changes
 
