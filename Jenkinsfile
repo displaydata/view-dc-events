@@ -1,7 +1,7 @@
 node('docker-host') {
     checkout scm
 
-    def ELK_VERSION = "7.9.0"
+    def ELK_VERSION = "7.9.2"
     def dynamicCentralVersion = "1.13.0"
 
     def tag_branch = ''

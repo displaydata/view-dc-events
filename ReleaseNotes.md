@@ -3,7 +3,7 @@
 Current Supported versions:
 
 * Dynamic Solution >= 1.13.0
-* Elastic Stack >= 7.8.1   
+* Elastic Stack >= 7.9.2   
 
 These release notes are part of the view-dc-events repo and are currently for internal use only.
 
@@ -19,7 +19,7 @@ Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 
 
 | Item                | Description                                                                                  |
 |---------------------|----------------------------------------------------------------------------------------------|
-| Version Update      | Supports Elasticsearch 7.9.0                                                                 |
+| Version Update      | Supports Elasticsearch 7.9.2                                                                 |
 | Remove Dependency   | Removed Enhanced Table plugin from Kibana                                                    |
 | Use Vanilla Kibana  | Kibana Container is pulled direct from Docker Hub, rather than being built by Displaydata    |
 | DS-3893             | Displays that need investigating can be exported from saved searches                         |
