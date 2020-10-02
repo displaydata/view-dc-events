@@ -12,10 +12,15 @@
       "DisplayUpdateComplete.FailureResult",
       "DisplayUpdateComplete.LastFailureTimestamp"
     ],
-    "sort": [],
+    "sort": [
+      [
+        "_score",
+        "desc"
+      ]
+    ],
     "version": 1,
     "kibanaSavedObjectMeta": {
-      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Failure\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Failure\"}},\"$state\":{\"store\":\"appState\"}}]}"
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"StoreHealthDashboard.Health.keyword\",\"params\":{\"query\":\"Last Image Update Failure\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"StoreHealthDashboard.Health.keyword\":\"Last Image Update Failure\"}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"alias\":null,\"negate\":true,\"disabled\":false,\"type\":\"phrase\",\"key\":\"MessageType\",\"params\":{\"query\":\"DisplayUnconfigurationComplete\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"query\":{\"match_phrase\":{\"MessageType\":\"DisplayUnconfigurationComplete\"}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
     }
   },
   "references": [
@@ -28,11 +33,20 @@
       "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
       "type": "index-pattern",
       "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
     }
   ],
   "migrationVersion": {
     "search": "7.4.0"
   },
-  "updated_at": "2020-08-14T14:46:14.293Z",
-  "version": "Wzc3LDJd"
+  "updated_at": "2020-10-02T11:26:15.391Z",
+  "version": "WzQzNCwyXQ==",
+  "namespaces": [
+    "dc-health"
+  ],
+  "score": 0
 }
