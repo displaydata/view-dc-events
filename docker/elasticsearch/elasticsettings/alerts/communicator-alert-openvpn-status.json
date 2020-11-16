@@ -96,7 +96,17 @@
 //          * Communicator {{ _source.CommunicatorSerialNumber }} is down
 //    {{/ctx.payload.first.hits.hits}}
 //
-// TODO: have a similar block which will return status of 'second' information associated with each serial number using the same method
+// TODO: have a similar block which will return status of 'second' information associated with each serial number using the same method (field names below)
+// "_source" : {
+//    "serial_number" : "ZC00001553",
+//    "state" : "Disconnected",
+//    "sub_state" : "not-authorized",
+//    "state_last_changed" : "2020-11-12T10:54:22.1147383Z",
+//    "is_master" : true,
+//    "firmware_version" : "2.5.17",
+//    "ip_address" : null
+// }
+//
 // TODO: look at different body template types (HTML?) to format the message coming back from the alerts better
 // TODO: remove the 'create communicator alert based on serial number list code' from the view-dc-events repo
 // TODO: simplify the Powershell module around creating alerts since iterating through a list of serial numbers is no longer needed
