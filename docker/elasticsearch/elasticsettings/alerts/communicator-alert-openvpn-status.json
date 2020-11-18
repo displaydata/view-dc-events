@@ -1,114 +1,118 @@
 {
-    "trigger": {
-        "schedule": {
-            "interval": "60m"
-        }
-    },
-    "input": {
-        "chain": {
-            "inputs": [
-                {
-                    "first": {
-                        "search": {
-                            "request": {
-                                "search_type": "query_then_fetch",
-                                "indices": [
-                                "dynamic-communicator-state"
-                                ],
-                            "rest_total_hits_as_int": true,
-                            "body": {
-                                "size": 1,
-                                "query": {
-                                    "bool": {
-                                        "must": [
-                                            {
-                                            "exists": {
-                                                "field": "disconnectedTimestamp"
-                                            }
-                                        },
-                                    {
-                                    "match": {
-                                        "CommunicatorSerialNumber": "ZC00000000"
-                                    }
-                                            }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                {
-                    "second": {
-                        "search": {
-                            "request": {
-                                "search_type": "query_then_fetch",
-                                "indices": [
-                                "openvpn-communicators"
-                                ],
-                                "rest_total_hits_as_int": true,
-                                "body": {
-                                    "size": 1,
-                                    "query": {
-                                        "match": {
-                                            "serial_number": "ZC00000000"
-                                        }
-                                    }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            ]    
-        }
-    },
-    "condition": {
-        "compare": {
-            "ctx.payload.first.hits.hits.0._source.disconnectedTimestamp": {
-                "lte": "<{now-30m}>"
-            }
-        }
-    },
-    "actions": {
-        "send_email": {
-            "email": {
-                "profile": "standard",
-                "to": [
-                "support@displaydata.com"
-                ],
-                "subject": "Communicator {{ctx.payload.first.hits.hits.0._source.CommunicatorSerialNumber}} is offline at Location {{ctx.payload.first.hits.hits.0._source.LocationName}}",
-                "body": {
-                    "text": "Communicator {{ctx.payload.first.hits.hits.0._source.CommunicatorSerialNumber}} is offline at Location {{ctx.payload.first.hits.hits.0._source.LocationName}}"
-                }
-            }
-        }
+  "trigger": {
+    "schedule": {
+      "interval": "60m"
     }
-}
+  },
+  "input": {
+    "chain": {
+      "inputs": [
+        {
+          "first": {
+            "search": {
+              "request": {
+                "search_type": "query_then_fetch",
+                "indices": ["dynamic-communicator-state"],
+                "rest_total_hits_as_int": true,
+                "body": {
+                  "query": {
+                    "bool": {
+                      "must": [
+                        {
+                          "exists": {
+                            "field": "disconnectedTimestamp"
+                          }
+                        },
+                        {
+                          "range": {
+                            "disconnectedTimestamp": {
+                              "lte": "now-30m"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "first_transform": {
+            "transform": {
+              "script": {
+                "source": """
+                    def mustache_serial_numbers = ctx.payload.first.hits.hits.stream()
+                            .map(h -> { return ['value': h._source.CommunicatorSerialNumber, 'first': false ] })
+                            .collect(Collectors.toList());
+                            
+                    if (mustache_serial_numbers.size() > 0) {
+                        mustache_serial_numbers[0].first = true;
+                    }        
 
-// TODO: move condition into first to check range values for this field - this removes the need for .first.hits.hits.0 in the compare
-// TODO: change compare to hits total > 0 making this a lot easier
-// TODO: use mustache sections syntax to loop through all the communicator serial numbers and print them - https://mustache.github.io/mustache.5.html
-//
-// The following communicators are down:
-//    {{#ctx.payload.first.hits.hits}}
-//          * Communicator {{ _source.CommunicatorSerialNumber }} is down
-//    {{/ctx.payload.first.hits.hits}}
-//
-// TODO: have a similar block which will return status of 'second' information associated with each serial number using the same method (field names below)
-// "_source" : {
-//    "serial_number" : "ZC00001553",
-//    "state" : "Disconnected",
-//    "sub_state" : "not-authorized",
-//    "state_last_changed" : "2020-11-12T10:54:22.1147383Z",
-//    "is_master" : true,
-//    "firmware_version" : "2.5.17",
-//    "ip_address" : null
-// }
-//
-// TODO: look at different body template types (HTML?) to format the message coming back from the alerts better
-// TODO: remove the 'create communicator alert based on serial number list code' from the view-dc-events repo
-// TODO: simplify the Powershell module around creating alerts since iterating through a list of serial numbers is no longer needed
-// TODO: test this
-// TODO: request that soaktest cloud event data is sent to its own Elastic cloud instance
+                    return [
+                        'serial_numbers': mustache_serial_numbers
+                    ];
+                """,
+                "lang": "painless"
+              }
+            }
+          }
+        },
+        {
+          "second": {
+            "search": {
+              "request": {
+                "search_type": "query_then_fetch",
+                "indices": [
+                  "openvpnremote-communicators"
+                ],
+                "rest_total_hits_as_int": true,
+                "body": {
+                  "query": {
+                    "ids": {
+                      "values": [
+                        "{{#ctx.payload.first_transform.serial_numbers}}{{^first}}",
+                        "{{/first}}{{value}}{{/ctx.payload.first_transform.serial_numbers}}"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.first.hits.total": {
+        "gte": 1
+      }
+    }
+  },
+  "actions": {
+    "send_email": {
+      "email": {
+        "profile": "standard",
+        "to": [
+          "support@displaydata.com"
+        ],
+        "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
+        "body": {
+          "text": """The following communicators are down:
+{{#ctx.payload.first.hits.hits}}
+ * {{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}
+{{/ctx.payload.first.hits.hits}}
+
+OpenVPN status:
+{{#ctx.payload.second.hits.hits}}
+    {{_source.serial_number}}: {{_source}}
+{{/ctx.payload.second.hits.hits}}"""
+        }
+      }
+    }
+  }
+}

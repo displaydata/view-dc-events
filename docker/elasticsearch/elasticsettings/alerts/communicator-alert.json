@@ -1,58 +1,56 @@
 {
-    "trigger": {
-        "schedule": {
-            "interval": "60m"
-        }
-    },
-    "input": {
-        "search": {
-            "request": {
-                "search_type": "query_then_fetch",
-                "indices": [
-                "dynamic-communicator-state"
-            ],
-            "rest_total_hits_as_int": true,
-            "body": {
-                "size": 1,
-                "query": {
-                    "bool": {
-                        "must": [
-                            {
-                            "exists": {
-                                "field": "disconnectedTimestamp"
-                            }
-                        },
-                    {
-                    "match": {
-                        "CommunicatorSerialNumber": "ZC00000000"
-                    }
-                            }
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "condition": {
-        "compare": {
-            "ctx.payload.hits.hits.0._source.disconnectedTimestamp": {
-                "lte": "<{now-30m}>"
-            }
-        }
-    },
-    "actions": {
-        "send_email": {
-            "email": {
-                "profile": "standard",
-                "to": [
-                "support@displaydata.com"
-                ],
-                "subject": "Communicator {{ctx.payload.hits.hits.0._source.CommunicatorSerialNumber}} is offline at Location {{ctx.payload.hits.hits.0._source.LocationName}}",
-                "body": {
-                    "text": "Communicator {{ctx.payload.hits.hits.0._source.CommunicatorSerialNumber}} is offline at Location {{ctx.payload.hits.hits.0._source.LocationName}}"
-                }
-            }
-        }
+  "trigger": {
+    "schedule": {
+      "interval": "60m"
     }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "search_type": "query_then_fetch",
+        "indices": ["dynamic-communicator-state"],
+        "rest_total_hits_as_int": true,
+        "body": {
+          "size": 1,
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "exists": {
+                    "field": "disconnectedTimestamp"
+                  }
+                },
+                {
+                  "range": {
+                    "disconnectedTimestamp": {
+                      "lte": "now-30m"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.first.hits.total": {
+        "gte": 1
+      }
+    }
+  },
+  "actions": {
+    "send_email": {
+      "email": {
+        "profile": "standard",
+        "to": ["support@displaydata.com"],
+        "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
+        "body": {
+          "text": "The following communicators are down: {{#ctx.payload.hits.hits}}{{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}{{/ctx.payload.hits.hits}}"
+        }
+      }
+    }
+  }
 }
