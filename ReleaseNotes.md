@@ -2,7 +2,7 @@
 
 Current Supported versions:
 
-* Dynamic Solution >= 1.13.0
+* Dynamic Solution >= 1.13.1
 * Elastic Stack >= 7.9.2   
 
 These release notes are part of the view-dc-events repo and are currently for internal use only.
@@ -16,6 +16,15 @@ For the most part this document deals with Elastic Cloud but of course some area
 ## Changelog
 
 Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 which was shipped on 31/06/2020
+
+### 1.13.1             
+
+| Item                | Description
+|---------------------|----------------------------------------------------------------------------------------------|
+| APP-2212            | One alert for ALL communicators that are offline rather than one per communicator            |
+| Nifi support        | Alerting and spaces also includes one for Nifi                                               |
+
+### 1.13.0
 
 | Item                | Description                                                                                  |
 |---------------------|----------------------------------------------------------------------------------------------|

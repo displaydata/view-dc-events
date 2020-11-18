@@ -48,7 +48,10 @@
         "to": ["support@displaydata.com"],
         "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
         "body": {
-          "text": "The following communicators are down: {{#ctx.payload.hits.hits}}{{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}{{/ctx.payload.hits.hits}}"
+          "text": """The following communicators are down:
+{{#ctx.payload.hits.hits}}
+ * {{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}
+{{/ctx.payload.hits.hits}}"""
         }
       }
     }

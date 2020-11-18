@@ -1,6 +1,8 @@
 ## ToDo
 
-* Failure codes are being added into the events  so add this in
+* Failure codes are being added into the events so add this in
+* It may be possible to have an email per hit (i.e. per communicator) for alerts if needed
+* Rather than an email action, alerts should post HTTP requests to the Salesforce API
 
 ## Improvements
 * Logstash "health" decision making doesn't take into account multiple pages
