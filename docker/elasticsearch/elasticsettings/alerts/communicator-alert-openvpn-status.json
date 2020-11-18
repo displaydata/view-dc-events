@@ -1,0 +1,118 @@
+{
+  "trigger": {
+    "schedule": {
+      "interval": "60m"
+    }
+  },
+  "input": {
+    "chain": {
+      "inputs": [
+        {
+          "first": {
+            "search": {
+              "request": {
+                "search_type": "query_then_fetch",
+                "indices": ["dynamic-communicator-state"],
+                "rest_total_hits_as_int": true,
+                "body": {
+                  "query": {
+                    "bool": {
+                      "must": [
+                        {
+                          "exists": {
+                            "field": "disconnectedTimestamp"
+                          }
+                        },
+                        {
+                          "range": {
+                            "disconnectedTimestamp": {
+                              "lte": "now-30m"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "first_transform": {
+            "transform": {
+              "script": {
+                "source": """
+                    def mustache_serial_numbers = ctx.payload.first.hits.hits.stream()
+                            .map(h -> { return ['value': h._source.CommunicatorSerialNumber, 'first': false ] })
+                            .collect(Collectors.toList());
+                            
+                    if (mustache_serial_numbers.size() > 0) {
+                        mustache_serial_numbers[0].first = true;
+                    }        
+
+                    return [
+                        'serial_numbers': mustache_serial_numbers
+                    ];
+                """,
+                "lang": "painless"
+              }
+            }
+          }
+        },
+        {
+          "second": {
+            "search": {
+              "request": {
+                "search_type": "query_then_fetch",
+                "indices": [
+                  "openvpnremote-communicators"
+                ],
+                "rest_total_hits_as_int": true,
+                "body": {
+                  "query": {
+                    "ids": {
+                      "values": [
+                        "{{#ctx.payload.first_transform.serial_numbers}}{{^first}}",
+                        "{{/first}}{{value}}{{/ctx.payload.first_transform.serial_numbers}}"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.first.hits.total": {
+        "gte": 1
+      }
+    }
+  },
+  "actions": {
+    "send_email": {
+      "email": {
+        "profile": "standard",
+        "to": [
+          "support@displaydata.com"
+        ],
+        "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
+        "body": {
+          "text": """The following communicators are down:
+{{#ctx.payload.first.hits.hits}}
+ * {{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}
+{{/ctx.payload.first.hits.hits}}
+
+OpenVPN status:
+{{#ctx.payload.second.hits.hits}}
+    {{_source.serial_number}}: {{_source}}
+{{/ctx.payload.second.hits.hits}}"""
+        }
+      }
+    }
+  }
+}
