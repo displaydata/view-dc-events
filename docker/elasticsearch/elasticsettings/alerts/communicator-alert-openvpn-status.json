@@ -12,7 +12,9 @@
             "search": {
               "request": {
                 "search_type": "query_then_fetch",
-                "indices": ["dynamic-communicator-state"],
+                "indices": [
+                  "dynamic-communicator-state"
+                ],
                 "rest_total_hits_as_int": true,
                 "body": {
                   "query": {
@@ -42,19 +44,7 @@
           "first_transform": {
             "transform": {
               "script": {
-                "source": """
-                    def mustache_serial_numbers = ctx.payload.first.hits.hits.stream()
-                            .map(h -> { return ['value': h._source.CommunicatorSerialNumber, 'first': false ] })
-                            .collect(Collectors.toList());
-                            
-                    if (mustache_serial_numbers.size() > 0) {
-                        mustache_serial_numbers[0].first = true;
-                    }        
-
-                    return [
-                        'serial_numbers': mustache_serial_numbers
-                    ];
-                """,
+                "source": "\n                    def mustache_serial_numbers = ctx.payload.first.hits.hits.stream()\n                            .map(h -> { return ['value': h._source.CommunicatorSerialNumber, 'first': false ] })\n                            .collect(Collectors.toList());\n                            \n                    if (mustache_serial_numbers.size() > 0) {\n                        mustache_serial_numbers[0].first = true;\n                    }        \n\n                    return [\n                        'serial_numbers': mustache_serial_numbers\n                    ];\n                ",
                 "lang": "painless"
               }
             }
@@ -95,24 +85,30 @@
   },
   "actions": {
     "send_email": {
+      "foreach": "ctx.payload.merged",
+      "max_iterations": 100,
       "email": {
         "profile": "standard",
         "to": [
           "support@displaydata.com"
         ],
-        "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
+        "subject": "Alert: communicator {{ ctx.payload.dynamic_central.CommunicatorSerialNumber }} offline",
         "body": {
-          "text": """The following communicators are down:
-{{#ctx.payload.first.hits.hits}}
- * {{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}
-{{/ctx.payload.first.hits.hits}}
-
-OpenVPN status:
-{{#ctx.payload.second.hits.hits}}
-    {{_source.serial_number}}: {{_source}}
-{{/ctx.payload.second.hits.hits}}"""
+          "text": "Communicator offline:\n  * Serial number: {{ ctx.payload.dynamic_central.CommunicatorSerialNumber }}\n  * Location name: {{ ctx.payload.dynamic_central.LocationName }}\n * Disconnected: {{ ctx.payload.dynamic_central.disconnectedTimestamp }}\n \nOpenVPN status:\n    {{ ctx.payload.openvpn }}\n"
         }
       }
     }
+  },
+  "transform": {
+    "script": {
+      "source": "\n        def openVpnStatuses = ctx.payload.second.hits.hits.stream()\n          .collect(Collectors.toMap(h -> h._id, h -> h._source));\n        \n        def merged = ctx.payload.first.hits.hits.stream()\n          .map(h -> [ 'dynamic_central': h._source, 'openvpn': openVpnStatuses.get(h._source.CommunicatorSerialNumber) ])\n          .collect(Collectors.toList());\n          \n        return [ 'merged': merged ]\n    ",
+      "lang": "painless"
+    }
+  },
+  "metadata": {
+    "xpack": {
+      "type": "json"
+    },
+    "name": "communicator_openvpn_alert"
   }
 }

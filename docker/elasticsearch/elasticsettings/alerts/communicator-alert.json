@@ -11,7 +11,6 @@
         "indices": ["dynamic-communicator-state"],
         "rest_total_hits_as_int": true,
         "body": {
-          "size": 1,
           "query": {
             "bool": {
               "must": [
@@ -36,24 +35,31 @@
   },
   "condition": {
     "compare": {
-      "ctx.payload.first.hits.total": {
+      "ctx.payload.hits.total": {
         "gte": 1
       }
     }
   },
   "actions": {
     "send_email": {
+      "foreach": "ctx.payload.hits.hits",
+      "max_iterations": 100,
       "email": {
         "profile": "standard",
-        "to": ["support@displaydata.com"],
-        "subject": "Alert: {{ctx.payload.first.hits.total}} communicator(s) offline",
+        "to": [
+          "support@displaydata.com"
+        ],
+        "subject": "Alert: {{ctx.payload._source.CommunicatorSerialNumber}} communicator offline",
         "body": {
-          "text": """The following communicators are down:
-{{#ctx.payload.hits.hits}}
- * {{_source.CommunicatorSerialNumber}}: location {{_source.LocationName}}
-{{/ctx.payload.hits.hits}}"""
+          "text": "Communicator {{ctx.payload._source.CommunicatorSerialNumber}}\n          * location {{ctx.payload._source.LocationName}} \n          * Disconnected {{ctx.payload._source.disconnectedTimestamp}}\n"
         }
       }
     }
+  },
+  "metadata": {
+    "xpack": {
+      "type": "json"
+    },
+    "name": "communicator_alert"
   }
 }
