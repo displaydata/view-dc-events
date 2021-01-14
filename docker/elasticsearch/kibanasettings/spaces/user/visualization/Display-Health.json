@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "7cf58060-de2d-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Display Health",
+    "visState": "{\"type\":\"pie\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"StoreHealthDashboard.Health.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":2,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Display Health\"},\"schema\":\"segment\"}],\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true,\"labels\":{\"show\":true,\"values\":true,\"last_level\":true,\"truncate\":100}},\"title\":\"Display Health\"}",
+    "uiStateJSON": "{}",
+    "description": "Shows the number of displays where the last Image Update was successful, where the last Image Update failed and Displays where their batteries need replacing as a percentage of the total as well as a count. This dashboard can also be filtered by location.",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T12:55:53.958Z",
+  "version": "WzIzMywyXQ=="
+}

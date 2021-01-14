@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "2160d040-e04c-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Image Generation",
+    "visState": "{\"title\":\"Image Generation\",\"type\":\"metrics\",\"params\":{\"axis_formatter\":\"number\",\"axis_position\":\"left\",\"axis_scale\":\"normal\",\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"language\":\"kuery\",\"query\":\"MessageType : \\\"TemplateSelection\\\" or \\\"ImageGeneration\\\" or \\\"ImageQueuedForDelivery\\\"\"},\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"series\":[{\"axis_position\":\"right\",\"chart_type\":\"bar\",\"color\":\"#68BC00\",\"fill\":0.5,\"formatter\":\"number\",\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"line_width\":1,\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\"}],\"point_size\":1,\"separate_axis\":0,\"split_color_mode\":\"gradient\",\"split_mode\":\"everything\",\"stacked\":\"stacked\",\"terms_direction\":\"desc\",\"terms_field\":\"MessageType\",\"terms_include\":\"TemplateSelection\",\"terms_order_by\":\"_key\",\"terms_size\":\"3\",\"label\":\"Template Selection\"},{\"axis_position\":\"right\",\"chart_type\":\"bar\",\"color\":\"rgba(0,156,224,1)\",\"fill\":0.5,\"formatter\":\"number\",\"id\":\"535cae70-e04c-11e9-818c-c33956a9080f\",\"line_width\":1,\"metrics\":[{\"id\":\"535cae71-e04c-11e9-818c-c33956a9080f\",\"type\":\"count\"}],\"point_size\":1,\"separate_axis\":0,\"split_color_mode\":\"gradient\",\"split_mode\":\"everything\",\"stacked\":\"stacked\",\"terms_direction\":\"desc\",\"terms_field\":\"MessageType\",\"terms_include\":\"ImageGeneration\",\"terms_order_by\":\"_key\",\"terms_size\":\"3\",\"label\":\"Generation\"},{\"axis_position\":\"right\",\"chart_type\":\"bar\",\"color\":\"rgba(253,161,255,1)\",\"fill\":0.5,\"formatter\":\"number\",\"id\":\"6ff2a4e0-e04c-11e9-818c-c33956a9080f\",\"line_width\":1,\"metrics\":[{\"id\":\"6ff2a4e1-e04c-11e9-818c-c33956a9080f\",\"type\":\"count\"}],\"point_size\":1,\"separate_axis\":0,\"split_color_mode\":\"gradient\",\"split_mode\":\"everything\",\"stacked\":\"stacked\",\"terms_direction\":\"desc\",\"terms_field\":\"MessageType\",\"terms_include\":\"ImageQueuedForDelivery\",\"terms_order_by\":\"_key\",\"terms_size\":\"3\",\"label\":\"Queued For Delivery\"}],\"show_grid\":1,\"show_legend\":1,\"time_field\":\"Timestamp\",\"type\":\"timeseries\"},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T10:52:32.85Z",
+  "version": "WzI3LDFd"
+}

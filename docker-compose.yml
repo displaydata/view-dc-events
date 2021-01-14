@@ -1,13 +1,12 @@
 version: "3.7"
 services:
   elastic:
-    # image: elasticsearch:${ELK_VERSION}
-    # container_name: elasticsearch
-    build:
-      context: ./docker/elasticsearch
-      args:
-        ELK_VERSION: ${ELK_VERSION}
-    image: elasticsearch:${ELK_VERSION}
+    image: elk:01
+    #build:
+    #  context: ./docker/elasticsearch
+    #  args:
+    #    ELK_VERSION: ${ELK_VERSION}
+    #image: elasticsearch:${ELK_VERSION}
     container_name: elasticsearch
     environment:
       node.name: elasticsearch

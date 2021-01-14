@@ -1,0 +1,17 @@
+{
+  "id": "user",
+  "name": "User",
+  "description": "Dynamic Central monitoring space for users",
+  "initials": "U",
+  "color": "#aabbcc",
+  "disabledFeatures": [
+    "timelion",
+    "graph",
+    "monitoring",
+    "ml",
+    "apm",
+    "canvas",
+    "infrastructure",
+    "siem"
+  ]
+}

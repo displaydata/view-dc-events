@@ -1,0 +1,23 @@
+# This config file primarily exists to get the RabbitMQ stats into Elasticsearch
+# This in turn enables the delivery-process-alert to function
+
+# NOTE: only required if the metricbeat is running as a container in the same docker network as RabbitMQ
+# metricbeat.autodiscover:
+# providers:
+#    - type: docker
+#      hints.enabled: true
+
+metricbeat.modules:
+- module: rabbitmq
+  metricsets: ["queue"]
+  enabled: true
+  period: 10s
+  hosts: ["IP address for RabbitMQ host:15672"]
+  username: admin
+  password: admin
+
+processors:
+  - add_cloud_metadata: ~
+
+cloud.id: ""
+cloud.auth: ""

@@ -1,0 +1,10 @@
+- type: log
+  paths:
+    - C:\Dynamic Central\Working\Logs\User\*.json
+    - C:\Dynamic Central\Working\Logs\User\*\*.json
+  exclude_files: ['SystemStatus-.*']
+  fields:
+    type: user
+  processors:
+    -
+      add_locale: ~

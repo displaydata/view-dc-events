@@ -1,0 +1,33 @@
+{
+  "type": "dashboard",
+  "id": "2065dff0-bc7e-11ea-ab31-ed63f66ee09d",
+  "attributes": {
+    "title": "Display Health",
+    "hits": 0,
+    "description": "Shows how many Displays successfully updated with the most recent image they were sent and how many failed. This dashboard can also be easily filtered by Location",
+    "panelsJSON": "[{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"2dd257d6-a15c-48cf-9965-b358c20826cb\"},\"panelIndex\":\"2dd257d6-a15c-48cf-9965-b358c20826cb\",\"embeddableConfig\":{\"enhancements\":{\"dynamicActions\":{\"events\":[{\"eventId\":\"02560ec6-1526-4e3e-b101-9ac5a5216067\",\"triggers\":[\"VALUE_CLICK_TRIGGER\",\"SELECT_RANGE_TRIGGER\"],\"action\":{\"name\":\"Failure Drilldown\",\"config\":{\"dashboardId\":\"b4fc8630-de36-11ea-b4e5-ab59fd4cb098\",\"useCurrentFilters\":true,\"useCurrentDateRange\":true},\"factoryId\":\"DASHBOARD_TO_DASHBOARD_DRILLDOWN\"}}]}}},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":15,\"i\":\"1886dc6c-58e7-4841-bd7b-cd9b2c88924a\"},\"panelIndex\":\"1886dc6c-58e7-4841-bd7b-cd9b2c88924a\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
+    "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "7cf58060-de2d-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "07121970-de2e-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-14T14:03:11.684Z",
+  "version": "WzI5OCwyXQ=="
+}

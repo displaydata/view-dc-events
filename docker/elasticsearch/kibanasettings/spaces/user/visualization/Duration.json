@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "f9ccf5c0-e426-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "title": "Duration",
+    "visState": "{\"title\":\"Duration\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"avg\",\"field\":\"Duration\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"s,s,0\",\"chart_type\":\"line\",\"line_width\":\"02\",\"point_size\":\"4\",\"fill\":\"0\",\"stacked\":\"none\",\"label\":\"Avg Update Time\",\"value_template\":\"{{value}}s\",\"terms_field\":\"MessageType\",\"terms_include\":\"DisplayUpdateComplete\",\"steps\":0,\"split_color_mode\":\"gradient\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":0,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" and Result : \\\"NoError\\\"\",\"language\":\"kuery\"},\"background_color_rules\":[{\"id\":\"c66958f0-eb73-11e9-89de-89e4a5c0c4f5\"}]},\"aggs\":[]}",
+    "uiStateJSON": "{}",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T10:52:30.783Z",
+  "version": "WzI1LDFd"
+}

@@ -1,0 +1,9 @@
+- type: log
+  paths:
+    - c:\Dynamic Central\Working\Logs\User\SystemStatus-*.json
+    - c:\Dynamic Central\Working\Logs\User\*\SystemStatus-*.json
+  fields:
+    type: status
+  processors:
+    -
+      add_locale: ~

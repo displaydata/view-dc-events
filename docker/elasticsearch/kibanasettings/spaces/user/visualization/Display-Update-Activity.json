@@ -1,0 +1,20 @@
+{
+  "type": "visualization",
+  "id": "0adf3190-e047-11e9-b666-23c0bc229fd2",
+  "attributes": {
+    "description": "",
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    },
+    "title": "Display Update Activity",
+    "uiStateJSON": "{}",
+    "version": 1,
+    "visState": "{\"title\":\"Display Update Activity\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"0aa70330-e04a-11e9-818c-c33956a9080f\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"0aa72a40-e04a-11e9-818c-c33956a9080f\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"line\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" AND Success: true \",\"language\":\"kuery\"},\"terms_field\":\"Result\",\"terms_exclude\":\"ImageUpdateFailure\",\"label\":\"Success\",\"split_color_mode\":\"gradient\"},{\"id\":\"623c46f0-e04a-11e9-818c-c33956a9080f\",\"color\":\"rgba(244,78,59,1)\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"623c46f1-e04a-11e9-818c-c33956a9080f\",\"type\":\"count\"},{\"script\":\"params.error*-1\",\"id\":\"dd0d7840-e04a-11e9-818c-c33956a9080f\",\"type\":\"math\",\"variables\":[{\"id\":\"e34655b0-e04a-11e9-818c-c33956a9080f\",\"name\":\"error\",\"field\":\"623c46f1-e04a-11e9-818c-c33956a9080f\"}]}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"line\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"filter\":{\"query\":\"MessageType : \\\"DisplayUpdateComplete\\\" AND Success : false \",\"language\":\"kuery\"},\"terms_field\":\"Result\",\"terms_exclude\":\"NoError\",\"label\":\"Failure\",\"value_template\":\"{{value}}\",\"split_color_mode\":\"gradient\"}],\"time_field\":\"Timestamp\",\"index_pattern\":\"dynamic-user-*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":1,\"show_grid\":1,\"default_index_pattern\":\"dynamic-user-*\",\"default_timefield\":\"Timestamp\",\"filter\":{\"query\":\"MessageType : \\\"TemplateSelection\\\" or \\\"ImageGeneration\\\" or \\\"ImageQueuedForDelivery\\\" or \\\"DisplayUpdateComplete\\\"\",\"language\":\"kuery\"}},\"aggs\":[]}"
+  },
+  "references": [],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T10:52:25.592Z",
+  "version": "WzIwLDFd"
+}

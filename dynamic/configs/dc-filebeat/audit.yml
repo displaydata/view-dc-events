@@ -1,0 +1,9 @@
+- type: log
+  paths:
+    - c:\Dynamic Central\Working\Logs\Audit\WebApi-*.json
+    - c:\Dynamic Central\Working\Logs\Audit\*\WebApi-*.json
+  fields:
+    type: audit
+  processors:
+    -
+      add_locale: ~
