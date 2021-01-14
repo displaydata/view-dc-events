@@ -18,7 +18,7 @@ node('docker-host') {
 
     //build elasticsearch container
     def elasticImageName = "${containerPrefix}elasticsearch:${tag}"
-    def elasticImage = docker.build(elasticImageName, "--build-arg ELK_VERSION=${ELK_VERSION} -f ./docker/elasticsearch/Dockerfile.dev")
+    def elasticImage = docker.build(elasticImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/elasticsearch")
     def elasticBuildInfo = rtDocker.push elasticImageName, 'dev-elasticsearchdocker-build-local'
     server.publishBuildInfo elasticBuildInfo
 
