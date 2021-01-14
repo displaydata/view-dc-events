@@ -1,0 +1,43 @@
+{
+  "type": "dashboard",
+  "id": "dc-request-reference",
+  "attributes": {
+    "title": "Request Reference",
+    "hits": 0,
+    "description": "Filter by LocationName and RequestReference to see how many Display Updates succeeded or failed",
+    "panelsJSON": "[{\"version\":\"7.7.1\",\"gridData\":{\"h\":7,\"i\":\"1\",\"w\":9,\"x\":39,\"y\":0},\"panelIndex\":\"1\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.7.1\",\"gridData\":{\"h\":7,\"i\":\"2\",\"w\":9,\"x\":39,\"y\":7},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.7.1\",\"gridData\":{\"h\":14,\"i\":\"3\",\"w\":30,\"x\":9,\"y\":0},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.7.1\",\"gridData\":{\"w\":9,\"h\":14,\"x\":0,\"y\":0,\"i\":\"e4296f85-d552-4007-9fd2-21fdb7a68526\"},\"panelIndex\":\"e4296f85-d552-4007-9fd2-21fdb7a68526\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"}]",
+    "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "b8080300-d63e-11e9-8524-a53adb816424"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "4c91fb70-d63f-11e9-8524-a53adb816424"
+    },
+    {
+      "name": "panel_2",
+      "type": "visualization",
+      "id": "0adf3190-e047-11e9-b666-23c0bc229fd2"
+    },
+    {
+      "name": "panel_3",
+      "type": "visualization",
+      "id": "96ad99f0-d687-11ea-9c47-8b0f3fccb2c8"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-14T10:52:42.179Z",
+  "version": "WzM2LDFd"
+}

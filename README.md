@@ -11,7 +11,7 @@ The view-dc-events repo will no longer be merged to master and pushed to GitHub.
 Instead, containers will be provided externally to address these target environments (see diagram above): -
   * An internal 'dev' container including the regression test and other performance related visualizations
 
-  * Elastic and Logstash containers on Displaydata docker hub with an associated README with a 'default' and 'health' space for distribution to customers for use in PILOTS only
+  * Elastic and Logstash containers on Displaydata docker hub with an associated README with a 'default' and 'user' space for distribution to customers for use in PILOTS only
     * This can also be used as the basis for customers looking at their own monitoring/reporting needs
 
   * Powershell container including the DCSetupElastic which is intended to be used in one of two ways 
@@ -32,8 +32,8 @@ Container names will be the primary means of telling what's in the container.
 
 {Container Name}-{usage}:{Usage}-{DynamicCentral Version}-{Elasticsearch Version}-{Jenkins Build Number}
 
-e.g. displaydata/elasticsearch:dev-1.13.0-7.9.2-6
-or   displaydata/elasticsearch:customer-1.13.0-7.9.2-6
+e.g. displaydata/elasticsearch:dev-1.13.1-7.10.1-7
+or   displaydata/elasticsearch:customer-1.13.1-7.10.1-7
 
 ## Pre-requisites
 
@@ -164,6 +164,7 @@ config/debug.yml:
       add_locale: ~
 ```
 
+Copies of these config files for use by filebeat can be found in this repositories /dynamic/filebeat/configs directory
 ### Commands
 
 `docker-compose down` - Stop the containers

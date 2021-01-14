@@ -4,9 +4,9 @@
 
 # Set the port to the port of the docker contianer youi want to export from
 # @base_url = http://localhost:5601/api
-@base_url = http://localhost:5601/s/dc-health/api
+@base_url = http://localhost:5601/s/user/api
 # @base_url = http://192.168.200.153:5601/api
-# @base_url = http://192.168.200.153:5601/s/dc-health/api
+# @base_url = http://192.168.200.153:5601/s/user/api
 @user = elastic
 @password = elastic
 
@@ -136,7 +136,7 @@ Authorization: Basic {{user}} {{password}}
 
 {
   "attributes": {
-    "fieldFormatMap": "{\"RequestReference\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/dc-health/app/kibana#/dashboard/dc-request-reference?_a=(query:(language:kuery,query:'RequestReference+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":true}},\"DisplaySerialNumber\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/dc-health/app/kibana#/dashboard/dc-display-health?_g=(time:(from:now-30d,to:now))&_a=(query:(language:kuery,query:'DisplaySerialNumber+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":false}}}"
+    "fieldFormatMap": "{\"RequestReference\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/user/app/kibana#/dashboard/dc-request-reference?_a=(query:(language:kuery,query:'RequestReference+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":true}},\"DisplaySerialNumber\":{\"id\":\"url\",\"params\":{\"urlTemplate\":\"/s/user/app/kibana#/dashboard/dc-display-health?_g=(time:(from:now-30d,to:now))&_a=(query:(language:kuery,query:'DisplaySerialNumber+:+%22{{value}}%22'))\",\"labelTemplate\":\"{{value}}\",\"openLinkInCurrentTab\":false}}}"
   }
 }
 

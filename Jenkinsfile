@@ -1,8 +1,8 @@
 node('docker-host') {
     checkout scm
 
-    def ELK_VERSION = "7.9.2"
-    def dynamicCentralVersion = "1.13.0"
+    def ELK_VERSION = "7.10.1"
+    def dynamicCentralVersion = "1.13.1"
 
     def tag_branch = ''
     if (BRANCH_NAME != 'develop') {
@@ -18,7 +18,7 @@ node('docker-host') {
 
     //build elasticsearch container
     def elasticImageName = "${containerPrefix}elasticsearch:${tag}"
-    def elasticImage = docker.build(elasticImageName, "--build-arg ELK_VERSION=${ELK_VERSION} ./docker/elasticsearch")
+    def elasticImage = docker.build(elasticImageName, "--build-arg ELK_VERSION=${ELK_VERSION} -f ./docker/elasticsearch/Dockerfile.dev")
     def elasticBuildInfo = rtDocker.push elasticImageName, 'dev-elasticsearchdocker-build-local'
     server.publishBuildInfo elasticBuildInfo
 

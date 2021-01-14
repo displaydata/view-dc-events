@@ -5,7 +5,12 @@
 # Currently, only logstash is being sent for analysis
 #
 # Ingest pipelines need to be loaded before logstash starts:
-#  This done in the start-up script: filebeat setup --pipelines --modules logstash
+# This done in the start-up script: filebeat setup --pipelines --modules logstash
+# 
+# NOTE: The filebeat container using this config is being run on the 'docker host'
+#       
+#       Filebeat also needs to be configured on the Windows VM's running Dynamic Central
+#       The config files for this are in the folder dynamic/configs/dc-filebeat
 
 filebeat.autodiscover:
   providers:

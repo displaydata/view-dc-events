@@ -1,0 +1,36 @@
+{
+  "type": "search",
+  "id": "42df6c80-de2b-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Battery Replace Required",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "DisplaySerialNumber",
+      "LocationName",
+      "ObjectIds"
+    ],
+    "sort": [],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"BatteryReplace.Required\",\"params\":{\"query\":true},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"BatteryReplace.Required\":true}},\"$state\":{\"store\":\"appState\"}}]}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "search": "7.4.0"
+  },
+  "updated_at": "2020-08-14T12:40:29.176Z",
+  "version": "WzE2OCwyXQ=="
+}

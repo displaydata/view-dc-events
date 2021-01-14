@@ -1,0 +1,26 @@
+{
+  "type": "visualization",
+  "id": "065236c0-de2c-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Count of Displays",
+    "visState": "{\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"}],\"params\":{\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\",\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}}},\"title\":\"Count of Displays\"}",
+    "uiStateJSON": "{}",
+    "description": "How many displays are on the system in total?",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\",\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+      "type": "index-pattern",
+      "id": "f4576340-de27-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "visualization": "7.8.0"
+  },
+  "updated_at": "2020-08-14T12:45:25.42Z",
+  "version": "WzE5MywyXQ=="
+}

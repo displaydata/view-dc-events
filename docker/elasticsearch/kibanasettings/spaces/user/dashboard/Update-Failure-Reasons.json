@@ -1,0 +1,33 @@
+{
+  "type": "dashboard",
+  "id": "b4fc8630-de36-11ea-b4e5-ab59fd4cb098",
+  "attributes": {
+    "title": "Update Failure Reasons",
+    "hits": 0,
+    "description": "Drills into the reasons why Assigned Displays didn't update successfully",
+    "panelsJSON": "[{\"version\":\"7.8.1\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"682ecc94-2b55-4c65-baee-e6e01a5f8f4a\"},\"panelIndex\":\"682ecc94-2b55-4c65-baee-e6e01a5f8f4a\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.1\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":15,\"i\":\"5524625c-0c0b-4c91-ab5a-f823d13b36bb\"},\"panelIndex\":\"5524625c-0c0b-4c91-ab5a-f823d13b36bb\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"}]",
+    "optionsJSON": "{\"useMargins\":true,\"hidePanelTitles\":false}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+    }
+  },
+  "references": [
+    {
+      "name": "panel_0",
+      "type": "visualization",
+      "id": "4b660980-de36-11ea-b4e5-ab59fd4cb098"
+    },
+    {
+      "name": "panel_1",
+      "type": "visualization",
+      "id": "8256fa80-de36-11ea-b4e5-ab59fd4cb098"
+    }
+  ],
+  "migrationVersion": {
+    "dashboard": "7.3.0"
+  },
+  "updated_at": "2020-08-14T14:01:53.427Z",
+  "version": "WzI5NywyXQ=="
+}
