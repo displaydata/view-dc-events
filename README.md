@@ -1,5 +1,11 @@
 # view-dc-events
 
+## 1.14.0 Release onwards
+
+We've added basic 'delete' Index Lifecycle Management' policies to the Dynamic Solution Indexes
+
+All indexes are on the three-month-policy which deletes the index 93 days from when it was created. This will mean that we will hold three months worth of logs for dynamic-user,audit and status indexes. Due to their size new dynamic-debug indexes will be created weekly but we'll delete any older than 15 days so will always have a minimum of 2 weeks debug logs available.
+
 ## 1.13.0 Release onwards
 
 **Changes to managing Elasticsearch settings and how this repository is used**
