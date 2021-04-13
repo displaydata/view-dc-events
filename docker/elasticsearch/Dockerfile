@@ -1,4 +1,4 @@
-ARG ELK_VERSION=7.11.1
+ARG ELK_VERSION=7.12.0
 
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 
