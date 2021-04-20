@@ -38,8 +38,8 @@ Container names will be the primary means of telling what's in the container.
 
 {Container Name}-{usage}:{Usage}-{DynamicCentral Version}-{Elasticsearch Version}-{Jenkins Build Number}
 
-e.g. displaydata/elasticsearch:dev-1.13.1-7.10.2-8
-or   displaydata/elasticsearch:customer-1.13.1-7.10.2-8
+e.g. displaydata/elasticsearch:dev-1.14.0-7.12.0-13
+or   displaydata/elasticsearch:customer-1.14.0-7.12.0-13
 
 ## Pre-requisites
 

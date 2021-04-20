@@ -2,8 +2,8 @@
 
 Current Supported versions:
 
-* Elastic Stack >= 7.10.2 
-* Dynamic Solution >= 1.13.1
+* Elastic Stack >= 7.12.0
+* Dynamic Solution >= 1.14.0
 
 These release notes are part of the view-dc-events repo and are currently for internal use only.
 
@@ -17,16 +17,22 @@ For the most part this document deals with Elastic Cloud but of course some area
 
 Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 which was shipped on 31/06/2020
 
+### 1.14.0
+
+| Item                | Description
+|---------------------|----------------------------------------------------------------------------------------------|
+| Update Elastic      | Support Elasticsearch 7.12.0                                                                 |
+
 ### 1.13.1             
 
 | Item                | Description
 |---------------------|----------------------------------------------------------------------------------------------|
 | APP-2212            | One alert for ALL communicators that are offline rather than one per communicator            |
 | Nifi support        | Alerting and spaces also includes one for Nifi                                               |
-| Version Update      | Support Elasticsearch 7.10.2                                                                 |
+| Version Update      | Support Elasticsearch 7.11.1                                                                 |
 | Added Alert         | Multi-communicator alert with OpenVPN info (one alert covers all DComms)                     |
 | Added Alert         | Delivery Processes with work but no consumers triggers an alert to Support                   |
-| Specify Spaces      | Docker containers split into a 'user' and 'development' version                          |
+| Specify Spaces      | Docker containers split into a 'user' and 'development' version                              |
 
 ### 1.13.0
 
