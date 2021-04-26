@@ -1,0 +1,66 @@
+{
+  "template": {
+    "mappings": {
+      "properties": {
+        "serialNumber": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "state": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "reason": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "@timestamp": {
+          "format": "strict_date_optional_time_nanos",
+          "type": "date_nanos"
+        },
+        "ipAddress": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "remoteEndpoint": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "isMaster": {
+          "type": "boolean"
+        },
+        "firmwareVersion": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "clientId": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

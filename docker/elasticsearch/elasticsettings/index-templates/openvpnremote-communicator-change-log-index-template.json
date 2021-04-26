@@ -1,0 +1,5 @@
+{
+  "index_patterns": ["openvpnremote-communicator-change-log*"],
+  "data_stream": { },
+  "composed_of": ["openvpnremote-communicator-change-log-mappings","openvpnremote-communicator-change-log-settings"]
+}
