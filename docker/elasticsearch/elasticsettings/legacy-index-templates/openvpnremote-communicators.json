@@ -12,7 +12,8 @@
             "ignore_above": 256,
             "type": "keyword"
           }
-        }
+        },
+        "type": "text"
       },
       "state": {
         "fields": {
@@ -20,7 +21,8 @@
             "ignore_above": 256,
             "type": "keyword"
           }
-        }
+        },
+        "type": "text"
       },
       "reason": {
         "fields": {
@@ -32,8 +34,8 @@
         "type": "text"
       },
       "stateLastChanged": {
-        "properties": {},
-        "type": "object"
+        "format": "strict_date_optional_time_nanos",
+        "type": "date_nanos"
       },
       "isMaster": {
         "type": "boolean"
@@ -44,7 +46,8 @@
             "ignore_above": 256,
             "type": "keyword"
           }
-        }
+        },
+        "type": "text"
       },
       "ipAddress": {
         "fields": {
@@ -52,7 +55,8 @@
             "ignore_above": 256,
             "type": "keyword"
           }
-        }
+        },
+        "type": "text"
       },
       "remoteEndpoint": {
         "fields": {
@@ -60,7 +64,8 @@
             "ignore_above": 256,
             "type": "keyword"
           }
-        }
+        },
+        "type": "text"
       },
       "lastClientId": {
         "type": "keyword"
