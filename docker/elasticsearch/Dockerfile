@@ -4,6 +4,9 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 
 # copy index files to container
 COPY ./elasticsettings/index-templates /home/elasticsearch/index-templates/
+COPY ./elasticsettings/ilm /home/elasticsearch/ilm/
+COPY ./elasticsettings/component-templates /home/elasticsearch/component-templates/
+COPY ./elasticsettings/legacy-index-templates /home/elasticsearch/legacy-index-templates/
 # NOTE: alert configs are not part of the container since this isn't used with Elastic Cloud
 # COPY ./elasticsettings/alerts /home/elasticsearch/alerts/
 
