@@ -8,7 +8,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "state": {
           "fields": {
@@ -16,7 +17,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "reason": {
           "fields": {
@@ -24,7 +26,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "@timestamp": {
           "format": "strict_date_optional_time_nanos",
@@ -36,7 +39,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "remoteEndpoint": {
           "fields": {
@@ -44,7 +48,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "isMaster": {
           "type": "boolean"
@@ -55,7 +60,8 @@
               "ignore_above": 256,
               "type": "keyword"
             }
-          }
+          },
+          "type": "text"
         },
         "clientId": {
           "type": "keyword"
