@@ -4,7 +4,8 @@
   "settings": {
     "number_of_shards": 1,
     "number_of_replicas": 0,
-    "index.lifecycle.name": "two-week-policy"
+    "index.lifecycle.name": "two-week-policy",
+    "index.mapping.total_fields.limit": 3000
   },
   "mappings": {
     "properties": {
