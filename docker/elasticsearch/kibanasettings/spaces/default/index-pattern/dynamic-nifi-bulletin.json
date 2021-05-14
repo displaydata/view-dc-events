@@ -1,6 +1,6 @@
 {
   "type": "index-pattern",
-  "id": "ffae5a20-c5cf-11ea-a587-a50cb0a14e91",
+  "id": "dynamic-nifi-bulletin",
   "attributes": {
     "title": "dynamic-nifi-bulletin-*",
     "timeFieldName": "bulletinTimestamp",

@@ -1,6 +1,6 @@
 {
   "type": "index-pattern",
-  "id": "2e0cfca0-e867-11ea-87fe-4585fbe94632",
+  "id": "dynamic-debug-*",
   "attributes": {
     "title": "dynamic-debug-*",
     "timeFieldName": "@timestamp",

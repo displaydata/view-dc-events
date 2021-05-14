@@ -14,7 +14,7 @@
   "references": [
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
-      "id": "dynamic-display-*",
+      "id": "dynamic-display",
       "type": "index-pattern"
     }
   ],

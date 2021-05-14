@@ -15,12 +15,12 @@
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "075ac9f0-de28-11ea-b4e5-ab59fd4cb098"
+      "id": "dynamic-communicator-*"
     },
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
       "type": "index-pattern",
-      "id": "075ac9f0-de28-11ea-b4e5-ab59fd4cb098"
+      "id": "dynamic-communicator-*"
     }
   ],
   "migrationVersion": {
