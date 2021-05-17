@@ -15,7 +15,7 @@
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "ffae5a20-c5cf-11ea-a587-a50cb0a14e91"
+      "id": "dynamic-nifi-bulletin"
     }
   ],
   "migrationVersion": {

@@ -61,5 +61,6 @@
       "type": "json"
     },
     "name": "communicator_alert"
-  }
+  },
+  "enabled": false
 }

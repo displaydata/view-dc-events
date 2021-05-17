@@ -15,7 +15,7 @@
     {
       "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
       "type": "index-pattern",
-      "id": "ceb531d0-de2c-11ea-b4e5-ab59fd4cb098"
+      "id": "dynamic-display"
     }
   ],
   "migrationVersion": {

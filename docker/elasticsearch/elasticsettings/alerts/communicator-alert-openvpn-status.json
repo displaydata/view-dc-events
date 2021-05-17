@@ -110,5 +110,6 @@
       "type": "json"
     },
     "name": "communicator_openvpn_alert"
-  }
+  },
+  "enabled": false
 }
