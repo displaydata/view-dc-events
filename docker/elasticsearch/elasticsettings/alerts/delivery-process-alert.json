@@ -1,78 +1,79 @@
 {
-    "trigger": {
-      "schedule": {
-        "interval": "30m"
-      }
-    },
-    "input": {
-      "search": {
-        "request": {
-          "search_type": "query_then_fetch",
-          "indices": [
-            "metricbeat-*"
-          ],
-          "rest_total_hits_as_int": true,
-          "body": {
-            "size": 0,
-            "query": {
-              "bool": {
-                "must": [
-                  {
-                    "match": {
-                      "rabbitmq.queue.consumers.count": 0
+  "trigger": {
+    "schedule": {
+      "interval": "30m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "search_type": "query_then_fetch",
+        "indices": [
+          "metricbeat-*"
+        ],
+        "rest_total_hits_as_int": true,
+        "body": {
+          "size": 0,
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "rabbitmq.queue.consumers.count": 0
+                  }
+                }
+              ],
+              "filter": [
+                {
+                  "simple_query_string": {
+                    "fields": [
+                      "rabbitmq.queue.name"
+                    ],
+                    "query": "displaydata_delivery_process_desired_state_change_*"
+                  }
+                },
+                {
+                  "range": {
+                    "rabbitmq.queue.messages.ready.count": {
+                      "gt": 0
                     }
                   }
-                ],
-                "filter": [
-                  {
-                    "simple_query_string": {
-                      "fields": [
-                        "rabbitmq.queue.name"
-                      ],
-                      "query": "displaydata_delivery_process_desired_state_change_*"
-                    }
-                  },
-                  {
-                    "range": {
-                      "rabbitmq.queue.messages.ready.count": {
-                        "gt": 0
-                      }
-                    }
-                  },
-                  {
-                    "range": {
-                      "@timestamp": {
-                        "lt": "now",
-                        "gt": "now-30m"
-                      }
+                },
+                {
+                  "range": {
+                    "@timestamp": {
+                      "lt": "now",
+                      "gt": "now-30m"
                     }
                   }
-                ]
-              }
+                }
+              ]
             }
           }
         }
       }
-    },
-    "condition": {
-      "compare": {
-        "ctx.payload.hits.total": {
-          "gt": 0
-        }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total": {
+        "gt": 0
       }
-    },
-    "actions": {
-      "send_email": {
-        "email": {
-          "profile": "standard",
-          "to": [
-            "support@displaydata.com"
-          ],
-          "subject": "Delivery Process Error",
-          "body": {
-            "text": "There is a delivery process without a consumer with items on its queue - please investigate further"
-          }
+    }
+  },
+  "actions": {
+    "send_email": {
+      "email": {
+        "profile": "standard",
+        "to": [
+          "support@displaydata.com"
+        ],
+        "subject": "Delivery Process Error",
+        "body": {
+          "text": "There is a delivery process without a consumer with items on its queue - please investigate further"
         }
       }
     }
-  }
+  },
+  "enabled": false
+}
