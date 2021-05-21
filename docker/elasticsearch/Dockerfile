@@ -1,14 +1,8 @@
-ARG ELK_VERSION=7.12.0
+ARG ELK_VERSION=7.12.1
 
 FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION} AS elasticbase
 
-# copy index files to container
-COPY ./elasticsettings/index-templates /home/elasticsearch/index-templates/
-COPY ./elasticsettings/ilm /home/elasticsearch/ilm/
-COPY ./elasticsettings/component-templates /home/elasticsearch/component-templates/
-COPY ./elasticsettings/legacy-index-templates /home/elasticsearch/legacy-index-templates/
-# NOTE: alert configs are not part of the container since this isn't used with Elastic Cloud
-# COPY ./elasticsettings/alerts /home/elasticsearch/alerts/
+COPY ./elasticsettings/ /home/elasticsearch/
 
 # FIXME: replace with the Powershell version of this sh script <== the module already includes a module/function for this so it's redundant here
 # TODO: install the module here already and make this command/check whether Elasticsearch is ready run from there
@@ -34,14 +28,15 @@ RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo | tee /etc/yum.r
 # PSModulePath options /root/.local/share/powershell/Modules:/usr/local/share/powershell/Modules:/opt/microsoft/powershell/7/Modules
 # COPY ./Modules /opt/microsoft/powershell/7/Modules
 
-# start the Elasticsearch container endpoint and install index-templates
-# FIXME: figure out how to specify whether alerts are included here too... Have an optional -Exclude parameter?
+# start the Elasticsearch container endpoint and install settings then disable alerts
 # NOTE: elastic entrypoint is invoked as a background task
 RUN /usr/local/bin/docker-entrypoint.sh eswrapper & \
     chmod 0775 check-ready.sh \
     && ./check-ready.sh \
     && echo "running template upload" \
     && pwsh -c 'Import-ElasticSettingsToUrl -Url "http://localhost:9200" -Path /home/elasticsearch -Verbose -Username elastic -Password elastic' \
+    # FIXME: try this again when the module is uploaded to artifactory
+    # && pwsh -c 'Disable-Alerts -Url "http://localhost:9200" -Path /home/elasticsearch -Verbose -Username elastic -Password elastic' \
     && echo "finished template upload"
 
 #  required to install kibana with rpm

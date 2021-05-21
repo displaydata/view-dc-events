@@ -14,3 +14,7 @@
 * Have a container for setting up alerts
 * FIXME: Have an intermediate build container that calls the 'Backup/Restore' API's on the 'elasticbase' container and not use FILE/COPY
   * Look at Simon's work on Snapshots
+
+[//]: # (TODO: should we define customers here or use Ansible/templating for this?
+
+[//]: # ("50E7RwWclzJqhPUzBcyk3wzQ" test system password)
