@@ -60,7 +60,9 @@ services:
     image: logstash:${ELK_VERSION}
     container_name: logstash
     environment:
-      node.name: logstash
+      - node.name=logstash
+      - LOGSTASH_USERNAME=${LOGSTASH_USERNAME}
+      - LOGSTASH_PASSWORD=${LOGSTASH_PASSWORD}
     restart: always
     ports:
       - target: 5044
