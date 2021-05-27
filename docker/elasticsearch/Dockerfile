@@ -35,8 +35,7 @@ RUN /usr/local/bin/docker-entrypoint.sh eswrapper & \
     && ./check-ready.sh \
     && echo "running template upload" \
     && pwsh -c 'Import-ElasticSettingsToUrl -Url "http://localhost:9200" -Path /home/elasticsearch -Verbose -Username elastic -Password elastic' \
-    # FIXME: try this again when the module is uploaded to artifactory
-    # && pwsh -c 'Disable-Alerts -Url "http://localhost:9200" -Path /home/elasticsearch -Verbose -Username elastic -Password elastic' \
+    && pwsh -c 'Disable-Alerts -Url "http://localhost:9200" -Verbose -Username elastic -Password elastic' \
     && echo "finished template upload"
 
 #  required to install kibana with rpm
