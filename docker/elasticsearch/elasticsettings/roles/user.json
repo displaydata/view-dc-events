@@ -1,0 +1,34 @@
+{
+  "cluster" : [ ],
+  "indices" : [ ],
+  "applications" : [
+    {
+      "application" : "kibana-.kibana",
+      "privileges" : [
+        "feature_graph.read",
+        "feature_visualize.read",
+        "feature_maps.read",
+        "feature_canvas.read",
+        "feature_dashboard.read",
+        "feature_discover.read",
+        "feature_siem.read",
+        "feature_stackAlerts.read",
+        "feature_actions.read",
+        "feature_fleet.read",
+        "feature_savedObjectsTagging.read",
+        "feature_savedObjectsManagement.read",
+        "feature_indexPatterns.read",
+        "feature_advancedSettings.read",
+        "feature_dev_tools.read"
+      ],
+      "resources" : [
+        "space:user"
+      ]
+    }
+  ],
+  "run_as" : [ ],
+  "metadata" : { },
+  "transient_metadata" : {
+    "enabled" : true
+  }
+}

@@ -17,6 +17,18 @@ For the most part this document deals with Elastic Cloud but of course some area
 
 Introduced a changelog to the view-dc-events repo *after* the release of 1.12.6 which was shipped on 31/06/2020
 
+### 1.14.1
+
+| Item                | Description
+|---------------------|----------------------------------------------------------------------------------------------|
+| Update Elastic      | Support Elasticsearch 7.12.1
+| Dynamic Central     | Now on Dynamic Solution version 1.14.1
+| Create Roles        | * Roles for internal services (logstash/metricbeat)
+| Create Alerts       | * Alerts are created then disabled 
+| Create Users        | * Users are created for internal services         
+
+`* Requires DCSetupElastic version 0.1.10 or above
+
 ### 1.14.0
 
 | Item                | Description
